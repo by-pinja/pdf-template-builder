@@ -36,7 +36,7 @@ communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) se
   'use strict';
   
   window.pdfTemplateBuilder.configure({
-    pdfUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId'
+    pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId'
   });
 })();
 ```
@@ -48,7 +48,7 @@ The global `pdfTemplateBuilder` object exposes few methods for configuration and
 ```javascript
 // Configure the template builder
 window.pdfTemplateBuilder.configure({
-  pdfUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId', // Your instance of pdf storage
+  pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId', // Your instance of pdf storage
 });
 
 // Get the result template
@@ -74,3 +74,12 @@ npm start
 ```
 
 and navigate to the `http://localhost:3000` with your favourite browser.
+
+## Environment variables
+
+When running locally within no other service some configuration
+may be done using the environment variables. Just create a copy of the `.env` file to `.env.local` and make your changes. **Whenever you modify the .env you need to restart the build process (`npm start` again)**.
+
+```
+REACT_APP_PDF_STORAGE_URI=https://pdf-storage.protacon.com/v1/pdf/groupId   The uri of some available pdf storage service
+```

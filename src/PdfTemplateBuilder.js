@@ -52,14 +52,32 @@ class PdfTemplateBuilder extends Component {
     };
   }
 
+  componentDidMount() {
+    this.configureEnv();
+  }
+
   configure(props) {
     this.setState({
-      pdfUri: props.pdfUri
+      pdfStorageUri: props.pdfStorageUri
     });
   }
 
   getTemplateHtml() {
     return TemplateBuilder.buildTemplate(this.state.layout, this.state.elements);
+  }
+
+  configureEnv() {
+    if (!('process' in window)) {
+      return;
+    }
+
+    const config = {};
+
+    if (process.env.REACT_APP_PDF_STORAGE_URI) {
+      config.pdfStorageUri = process.env.REACT_APP_PDF_STORAGE_URI;
+    }
+    
+    this.configure(config);
   }
 
   onLayoutChange(layout) {
@@ -135,7 +153,7 @@ class PdfTemplateBuilder extends Component {
   }
 
   handleShowPreview() {
-    fetch(this.state.pdfUri, {
+    fetch(this.state.pdfStorageUri, {
       method: 'POST',
       headers: {
         Authorization: 'ApiKey apikeyfortesting',
@@ -160,7 +178,7 @@ class PdfTemplateBuilder extends Component {
 
     let previewButton = '';
 
-    if (this.state.pdfUri) {
+    if (this.state.pdfStorageUri) {
       previewButton = (
         <Tooltip title="Preview">
           <Button
