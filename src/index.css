@@ -1,0 +1,16 @@
+body, html {
+  font-size: 16px;
+}
+
+#root {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.react-grid-item.active {
+  border: 1px solid orange !important;
+}
+
+.react-grid-item {
+  border: 1px solid #eee;
+}
