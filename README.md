@@ -7,6 +7,7 @@ Template builder for [pdf-storage](https://github.com/protacon/pdf-storage)
 * [What is this?](#what-is-this)
   * [Table of Contents](#table-of-contents)
 * [Usage](#usage)
+  * [Public API](#public-api)
 * [Development](#development)
   * [Requirements](#requirements)
   * [Getting started](#getting-started)
@@ -39,6 +40,23 @@ communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) se
   });
 })();
 ```
+
+## Public API
+
+The global `pdfTemplateBuilder` object exposes few methods for configuration and the response handling.
+
+```javascript
+// Configure the template builder
+window.pdfTemplateBuilder.configure({
+  pdfUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId', // Your instance of pdf storage
+});
+
+// Get the result template
+window.pdfTemplateBuilder.getTemplateHtml();
+```
+
+## Enabling preview
+Preview may be enabled by configuring the publicly available pdf storage service URI (see [public api](#public-api))
 
 # Development
 
