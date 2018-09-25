@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button/Button';
 import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import TemplateUtil from './Util/TemplateUtil';
+import Schema from './Resource/Schema';
 
 const styles = theme => ({
   toolbox: {
@@ -37,13 +38,14 @@ class PdfTemplateBuilder extends Component {
   constructor(props) {
     super(props);
 
-    this.onLayoutChange    = this.onLayoutChange.bind(this);
-    this.onSelectElement   = this.onSelectElement.bind(this);
-    this.onElementChange   = this.onElementChange.bind(this);
-    this.onAddElement      = this.onAddElement.bind(this);
-    this.onDeleteElement   = this.onDeleteElement.bind(this);
-    this.getTemplateHtml   = this.getTemplateHtml.bind(this);
-    this.handleShowPreview = this.handleShowPreview.bind(this);
+    this.onLayoutChange      = this.onLayoutChange.bind(this);
+    this.onSelectElement     = this.onSelectElement.bind(this);
+    this.onElementChange     = this.onElementChange.bind(this);
+    this.onAddElement        = this.onAddElement.bind(this);
+    this.onDeleteElement     = this.onDeleteElement.bind(this);
+    this.getTemplateHtml     = this.getTemplateHtml.bind(this);
+    this.handleShowPreview   = this.handleShowPreview.bind(this);
+    this.getComponentContent = this.getComponentContent.bind(this);
 
     this.state = {
       layout: [],
@@ -58,7 +60,8 @@ class PdfTemplateBuilder extends Component {
 
   configure(props) {
     this.setState({
-      pdfStorageUri: props.pdfStorageUri
+      pdfStorageUri: props.pdfStorageUri,
+      schema: props.schema
     });
   }
 
@@ -67,14 +70,14 @@ class PdfTemplateBuilder extends Component {
   }
 
   configureEnv() {
-    if (!('process' in window)) {
-      return;
-    }
-
     const config = {};
 
     if (process.env.REACT_APP_PDF_STORAGE_URI) {
       config.pdfStorageUri = process.env.REACT_APP_PDF_STORAGE_URI;
+    }
+
+    if (process.env.NODE_ENV === 'development') {
+      config.schema = new Schema().forExample();
     }
     
     this.configure(config);
@@ -153,6 +156,12 @@ class PdfTemplateBuilder extends Component {
   }
 
   handleShowPreview() {
+    const data = {};
+
+    this.state.schema.map(
+      prop => data[prop.tag] = prop.example
+    );
+
     fetch(this.state.pdfStorageUri, {
       method: 'POST',
       headers: {
@@ -161,7 +170,7 @@ class PdfTemplateBuilder extends Component {
       },
       body: JSON.stringify({
         html: this.getTemplateHtml(),
-        baseData: {},
+        baseData: data,
         rowData: [{}],
         options: {}
       })
@@ -171,6 +180,26 @@ class PdfTemplateBuilder extends Component {
         window.open(res[0].pdfUri, '_blank');
       })
     ;
+  }
+
+  getComponentContent(i) {
+    const schema = this.state.schema;
+    const meta = this.state.elements[i];
+
+    if (!meta || !meta.tag) {
+      return {};
+    }
+
+    const prop = schema.find(prop => prop.tag === meta.tag);
+
+    if (!prop) {
+      return {};
+    }
+
+    return {
+      text: prop.example,
+      tooltip: prop.text
+    };
   }
 
   render() {
@@ -198,10 +227,11 @@ class PdfTemplateBuilder extends Component {
     return (
       <div className={classes.container}>
         <div className={classes.toolbox}>
-          <PageTools onAddElement={this.onAddElement}/>
+          <PageTools onAddElement={this.onAddElement} />
 
           <ElementTools
             element={this.state.element}
+            schema={this.state.schema}
             onChangeElement={this.onElementChange}
             onDeleteElement={this.onDeleteElement}
           />
@@ -222,6 +252,7 @@ class PdfTemplateBuilder extends Component {
             {this.state.layout.map(
               e => {
                 const classes = this.state.selected === e.i ? 'active' : '';
+                const content = this.getComponentContent(e.i);
 
                 return (
                   <div
@@ -232,7 +263,11 @@ class PdfTemplateBuilder extends Component {
                     onClick={() => this.onSelectElement(e.i)}
                     style={{ padding: 5, boxSizing: 'border-box'}}
                   >
-                    {(this.state.elements[e.i] || {}).content}
+                    <Tooltip title={content.tooltip || ''}>
+                      <span>
+                        {content.text}
+                      </span>
+                    </Tooltip>
                   </div>
                 );
               })

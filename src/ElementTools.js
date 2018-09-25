@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
+import MenuItem from '@material-ui/core/es/MenuItem/MenuItem';
 
 const styles = theme => ({
   actionButton: {
@@ -15,6 +16,9 @@ const styles = theme => ({
   },
   card: {
     marginTop: theme.spacing.unit * 2
+  },
+  select: {
+    width: '100%'
   }
 });
 
@@ -83,13 +87,27 @@ class ElementTools extends Component {
             </Grid>
 
             <Grid container>
-              <TextField
-                id="content"
-                label="Content"
-                value={this.state.element.content}
-                onChange={this.handleChange('content')}
-                margin="normal"
-              />
+              <Grid item xs={6}>
+                <TextField
+                  id="tag"
+                  label="Bind"
+                  className={classes.select}
+                  select
+                  value={this.state.element.tag || ''}
+                  onChange={this.handleChange('tag')}
+                  margin="normal"
+                  SelectProps={{}}
+                >
+                  {this.props.schema.map(row => (
+                    <MenuItem
+                      key={row.tag}
+                      value={row.tag}
+                    >
+                      {row.text}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
             </Grid>
           </Grid>
         </CardContent>

@@ -41,6 +41,7 @@ class TemplateBuilder {
   static getElementHtml(component, meta) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
+    const content = meta[component.i].tag ? `{{${meta[component.i].tag}}}` : meta[component.i].content;
 
     return `
         <div style='
@@ -53,7 +54,7 @@ class TemplateBuilder {
           box-sizing: border-box;
           padding: 5px;
         '>
-          ${meta[component.i].content}
+          ${content}
         </div>
       `;
   }
