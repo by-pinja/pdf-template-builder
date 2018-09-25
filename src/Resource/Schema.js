@@ -3,7 +3,6 @@ class Schema {
       {
         tag: 'invoiceNumber',
         text: 'Invoice number',
-        required: true,
         example: '201230123'
       },
       {
