@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import GridLayout from 'react-grid-layout';
-import PageTools from './PageTools';
-import ElementTools from './ElementTools';
+import PageToolsContainer from './../Container/PageToolsContainer';
 import Paper from '@material-ui/core/Paper/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import update from 'immutability-helper';
-import TemplateBuilder from './Util/TemplateBuilder';
+import TemplateBuilder from './../Util/TemplateBuilder';
 import Button from '@material-ui/core/Button/Button';
 import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
-import TemplateUtil from './Util/TemplateUtil';
-import Schema from './Resource/Schema';
+import PropTypes from 'prop-types'
+import ElementToolsContainer from '../Container/ElementToolsContainer';
 
 const styles = theme => ({
   toolbox: {
@@ -38,131 +36,32 @@ class PdfTemplateBuilder extends Component {
   constructor(props) {
     super(props);
 
-    this.onLayoutChange      = this.onLayoutChange.bind(this);
-    this.onSelectElement     = this.onSelectElement.bind(this);
-    this.onElementChange     = this.onElementChange.bind(this);
-    this.onAddElement        = this.onAddElement.bind(this);
-    this.onDeleteElement     = this.onDeleteElement.bind(this);
     this.getTemplateHtml     = this.getTemplateHtml.bind(this);
     this.handleShowPreview   = this.handleShowPreview.bind(this);
     this.getComponentContent = this.getComponentContent.bind(this);
 
-    this.state = {
-      layout: [],
-      elements: {},
-      element: null
-    };
-  }
-
-  componentDidMount() {
-    this.configureEnv();
+    this.state = {};
   }
 
   configure(props) {
-    this.setState({
-      pdfStorageUri: props.pdfStorageUri,
-      schema: props.schema
-    });
+    this.props.onDoConfigure(props);
   }
 
   getTemplateHtml() {
-    return TemplateBuilder.buildTemplate(this.state.layout, this.state.elements);
-  }
-
-  configureEnv() {
-    const config = {};
-
-    if (process.env.REACT_APP_PDF_STORAGE_URI) {
-      config.pdfStorageUri = process.env.REACT_APP_PDF_STORAGE_URI;
-    }
-
-    if (process.env.NODE_ENV === 'development') {
-      config.schema = new Schema().forExample();
-    }
-    
-    this.configure(config);
-  }
-
-  onLayoutChange(layout) {
-    this.setState({ layout });
-  }
-
-  onSelectElement(i) {
-    if (!i) {
-      return this.setState({
-        element: null,
-        selected: null
-      });
-    }
-
-    this.setState({
-      element: {
-        ...this.state.elements[i],
-        i
-      },
-      selected: i
-    });
-  }
-
-  onElementChange(element) {
-    const state = this.state;
-
-    const newState = update(state, {
-      elements: {
-        [this.state.selected]: {
-          $set: element
-        }
-      }
-    });
-
-    this.setState(newState);
-  }
-
-  onAddElement() {
-    const state = this.state;
-
-    const component = TemplateUtil.createComponent();
-
-    this.setState(
-      update(state, {
-        layout: {
-          $push: [component]
-        },
-        elements: {
-          [component.i]: {
-            $set: { content: '' }
-          }
-        }
-      })
+    return TemplateBuilder.buildTemplate(
+      this.props.layout,
+      this.props.elements
     );
-  }
-
-  onDeleteElement() {
-    const state = this.state;
-    const index = state.layout.findIndex(l => l.i === state.selected);
-
-    this.setState(
-      update(state, {
-        layout: {
-          $splice: [[index, 1]]
-        },
-        elements: {
-          $unset: [state.selected]
-        }
-      })
-    );
-
-    this.onSelectElement(null);
   }
 
   handleShowPreview() {
     const data = {};
 
-    this.state.schema.map(
+    this.props.schema.map(
       prop => data[prop.tag] = prop.example
     );
 
-    fetch(this.state.pdfStorageUri, {
+    fetch(this.props.pdfStorageUri, {
       method: 'POST',
       headers: {
         Authorization: 'ApiKey apikeyfortesting',
@@ -183,8 +82,8 @@ class PdfTemplateBuilder extends Component {
   }
 
   getComponentContent(i) {
-    const schema = this.state.schema;
-    const meta = this.state.elements[i];
+    const schema = this.props.schema;
+    const meta = this.props.elements[i];
 
     if (!meta || !meta.tag) {
       return {};
@@ -207,7 +106,7 @@ class PdfTemplateBuilder extends Component {
 
     let previewButton = '';
 
-    if (this.state.pdfStorageUri) {
+    if (this.props.pdfStorageUri) {
       previewButton = (
         <Tooltip title="Preview">
           <Button
@@ -227,13 +126,12 @@ class PdfTemplateBuilder extends Component {
     return (
       <div className={classes.container}>
         <div className={classes.toolbox}>
-          <PageTools onAddElement={this.onAddElement} />
+          <PageToolsContainer />
 
-          <ElementTools
+          <ElementToolsContainer
             element={this.state.element}
             schema={this.state.schema}
             onChangeElement={this.onElementChange}
-            onDeleteElement={this.onDeleteElement}
           />
         </div>
 
@@ -242,14 +140,14 @@ class PdfTemplateBuilder extends Component {
           elevation={1}
         >
           <GridLayout
-            onLayoutChange={this.onLayoutChange}
             cols={12}
             rowHeight={30}
             width={595}
             compactType={null}
             preventCollision={true}
+            onLayoutChange={this.props.onChangeLayout}
           >
-            {this.state.layout.map(
+            {this.props.layout.map(
               e => {
                 const classes = this.state.selected === e.i ? 'active' : '';
                 const content = this.getComponentContent(e.i);
@@ -260,7 +158,7 @@ class PdfTemplateBuilder extends Component {
                     className={classes}
                     key={e.i}
                     data-grid={e}
-                    onClick={() => this.onSelectElement(e.i)}
+                    onClick={() => this.props.onSelectElement(e.i)}
                     style={{ padding: 5, boxSizing: 'border-box'}}
                   >
                     <Tooltip title={content.tooltip || ''}>
@@ -280,5 +178,11 @@ class PdfTemplateBuilder extends Component {
     );
   }
 }
+
+PdfTemplateBuilder.propTypes = {
+  onSelectElement: PropTypes.func.isRequired,
+  onChangeLayout: PropTypes.func.isRequired,
+  onDoConfigure: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(PdfTemplateBuilder);

@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
 import MenuItem from '@material-ui/core/es/MenuItem/MenuItem';
+import PropTypes from 'prop-types'
 
 const styles = theme => ({
   actionButton: {
@@ -27,20 +28,6 @@ class ElementTools extends Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
-
-    this.state = {
-      element: props.element
-    };
-  }
-
-  componentWillReceiveProps(props) {
-    if (!props.element) {
-      return this.setState({ element: null });
-    }
-
-    if (props.element && props.element.i !== (this.state.element || {}).i) {
-      this.setState({ element: props.element });
-    }
   }
 
   handleChange = name => event => {
@@ -49,15 +36,13 @@ class ElementTools extends Component {
       [name]: event.target.value
     };
 
-    this.props.onChangeElement(element);
-
-    this.setState({ element });
+    this.props.onUpdateElement(element);
   };
 
   render() {
     const { classes } = this.props;
 
-    if (!this.state.element) {
+    if (!this.props.element) {
       return '';
     }
 
@@ -77,7 +62,7 @@ class ElementTools extends Component {
                       aria-label="Remove"
                       mini={true}
                       className={classes.actionButton}
-                      onClick={this.props.onDeleteElement}
+                      onClick={this.props.onRemoveElement}
                     >
                       <Delete/>
                     </Button>
@@ -93,7 +78,7 @@ class ElementTools extends Component {
                   label="Bind"
                   className={classes.select}
                   select
-                  value={this.state.element.tag || ''}
+                  value={this.props.element.tag || ''}
                   onChange={this.handleChange('tag')}
                   margin="normal"
                   SelectProps={{}}
@@ -115,5 +100,12 @@ class ElementTools extends Component {
     );
   }
 }
+
+ElementTools.propTypes = {
+  element: PropTypes.object,
+  schema: PropTypes.array.isRequired,
+  onRemoveElement: PropTypes.func.isRequired,
+  onUpdateElement: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(ElementTools);

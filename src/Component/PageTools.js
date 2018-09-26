@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import NoteAdd from '@material-ui/icons/NoteAdd';
+import PropTypes from 'prop-types'
 
 const styles = theme => ({
   actionButton: {
@@ -55,5 +56,9 @@ class PageTools extends Component {
     );
   }
 }
+
+PageTools.propTypes = {
+  onAddElement: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(PageTools);
