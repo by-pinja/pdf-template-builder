@@ -4,11 +4,10 @@ import PageToolsContainer from './../Container/PageToolsContainer';
 import Paper from '@material-ui/core/Paper/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import TemplateBuilder from './../Util/TemplateBuilder';
-import Button from '@material-ui/core/Button/Button';
-import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
+import ToolboxContainer from '../Container/ToolboxContainer';
 
 const styles = theme => ({
   toolbox: {
@@ -27,7 +26,6 @@ const styles = theme => ({
   },
   container: {
     display: 'flex',
-    padding: 20,
     position: 'relative'
   }
 });
@@ -37,24 +35,7 @@ class PdfTemplateBuilder extends Component {
     super(props);
 
     this.getTemplateHtml     = this.getTemplateHtml.bind(this);
-    this.handleShowPreview   = this.handleShowPreview.bind(this);
     this.getComponentContent = this.getComponentContent.bind(this);
-
-    this.state = {};
-
-    document.addEventListener('keydown', e => {
-      if (e.ctrlKey && e.code === 'KeyZ') {
-        if (e.shiftKey) {
-          return this.props.onRedo();
-        }
-
-        this.props.onUndo();
-      }
-
-      if (e.code === 'Backspace') {
-        this.props.onDeleteElement(this.props.selectedUuid);
-      }
-    });
   }
 
   configure(props) {
@@ -68,31 +49,20 @@ class PdfTemplateBuilder extends Component {
     );
   }
 
-  handleShowPreview() {
-    const data = {};
+  componentDidMount() {
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && e.code === 'KeyZ') {
+        if (e.shiftKey) {
+          return this.props.onRedo();
+        }
 
-    this.props.schema.map(
-      prop => data[prop.tag] = prop.example
-    );
+        this.props.onUndo();
+      }
 
-    fetch(this.props.pdfStorageUri, {
-      method: 'POST',
-      headers: {
-        Authorization: 'ApiKey apikeyfortesting',
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify({
-        html: this.getTemplateHtml(),
-        baseData: data,
-        rowData: [{}],
-        options: {}
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        window.open(res[0].pdfUri, '_blank');
-      })
-    ;
+      if (e.code === 'Backspace') {
+        this.props.onDeleteElement(this.props.selectedUuid);
+      }
+    });
   }
 
   getComponentContent(i) {
@@ -118,78 +88,57 @@ class PdfTemplateBuilder extends Component {
   render() {
     const { classes } = this.props;
 
-    let previewButton = '';
-
-    if (this.props.pdfStorageUri) {
-      previewButton = (
-        <Tooltip title="Preview">
-          <Button
-            variant="fab"
-            color="primary"
-            aria-label="Preview"
-            mini={true}
-            className={classes.previewButton}
-            onClick={this.handleShowPreview}
-          >
-            <RemoveRedEye/>
-          </Button>
-        </Tooltip>
-      );
-    }
-
     return (
-      <div className={classes.container}>
-        <div className={classes.toolbox}>
-          <PageToolsContainer />
+      <div>
+        <ToolboxContainer />
 
-          <ElementToolsContainer
-            element={this.state.element}
-            schema={this.state.schema}
-            onChangeElement={this.onElementChange}
-          />
-        </div>
+        <div className={classes.container}>
+          <div className={classes.toolbox}>
 
-        <Paper
-          className={classes.editor}
-          elevation={1}
-        >
-          <GridLayout
-            layout={this.props.layout}
-            cols={12}
-            rowHeight={30}
-            width={595}
-            compactType={null}
-            preventCollision={true}
-            onLayoutChange={this.props.onChangeLayout}
+            <PageToolsContainer />
+            <ElementToolsContainer />
+          </div>
+
+          <Paper
+            className={classes.editor}
+            elevation={1}
           >
-            {this.props.layout.map(
-              e => {
-                const classes = this.props.selectedUuid === e.i ? 'active' : '';
-                const content = this.getComponentContent(e.i);
+            <GridLayout
+              layout={this.props.layout}
+              cols={12}
+              rowHeight={30}
+              width={595}
+              compactType={null}
+              preventCollision={true}
+              onLayoutChange={this.props.onChangeLayout}
+            >
+              {this.props.layout.map(
+                e => {
+                  const classes = this.props.selectedUuid === e.i ? 'active' : '';
+                  const content = this.getComponentContent(e.i);
 
-                return (
-                  <div
-                    id={'component-' + e.i}
-                    className={classes}
-                    key={e.i}
-                    data-grid={e}
-                    onClick={() => this.props.onSelectElement(e.i)}
-                    onDragEnd={e => e.stopPropagation()}
-                    style={{ padding: 5, boxSizing: 'border-box'}}
-                  >
-                    <Tooltip title={content.tooltip || ''}>
-                      <span>
-                        {content.text}
-                      </span>
-                    </Tooltip>
-                  </div>
-                );
-              })
-            }
-          </GridLayout>
-        </Paper>
-
-        {previewButton}
+                  return (
+                    <div
+                      id={'component-' + e.i}
+                      className={classes}
+                      key={e.i}
+                      data-grid={e}
+                      onClick={() => this.props.onSelectElement(e.i)}
+                      onDragEnd={e => e.stopPropagation()}
+                      style={{ padding: 5, boxSizing: 'border-box'}}
+                    >
+                      <Tooltip title={content.tooltip || ''}>
+                        <span>
+                          {content.text}
+                        </span>
+                      </Tooltip>
+                    </div>
+                  );
+                })
+              }
+            </GridLayout>
+          </Paper>
+        </div>
       </div>
     );
   }
