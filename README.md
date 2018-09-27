@@ -48,7 +48,13 @@ The global `pdfTemplateBuilder` object exposes few methods for configuration and
 ```javascript
 // Configure the template builder
 window.pdfTemplateBuilder.configure({
-  pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId', // Your instance of pdf storage
+  pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId', // Your instance of pdf storage,
+  onSaveTemplate: function() {
+    // Defining this callback function will enable
+    // the save button in the builder toolbox.
+    // This callback will be called when user clicks that button
+    // so you can do perform required actions to store the template
+  }
 });
 
 // Get the result template

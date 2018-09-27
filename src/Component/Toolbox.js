@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PreviewButtonContainer from '../Container/PreviewButtonContainer';
 import UndoButtonContainer from '../Container/UndoButtonContainer';
 import RedoButtonContainer from '../Container/RedoButtonContainer';
+import SaveButtonContainer from '../Container/SaveButtonContainer';
 
 const styles = theme => ({
   bar: {
@@ -29,8 +30,8 @@ class Toolbox extends Component {
 
           <UndoButtonContainer />
           <RedoButtonContainer />
-
           <PreviewButtonContainer />
+          <SaveButtonContainer />
         </Toolbar>
       </AppBar>
     );

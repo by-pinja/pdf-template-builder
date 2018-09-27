@@ -6,8 +6,8 @@ import { ActionCreators as UndoActionCreators } from 'redux-undo'
 const mapStateToProps = ({present}) => ({
   layout: present.layout,
   schema: present.schema,
-  pdfStorageUri: present.pdfStorageUri,
-  selectedUuid: present.selectedUuid
+  selectedUuid: present.selectedUuid,
+  pdfStorageUri: present.pdfStorageUri
 });
 
 const mapDispatchToProps = dispatch => ({

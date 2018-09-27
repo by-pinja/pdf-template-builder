@@ -70,7 +70,8 @@ const store = (state = initialState, action) => {
       return {
         ...state,
         pdfStorageUri: action.payload.pdfStorageUri,
-        schema: action.payload.schema || []
+        schema: action.payload.schema || [],
+        onSaveTemplate: action.payload.onSaveTemplate
       };
     default:
       return state;

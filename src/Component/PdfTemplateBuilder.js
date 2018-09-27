@@ -7,7 +7,7 @@ import TemplateBuilder from './../Util/TemplateBuilder';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
-import ToolboxContainer from '../Container/ToolboxContainer';
+import Toolbox from './Toolbox';
 
 const styles = theme => ({
   toolbox: {
@@ -96,7 +96,7 @@ class PdfTemplateBuilder extends Component {
 
     return (
       <div>
-        <ToolboxContainer />
+        <Toolbox />
 
         <div className={classes.container}>
           <div className={classes.toolbox}>
