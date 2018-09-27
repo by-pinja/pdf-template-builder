@@ -41,6 +41,20 @@ class PdfTemplateBuilder extends Component {
     this.getComponentContent = this.getComponentContent.bind(this);
 
     this.state = {};
+
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && e.code === 'KeyZ') {
+        if (e.shiftKey) {
+          return this.props.onRedo();
+        }
+
+        this.props.onUndo();
+      }
+
+      if (e.code === 'Backspace') {
+        this.props.onDeleteElement(this.props.selectedUuid);
+      }
+    });
   }
 
   configure(props) {
@@ -140,6 +154,7 @@ class PdfTemplateBuilder extends Component {
           elevation={1}
         >
           <GridLayout
+            layout={this.props.layout}
             cols={12}
             rowHeight={30}
             width={595}
@@ -149,7 +164,7 @@ class PdfTemplateBuilder extends Component {
           >
             {this.props.layout.map(
               e => {
-                const classes = this.state.selected === e.i ? 'active' : '';
+                const classes = this.props.selectedUuid === e.i ? 'active' : '';
                 const content = this.getComponentContent(e.i);
 
                 return (
@@ -159,6 +174,7 @@ class PdfTemplateBuilder extends Component {
                     key={e.i}
                     data-grid={e}
                     onClick={() => this.props.onSelectElement(e.i)}
+                    onDragEnd={e => e.stopPropagation()}
                     style={{ padding: 5, boxSizing: 'border-box'}}
                   >
                     <Tooltip title={content.tooltip || ''}>
@@ -180,9 +196,13 @@ class PdfTemplateBuilder extends Component {
 }
 
 PdfTemplateBuilder.propTypes = {
+  selectedUuid: PropTypes.string,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
-  onDoConfigure: PropTypes.func.isRequired
+  onDoConfigure: PropTypes.func.isRequired,
+  onDeleteElement: PropTypes.func.isRequired,
+  onUndo: PropTypes.func.isRequired,
+  onRedo: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(PdfTemplateBuilder);

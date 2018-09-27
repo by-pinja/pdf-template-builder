@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PdfTemplateBuilderContainer from './Container/PdfTemplateBuilderContainer';
 import { createStore } from 'redux';
 import Provider from 'react-redux/es/components/Provider';
-import { pdfTemplateBuilder } from './reducers';
+import pdfTemplateBuilder from './reducers';
 
 import './index.css';
 import 'react-grid-layout/css/styles.css';

@@ -10,9 +10,9 @@ const getSelectedElement = state => {
   return {...state.elements[state.selectedUuid], i: state.selectedUuid};
 };
 
-const mapStateToProps = state => ({
-  element: getSelectedElement(state),
-  schema: state.schema
+const mapStateToProps = ({present}) => ({
+  element: getSelectedElement(present),
+  schema: present.schema
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,9 +1,10 @@
 import update from 'immutability-helper';
 import Schema from './Resource/Schema';
+import undoable from 'redux-undo';
 
 const initialState = getInitialState();
 
-export function pdfTemplateBuilder(state = initialState, action) {
+const store = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_ELEMENT':
       return update(
@@ -44,9 +45,17 @@ export function pdfTemplateBuilder(state = initialState, action) {
       });
 
     case 'SELECT_ELEMENT':
+      if (state.selectedUuid === action.payload) {
+        return state;
+      }
+
       return {...state, selectedUuid: action.payload};
 
     case 'SET_LAYOUT':
+      if (JSON.stringify(state.layout) === JSON.stringify(action.payload)) {
+        return state;
+      }
+
       return {...state, layout: action.payload};
 
     case 'CONFIGURE':
@@ -58,7 +67,7 @@ export function pdfTemplateBuilder(state = initialState, action) {
     default:
       return state;
   }
-}
+};
 
 function getInitialState() {
   const state = {
@@ -75,3 +84,7 @@ function getInitialState() {
 
   return state;
 }
+
+const pdfTemplateBuilder = undoable(store);
+
+export default pdfTemplateBuilder;
