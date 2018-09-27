@@ -13,11 +13,6 @@ const store = (state = initialState, action) => {
           selectedUuid: action.payload.i
         },
         {
-          elements: { 
-            [action.payload.i]: {
-              $set: { }
-            }
-          },
           layout: {
             $push: [action.payload]
           }
@@ -29,18 +24,17 @@ const store = (state = initialState, action) => {
         layout: {
           $splice: [[state.layout.findIndex(l => l.i === action.payload), 1]]
         },
-        elements: {
-          $unset: [action.payload]
-        },
         $unset: ['selectedUuid']
       });
 
     case 'UPDATE_ELEMENT':
       return update(state, {
-        elements: {
-          [action.payload.i]: {
-            $merge: action.payload
-          },
+        layout: {
+          [state.layout.findIndex(l => l.i === action.payload.i)]: {
+            meta: {
+              $set: action.payload
+            }
+          }
         }
       });
 
@@ -52,11 +46,25 @@ const store = (state = initialState, action) => {
       return {...state, selectedUuid: action.payload};
 
     case 'SET_LAYOUT':
-      if (JSON.stringify(state.layout) === JSON.stringify(action.payload)) {
+      const newState = {
+        ...state,
+        layout: action.payload.map(component => {
+          const index = state.layout.findIndex(l => l.i === component.i);
+
+          if (index >= 0) {
+            return {...component, meta: state.layout[index].meta};
+          }
+
+          return component;
+        })
+      };
+
+      // Return the same state if really nothing changed (history works better)
+      if (JSON.stringify(state.layout) === JSON.stringify(newState.layout)) {
         return state;
       }
 
-      return {...state, layout: action.payload};
+      return newState;
 
     case 'CONFIGURE':
       return {
@@ -71,7 +79,6 @@ const store = (state = initialState, action) => {
 
 function getInitialState() {
   const state = {
-    elements: {},
     layout: [],
     schema: [],
     selectedUuid: null,

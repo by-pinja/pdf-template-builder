@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
-import IconButton from '@material-ui/core/es/IconButton/IconButton';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
+import IconButton from '@material-ui/core/IconButton/IconButton';
 import Undo from '@material-ui/icons/Undo';
 import PropTypes from 'prop-types';
 

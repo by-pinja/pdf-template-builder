@@ -4,7 +4,7 @@ import TemplateBuilder from '../Util/TemplateBuilder';
 
 const getTemplateHtml = state => {
   // Need to pass function since the template build depends on the DOM
-  return () => TemplateBuilder.buildTemplate(state.layout, state.elements);
+  return () => TemplateBuilder.buildTemplate(state.layout);
 };
 
 const getTemplateData = state => {

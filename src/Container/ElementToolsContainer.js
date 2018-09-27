@@ -7,7 +7,9 @@ const getSelectedElement = state => {
     return null;
   }
 
-  return {...state.elements[state.selectedUuid], i: state.selectedUuid};
+  const element = state.layout.find(e => e.i === state.selectedUuid);
+
+  return {...element.meta, i: state.selectedUuid};
 };
 
 const mapStateToProps = ({present}) => ({

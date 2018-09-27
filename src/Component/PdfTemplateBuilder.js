@@ -43,10 +43,15 @@ class PdfTemplateBuilder extends Component {
   }
 
   getTemplateHtml() {
-    return TemplateBuilder.buildTemplate(
-      this.props.layout,
-      this.props.elements
-    );
+    return TemplateBuilder.buildTemplate(this.props.layout);
+  }
+
+  exportTemplate() {
+    return this.props.layout;
+  }
+
+  importTemplate(config) {
+    this.props.onChangeLayout(config);
   }
 
   componentDidMount() {
@@ -67,7 +72,8 @@ class PdfTemplateBuilder extends Component {
 
   getComponentContent(i) {
     const schema = this.props.schema;
-    const meta = this.props.elements[i];
+
+    const meta = this.props.layout.find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
       return {};
@@ -146,6 +152,7 @@ class PdfTemplateBuilder extends Component {
 
 PdfTemplateBuilder.propTypes = {
   selectedUuid: PropTypes.string,
+  layout: PropTypes.array.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,

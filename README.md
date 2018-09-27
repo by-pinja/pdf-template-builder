@@ -53,6 +53,12 @@ window.pdfTemplateBuilder.configure({
 
 // Get the result template
 window.pdfTemplateBuilder.getTemplateHtml();
+
+// Export template layout as object
+window.pdfTemplateBuilder.exportTemplate();
+
+// Import template layout from object
+window.pdfTemplateBuilder.importTemplate(config);
 ```
 
 ## Enabling preview

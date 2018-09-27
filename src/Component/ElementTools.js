@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
-import MenuItem from '@material-ui/core/es/MenuItem/MenuItem';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import PropTypes from 'prop-types'
 
 const styles = theme => ({

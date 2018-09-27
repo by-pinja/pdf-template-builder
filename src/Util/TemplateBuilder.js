@@ -1,7 +1,7 @@
 class TemplateBuilder {
-  static buildTemplate(layout, meta) {
+  static buildTemplate(layout) {
     const contents = layout
-      .map(component => TemplateBuilder.getElementHtml(component, meta))
+      .map(component => TemplateBuilder.getElementHtml(component))
       .join('');
 
     return `
@@ -38,10 +38,10 @@ class TemplateBuilder {
     `;
   }
 
-  static getElementHtml(component, meta) {
+  static getElementHtml(component) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
-    const content = meta[component.i].tag ? `{{${meta[component.i].tag}}}` : meta[component.i].content;
+    const content = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
 
     return `
         <div style='
