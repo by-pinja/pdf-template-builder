@@ -1,6 +1,6 @@
 import update from 'immutability-helper';
 import Schema from './Resource/Schema';
-import undoable from 'redux-undo';
+import undoable, { excludeAction } from 'redux-undo';
 
 const initialState = getInitialState();
 
@@ -93,6 +93,6 @@ function getInitialState() {
   return state;
 }
 
-const pdfTemplateBuilder = undoable(store);
+const pdfTemplateBuilder = undoable(store, { filter: excludeAction(['CONFIGURE']) });
 
 export default pdfTemplateBuilder;
