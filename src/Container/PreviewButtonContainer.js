@@ -22,8 +22,7 @@ const mapStateToProps = ({present}) => ({
 });
 
 const PreviewButtonContainer = connect(
-  mapStateToProps,
-  null
+  mapStateToProps
 )(PreviewButton);
 
 export default PreviewButtonContainer;
