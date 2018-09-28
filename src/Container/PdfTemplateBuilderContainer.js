@@ -16,7 +16,8 @@ const mapDispatchToProps = dispatch => ({
   onDoConfigure: configurations => dispatch(configure(configurations)),
   onDeleteElement: uuid => dispatch(removeElement(uuid)),
   onUndo: () => dispatch(UndoActionCreators.undo()),
-  onRedo: () => dispatch(UndoActionCreators.redo())
+  onRedo: () => dispatch(UndoActionCreators.redo()),
+  onClearHistory: () => dispatch(UndoActionCreators.clearHistory())
 });
 
 const PdfTemplateBuilderContainer = connect(

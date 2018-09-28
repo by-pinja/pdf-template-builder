@@ -51,7 +51,9 @@ class PdfTemplateBuilder extends Component {
   }
 
   importTemplate(config) {
+    this.props.onSelectElement(null);
     this.props.onChangeLayout(config);
+    this.props.onClearHistory();
   }
 
   componentDidMount() {
@@ -158,7 +160,8 @@ PdfTemplateBuilder.propTypes = {
   onDoConfigure: PropTypes.func.isRequired,
   onDeleteElement: PropTypes.func.isRequired,
   onUndo: PropTypes.func.isRequired,
-  onRedo: PropTypes.func.isRequired
+  onRedo: PropTypes.func.isRequired,
+  onClearHistory: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(PdfTemplateBuilder);
