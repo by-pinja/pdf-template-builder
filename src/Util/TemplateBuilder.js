@@ -6,16 +6,22 @@ class TemplateBuilder {
 
     return `
       <html>
-        ${TemplateBuilder.getHead()}
+        ${TemplateBuilder.getHead(layout)}
         ${TemplateBuilder.getBody(contents)}
       </html>
     `;
   }
 
-  static getHead() {
+  static getHead(layout) {
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
+    const fonts = layout.map(c => (c.meta.fontFamily || 'Open Sans').replace(' ', '+')).filter(onlyUnique).join('|');
+
     return `
       <head>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=${fonts}" rel="stylesheet">
         <style>
           * { font-family: "Open Sans", sans-serif }
           html, body {
@@ -68,6 +74,7 @@ class TemplateBuilder {
             bottom: ${textStyle.getPropertyValue('bottom')}; 
             top: ${textStyle.getPropertyValue('top')}; 
             text-align: ${textStyle.getPropertyValue('text-align')};
+            font-family: ${textStyle.getPropertyValue('font-family')};
             width: 100%;
             ${verticalAlign}
           '>

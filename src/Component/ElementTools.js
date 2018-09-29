@@ -11,6 +11,7 @@ import Delete from '@material-ui/icons/Delete';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import PropTypes from 'prop-types'
 import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
+import SettingTextFontContainer from '../Container/SettingTextFontContainer';
 
 const styles = theme => ({
   actionButton: {
@@ -96,6 +97,7 @@ class ElementTools extends Component {
 
             <Grid item xs={12}>
               <SettingTextAlignContainer />
+              <SettingTextFontContainer />
             </Grid>
           </Grid>
         </CardContent>

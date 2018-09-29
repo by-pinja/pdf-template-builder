@@ -129,7 +129,8 @@ class PdfTemplateBuilder extends Component {
                   const textStyle = {
                     position: 'absolute',
                     textAlign: meta.horizontalAlignment,
-                    width: '100%'
+                    width: '100%',
+                    fontFamily: meta.fontFamily
                   };
 
                   if (meta.verticalAlignment === 'middle') {

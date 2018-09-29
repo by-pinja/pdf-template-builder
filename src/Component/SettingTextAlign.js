@@ -10,6 +10,7 @@ import ExpansionPanelSummary from '@material-ui/core/es/ExpansionPanelSummary/Ex
 import Typography from '@material-ui/core/es/Typography/Typography';
 import ExpansionPanelDetails from '@material-ui/core/es/ExpansionPanelDetails/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PropTypes from 'prop-types';
 
 class SettingTextAlign extends Component {
   constructor(props) {
@@ -28,10 +29,17 @@ class SettingTextAlign extends Component {
   };
 
   render() {
+    const current = (
+      <Typography variant={'caption'}>
+        {this.props.element.verticalAlignment}&nbsp;
+        {this.props.element.horizontalAlignment}
+        </Typography>
+    );
+
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Text alignment</Typography>
+          <Typography>Alignment {current}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Grid container>
@@ -74,5 +82,10 @@ class SettingTextAlign extends Component {
     )
   }
 }
+
+SettingTextAlign.propTypes = {
+  element: PropTypes.object.isRequired,
+  onUpdateElement: PropTypes.func.isRequired
+};
 
 export default SettingTextAlign;
