@@ -1,22 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PdfTemplateBuilderContainer from './Container/PdfTemplateBuilderContainer';
-import { createStore } from 'redux';
-import Provider from 'react-redux/es/components/Provider';
-import pdfTemplateBuilder from './reducers';
+import PdfTemplateBuilder from './Resource/PdfTemplateBuilder';
 
 import './index.css';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-const store = createStore(
-  pdfTemplateBuilder,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+if (process.env.REACT_APP_MODE === 'standalone') {
+  const builder = new PdfTemplateBuilder();
 
-ReactDOM.render(
-  <Provider store={store}>
-    <PdfTemplateBuilderContainer innerRef={(ref) => {window.pdfTemplateBuilder = ref}}  />
-  </Provider>,
-  document.getElementById('root')
-);
+  builder.render();
+} else {
+  window.PdfTemplateBuilder = PdfTemplateBuilder;
+}

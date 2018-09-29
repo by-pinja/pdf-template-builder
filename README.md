@@ -30,24 +30,32 @@ communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) se
 <div id="root"></div>
 ```
 
-3. Configure
+3. Initialize and the application when you are ready
+
 ```javascript
-(function() {
-  'use strict';
-  
-  window.pdfTemplateBuilder.configure({
-    pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId'
-  });
-})();
+const builder = new PdfTemplateBuilder();
+
+// Render to #root
+builder.render();
+
+// Render to where ever you want
+builder.render(document.getElementById('your-div'));
+```
+
+4. Configure
+```javascript
+builder.configure({
+  pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId'
+});
 ```
 
 ## Public API
 
-The global `pdfTemplateBuilder` object exposes few methods for configuration and the response handling.
+The `PdfTemplateBuilder` class instance exposes few methods for configuration and the response handling.
 
 ```javascript
 // Configure the template builder
-window.pdfTemplateBuilder.configure({
+builder.configure({
   pdfStorageUri: 'https://pdfstorage.yourservice.fi/v1/pdf/groupId', // Your instance of pdf storage,
   onSaveTemplate: function() {
     // Defining this callback function will enable
@@ -58,13 +66,13 @@ window.pdfTemplateBuilder.configure({
 });
 
 // Get the result template
-window.pdfTemplateBuilder.getTemplateHtml();
+builder.getTemplateHtml();
 
 // Export template layout as object
-window.pdfTemplateBuilder.exportTemplate();
+builder.exportTemplate();
 
 // Import template layout from object
-window.pdfTemplateBuilder.importTemplate(config);
+builder.importTemplate(config);
 ```
 
 ## Enabling preview
@@ -94,4 +102,5 @@ may be done using the environment variables. Just create a copy of the `.env` fi
 
 ```
 REACT_APP_PDF_STORAGE_URI=https://pdf-storage.protacon.com/v1/pdf/groupId   The uri of some available pdf storage service
+REACT_APP_MODE=standalone  The application mode (standalone, embedded)
 ```
