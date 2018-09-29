@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/es/Grid/Grid';
-import ExpansionPanel from '@material-ui/core/es/ExpansionPanel/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/es/ExpansionPanelSummary/ExpansionPanelSummary';
-import Typography from '@material-ui/core/es/Typography/Typography';
-import ExpansionPanelDetails from '@material-ui/core/es/ExpansionPanelDetails/ExpansionPanelDetails';
+import Grid from '@material-ui/core/Grid/Grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography/Typography';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/es/TextField/TextField';
-import MenuItem from '@material-ui/core/es/MenuItem/MenuItem';
+import TextField from '@material-ui/core/TextField/TextField';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import WebFont from 'webfontloader';
 

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import FormControl from '@material-ui/core/es/FormControl/FormControl';
-import FormLabel from '@material-ui/core/es/FormLabel/FormLabel';
-import RadioGroup from '@material-ui/core/es/RadioGroup/RadioGroup';
-import FormControlLabel from '@material-ui/core/es/FormControlLabel/FormControlLabel';
-import Radio from '@material-ui/core/es/Radio/Radio';
-import Grid from '@material-ui/core/es/Grid/Grid';
-import ExpansionPanel from '@material-ui/core/es/ExpansionPanel/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/es/ExpansionPanelSummary/ExpansionPanelSummary';
-import Typography from '@material-ui/core/es/Typography/Typography';
-import ExpansionPanelDetails from '@material-ui/core/es/ExpansionPanelDetails/ExpansionPanelDetails';
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import FormLabel from '@material-ui/core/FormLabel/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
+import Radio from '@material-ui/core/Radio/Radio';
+import Grid from '@material-ui/core/Grid/Grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography/Typography';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
 
