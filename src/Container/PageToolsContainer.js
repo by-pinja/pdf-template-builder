@@ -1,5 +1,5 @@
 import PageTools from '../Component/PageTools';
-import { addElement } from '../actions';
+import { addElement } from '../Store/actions';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = dispatch => ({

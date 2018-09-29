@@ -10,6 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import PropTypes from 'prop-types'
+import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
 
 const styles = theme => ({
   actionButton: {
@@ -49,29 +50,27 @@ class ElementTools extends Component {
     return (
       <Card className={classes.card}>
         <CardContent>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography color="textSecondary" variant="headline">
-                  Element settings
+          <Grid container spacing={16} direction="column">
+            <Grid item xs={12}>
+              <Typography color="textSecondary" variant="headline">
+                Element settings
 
-                  <Tooltip title="Delete this element">
-                    <Button
-                      variant="fab"
-                      color="secondary"
-                      aria-label="Remove"
-                      mini={true}
-                      className={classes.actionButton}
-                      onClick={this.props.onRemoveElement}
-                    >
-                      <Delete/>
-                    </Button>
-                  </Tooltip>
-                </Typography>
-              </Grid>
+                <Tooltip title="Delete this element">
+                  <Button
+                    variant="fab"
+                    color="secondary"
+                    aria-label="Remove"
+                    mini={true}
+                    className={classes.actionButton}
+                    onClick={this.props.onRemoveElement}
+                  >
+                    <Delete/>
+                  </Button>
+                </Tooltip>
+              </Typography>
             </Grid>
 
-            <Grid container>
+            <Grid item xs={12}>
               <Grid item xs={6}>
                 <TextField
                   id="tag"
@@ -93,6 +92,10 @@ class ElementTools extends Component {
                   ))}
                 </TextField>
               </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <SettingTextAlignContainer />
             </Grid>
           </Grid>
         </CardContent>

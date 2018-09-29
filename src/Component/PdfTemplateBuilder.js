@@ -124,6 +124,20 @@ class PdfTemplateBuilder extends Component {
                 e => {
                   const classes = this.props.selectedUuid === e.i ? 'active' : '';
                   const content = this.getComponentContent(e.i);
+                  const { meta } = e;
+
+                  const textStyle = {
+                    position: 'absolute',
+                    textAlign: meta.horizontalAlignment,
+                    width: '100%'
+                  };
+
+                  if (meta.verticalAlignment === 'middle') {
+                    textStyle.top = '50%';
+                    textStyle.transform = 'translateY(-50%)'
+                  } else if (meta.verticalAlignment === 'bottom') {
+                    textStyle.bottom = 0;
+                  }
 
                   return (
                     <div
@@ -133,10 +147,10 @@ class PdfTemplateBuilder extends Component {
                       data-grid={e}
                       onClick={() => this.props.onSelectElement(e.i)}
                       onDragEnd={e => e.stopPropagation()}
-                      style={{ padding: 5, boxSizing: 'border-box'}}
+                      style={{ boxSizing: 'border-box'}}
                     >
                       <Tooltip title={content.tooltip || ''}>
-                        <span>
+                        <span style={textStyle}>
                           {content.text}
                         </span>
                       </Tooltip>

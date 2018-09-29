@@ -43,6 +43,14 @@ class TemplateBuilder {
     const style    = window.getComputedStyle(document.querySelector(selector));
     const content = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
 
+    const textStyle = window.getComputedStyle(document.querySelector(selector + ' span'));
+
+    let verticalAlign = '';
+
+    if (component.meta.verticalAlignment === 'middle') {
+      verticalAlign = '-webkit-transform: translateY(-50%)';
+    }
+
     return `
         <div style='
           position: absolute;
@@ -52,9 +60,19 @@ class TemplateBuilder {
           font-size: ${style.getPropertyValue('font-size')};
           font-family: ${style.getPropertyValue('font-family')};
           box-sizing: border-box;
-          padding: 5px;
+          padding: 0;
+          margin: 0;
         '>
-          ${content}
+          <span style='
+            position: absolute;
+            bottom: ${textStyle.getPropertyValue('bottom')}; 
+            top: ${textStyle.getPropertyValue('top')}; 
+            text-align: ${textStyle.getPropertyValue('text-align')};
+            width: 100%;
+            ${verticalAlign}
+          '>
+            ${content}
+          </span>
         </div>
       `;
   }

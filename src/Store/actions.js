@@ -1,4 +1,4 @@
-import TemplateUtil from './Util/TemplateUtil';
+import TemplateUtil from '../Util/TemplateUtil';
 
 export const selectElement = uuid => ({
   type: 'SELECT_ELEMENT',

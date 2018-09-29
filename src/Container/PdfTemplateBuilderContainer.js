@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import PdfTemplateBuilder from '../Component/PdfTemplateBuilder';
-import {configure, removeElement, selectElement, setLayout} from '../actions';
+import { configure, removeElement, selectElement, setLayout } from '../Store/actions';
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 
 const mapStateToProps = ({present}) => ({

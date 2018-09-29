@@ -1,19 +1,10 @@
-import {removeElement, updateElement} from '../actions';
+import { removeElement, updateElement } from '../Store/actions';
 import { connect } from 'react-redux';
 import ElementTools from '../Component/ElementTools';
-
-const getSelectedElement = state => {
-  if (!state.selectedUuid) {
-    return null;
-  }
-
-  const element = state.layout.find(e => e.i === state.selectedUuid);
-
-  return {...element.meta, i: state.selectedUuid};
-};
+import { getSelectedElementMeta } from '../Store/util';
 
 const mapStateToProps = ({present}) => ({
-  element: getSelectedElement(present),
+  element: getSelectedElementMeta(present),
   schema: present.schema
 });
 

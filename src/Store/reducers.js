@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import Schema from './Resource/Schema';
+import Schema from '../Resource/Schema';
 import undoable, { excludeAction } from 'redux-undo';
 
 const initialState = getInitialState();

@@ -8,7 +8,10 @@ class TemplateUtil {
       h: 1,
       x: 1,
       y: 1,
-      meta: {}
+      meta: {
+        verticalAlignment: 'top',
+        horizontalAlignment: 'left'
+      }
     };
   }
 }

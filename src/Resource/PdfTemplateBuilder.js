@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PdfTemplateBuilderContainer from '../Container/PdfTemplateBuilderContainer';
 import Provider from 'react-redux/es/components/Provider';
-import pdfTemplateBuilder from '../reducers';
+import pdfTemplateBuilder from '../Store/reducers';
 import { createStore } from 'redux';
 
 class PdfTemplateBuilder {
