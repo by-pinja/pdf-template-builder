@@ -54,7 +54,8 @@ class SettingTextFont extends Component {
 
     const current = (
       <Typography variant="caption">
-        {this.props.element.fontFamily}
+        {this.props.element.fontFamily}&nbsp;
+        {this.props.element.fontSize + 'px'}
       </Typography>
     );
 
@@ -64,7 +65,7 @@ class SettingTextFont extends Component {
           <Typography>Font {current}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Grid container>
+          <Grid container spacing={16}>
             <Grid item xs={6}>
               <TextField
                 id="fontFamily"
@@ -86,6 +87,18 @@ class SettingTextFont extends Component {
                   </MenuItem>
                 ))}
               </TextField>
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                id="fontSize"
+                type="number"
+                label="Font size (px)"
+                className={classes.select}
+                value={this.props.element.fontSize || 16}
+                onChange={this.handleChange('fontSize')}
+                margin="normal"
+              />
             </Grid>
           </Grid>
         </ExpansionPanelDetails>

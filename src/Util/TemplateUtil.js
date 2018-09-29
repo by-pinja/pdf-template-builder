@@ -10,7 +10,9 @@ class TemplateUtil {
       y: 1,
       meta: {
         verticalAlignment: 'top',
-        horizontalAlignment: 'left'
+        horizontalAlignment: 'left',
+        fontFamily: 'Open Sans',
+        fontSize: 16
       }
     };
   }

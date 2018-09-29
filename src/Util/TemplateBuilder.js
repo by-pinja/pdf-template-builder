@@ -75,6 +75,7 @@ class TemplateBuilder {
             top: ${textStyle.getPropertyValue('top')}; 
             text-align: ${textStyle.getPropertyValue('text-align')};
             font-family: ${textStyle.getPropertyValue('font-family')};
+            font-size: ${textStyle.getPropertyValue('font-size')};
             width: 100%;
             ${verticalAlign}
           '>
