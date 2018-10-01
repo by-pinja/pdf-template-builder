@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField/TextField';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import WebFont from 'webfontloader';
+import ColorPicker from 'material-ui-color-picker';
 
 const defaultFont = 'Open Sans';
 
@@ -44,6 +45,15 @@ class SettingTextFont extends Component {
     const element = {
       ...this.props.element,
       [name]: event.target.value
+    };
+
+    this.props.onUpdateElement(element);
+  };
+
+  handleColorChange = name => color => {
+    const element = {
+      ...this.props.element,
+      [name]: color
     };
 
     this.props.onUpdateElement(element);
@@ -98,6 +108,16 @@ class SettingTextFont extends Component {
                 value={this.props.element.fontSize || 16}
                 onChange={this.handleChange('fontSize')}
                 margin="normal"
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <ColorPicker
+                name="color"
+                label="Color"
+                defaultValue="#000"
+                onChange={this.handleColorChange('color')}
+                value={this.props.element.color}
               />
             </Grid>
           </Grid>

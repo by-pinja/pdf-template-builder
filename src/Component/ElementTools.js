@@ -18,7 +18,8 @@ const styles = theme => ({
     float: 'right'
   },
   card: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
+    overflow: 'visible'
   },
   select: {
     width: '100%'
