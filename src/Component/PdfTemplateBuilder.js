@@ -43,7 +43,7 @@ class PdfTemplateBuilder extends Component {
   }
 
   getTemplateHtml() {
-    return TemplateBuilder.buildTemplate(this.props.layout);
+    return TemplateBuilder.buildTemplate(this.props.layout, this.props.page);
   }
 
   exportTemplate() {
@@ -95,6 +95,7 @@ class PdfTemplateBuilder extends Component {
 
   render() {
     const { classes } = this.props;
+    const cols = 12;
 
     return (
       <div>
@@ -102,7 +103,6 @@ class PdfTemplateBuilder extends Component {
 
         <div className={classes.container}>
           <div className={classes.toolbox}>
-
             <PageToolsContainer />
             <ElementToolsContainer />
           </div>
@@ -113,11 +113,13 @@ class PdfTemplateBuilder extends Component {
           >
             <GridLayout
               layout={this.props.layout}
-              cols={12}
+              cols={cols}
               rowHeight={30}
               width={595}
-              compactType={null}
-              preventCollision={true}
+              containerPadding={[0, 0]}
+              margin={[0, 0]}
+              compactType={this.props.page.layoutRelative ? 'horizontal' : null}
+              preventCollision={!this.props.page.layoutRelative}
               onLayoutChange={this.props.onChangeLayout}
             >
               {this.props.layout.map(
@@ -133,6 +135,13 @@ class PdfTemplateBuilder extends Component {
                     fontFamily: meta.fontFamily,
                     fontSize: Number(meta.fontSize || 16)
                   };
+
+                  if (this.props.page.layoutRelative) {
+                    e.w = cols;
+                    e.minW = cols;
+                  } else {
+                    delete e.minW;
+                  }
 
                   if (meta.verticalAlignment === 'middle') {
                     textStyle.top = '50%';
@@ -171,6 +180,7 @@ class PdfTemplateBuilder extends Component {
 PdfTemplateBuilder.propTypes = {
   selectedUuid: PropTypes.string,
   layout: PropTypes.array.isRequired,
+  page: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,

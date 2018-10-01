@@ -7,7 +7,8 @@ const mapStateToProps = ({present}) => ({
   layout: present.layout,
   schema: present.schema,
   selectedUuid: present.selectedUuid,
-  pdfStorageUri: present.pdfStorageUri
+  pdfStorageUri: present.pdfStorageUri,
+  page: present.page
 });
 
 const mapDispatchToProps = dispatch => ({

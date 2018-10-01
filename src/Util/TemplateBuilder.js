@@ -1,7 +1,7 @@
 class TemplateBuilder {
-  static buildTemplate(layout) {
+  static buildTemplate(layout, page) {
     const contents = layout
-      .map(component => TemplateBuilder.getElementHtml(component))
+      .map(component => TemplateBuilder.getElementHtml(component, page))
       .join('');
 
     return `
@@ -44,7 +44,7 @@ class TemplateBuilder {
     `;
   }
 
-  static getElementHtml(component) {
+  static getElementHtml(component, page) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
     const content = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
@@ -57,20 +57,43 @@ class TemplateBuilder {
       verticalAlign = '-webkit-transform: translateY(-50%)';
     }
 
+    const parent = component.meta.parent || 'root';
+
+    let styles = '';
+    let position = 'absolute';
+
+    if (parent === 'root') {
+      position = page.layoutRelative ? 'relative' : 'absolute';
+    }
+
+    if (position === 'absolute') {
+      styles += `
+        -webkit-transform: ${style.getPropertyValue('transform')}; /** Required for PhantomJS */ 
+        height: ${style.getPropertyValue('height')};
+        overflow: hidden;
+      `;
+    } else if (position === 'relative') {
+      styles += `
+        display: block; 
+        min-height: ${style.getPropertyValue('height')};
+      `;
+    }
+
     return `
         <div style='
-          position: absolute;
-          -webkit-transform: ${style.getPropertyValue('transform')}; /** Required for PhantomJS */
+          position: ${position};
+          ${styles}
           width: ${style.getPropertyValue('width')};
-          height: ${style.getPropertyValue('height')};
           font-size: ${style.getPropertyValue('font-size')};
           font-family: ${style.getPropertyValue('font-family')};
           box-sizing: border-box;
           padding: 0;
           margin: 0;
+          border: 1px solid;
         '>
           <span style='
-            position: absolute;
+            position: relative;
+            display: block;
             bottom: ${textStyle.getPropertyValue('bottom')}; 
             top: ${textStyle.getPropertyValue('top')}; 
             text-align: ${textStyle.getPropertyValue('text-align')};
@@ -84,7 +107,6 @@ class TemplateBuilder {
         </div>
       `;
   }
-
 }
 
 export default TemplateBuilder;

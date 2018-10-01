@@ -8,6 +8,9 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import PropTypes from 'prop-types'
+import FormControlLabel from '@material-ui/core/es/FormControlLabel/FormControlLabel';
+import Switch from '@material-ui/core/es/Switch/Switch';
+import FormGroup from '@material-ui/core/es/FormGroup/FormGroup';
 
 const styles = theme => ({
   actionButton: {
@@ -22,8 +25,17 @@ class PageTools extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChange = name => event => {
+    const page = {
+      ...this.props.page,
+      [name]: event.target.checked
+    };
+
+    this.props.onUpdatePage(page);
+  };
 
   render() {
     const { classes } = this.props;
@@ -50,6 +62,21 @@ class PageTools extends Component {
                 </Tooltip>
               </Typography>
             </Grid>
+
+            <Grid item xs={12}>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={this.props.page.layoutRelative}
+                      onChange={this.handleChange('layoutRelative')}
+                      value="layoutRelative"
+                    />
+                  }
+                  label="Use relative layout"
+                />
+              </FormGroup>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
@@ -58,7 +85,9 @@ class PageTools extends Component {
 }
 
 PageTools.propTypes = {
-  onAddElement: PropTypes.func.isRequired
+  onAddElement: PropTypes.func.isRequired,
+  onUpdatePage: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(PageTools);

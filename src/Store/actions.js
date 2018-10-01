@@ -29,3 +29,8 @@ export const configure = configurations => ({
   type: 'CONFIGURE',
   payload: configurations
 });
+
+export const updatePage = page => ({
+  type: 'UPDATE_PAGE',
+  payload: page
+});

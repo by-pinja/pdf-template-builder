@@ -73,6 +73,13 @@ const store = (state = initialState, action) => {
         schema: action.payload.schema || [],
         onSaveTemplate: action.payload.onSaveTemplate
       };
+
+    case 'UPDATE_PAGE':
+      return update(state, {
+        page: {
+          $merge: action.payload
+        }
+      });
     default:
       return state;
   }
@@ -83,7 +90,10 @@ function getInitialState() {
     layout: [],
     schema: [],
     selectedUuid: null,
-    pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI
+    pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI,
+    page: {
+      layoutRelative: true
+    }
   };
 
   if (process.env.NODE_ENV === 'development') {
