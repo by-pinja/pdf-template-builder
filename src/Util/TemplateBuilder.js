@@ -1,23 +1,19 @@
 class TemplateBuilder {
   static buildTemplate(layout, page) {
-    const contents = layout
-      .map(component => TemplateBuilder.getElementHtml(component, page))
+    const contents = layout.root
+      .map(component => this.getElementHtml(component, page, layout))
       .join('');
 
     return `
       <html>
-        ${TemplateBuilder.getHead(layout)}
-        ${TemplateBuilder.getBody(contents)}
+        ${this.getHead(layout)}
+        ${this.getBody(contents)}
       </html>
     `;
   }
 
   static getHead(layout) {
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-
-    const fonts = layout.map(c => (c.meta.fontFamily || 'Open Sans').replace(' ', '+')).filter(onlyUnique).join('|');
+    const fonts = this.getUsedFonts(layout).map(font => font.replace(' ', '+')).join('|');
 
     return `
       <head>
@@ -44,10 +40,10 @@ class TemplateBuilder {
     `;
   }
 
-  static getElementHtml(component, page) {
+  static getElementHtml(component, page, layout, groupId) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
-    const content = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
+    const content  = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
 
     const textStyle = window.getComputedStyle(document.querySelector(selector + ' span'));
 
@@ -57,12 +53,10 @@ class TemplateBuilder {
       verticalAlign = '-webkit-transform: translateY(-50%)';
     }
 
-    const parent = component.meta.parent || 'root';
-
     let styles = '';
     let position = 'absolute';
 
-    if (parent === 'root') {
+    if (!groupId) {
       position = page.layoutRelative ? 'relative' : 'absolute';
     }
 
@@ -79,6 +73,10 @@ class TemplateBuilder {
       `;
     }
 
+    const children = (layout[component.i] || []).map(
+      element => this.getElementHtml(element, page, layout, component.i)
+    ).join('');
+
     return `
         <div style='
           position: ${position};
@@ -89,7 +87,7 @@ class TemplateBuilder {
           box-sizing: border-box;
           padding: 0;
           margin: 0;
-          border: 1px solid;
+          outline: 1px solid;
         '>
           <span style='
             position: relative;
@@ -102,10 +100,24 @@ class TemplateBuilder {
             width: 100%;
             ${verticalAlign}
           '>
-            ${content}
+            ${content || ''}
           </span>
+          
+          ${children}
         </div>
       `;
+  }
+
+  static getUsedFonts(layout) {
+    const fonts = [];
+
+    Object.keys(layout).forEach(groupId => {
+      return layout[groupId].forEach(e => {
+        !fonts.includes(e.meta.fontFamily) && fonts.push(e.meta.fontFamily);
+      })
+    });
+
+    return fonts;
   }
 }
 

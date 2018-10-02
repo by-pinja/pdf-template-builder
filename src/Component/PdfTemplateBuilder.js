@@ -57,6 +57,10 @@ class PdfTemplateBuilder extends Component {
 
   componentDidMount() {
     document.addEventListener('keydown', e => {
+      if (['input', 'textarea'].includes(e.target.tagName.toLowerCase())) {
+        return;
+      }
+
       if (e.ctrlKey && e.code === 'KeyZ') {
         if (e.shiftKey) {
           return this.props.onRedo();
@@ -106,6 +110,7 @@ class PdfTemplateBuilder extends Component {
           </div>
 
           <Paper
+            id="editor"
             className={classes.editor}
             elevation={1}
           >

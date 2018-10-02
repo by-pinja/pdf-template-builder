@@ -85,28 +85,37 @@ class ElementTools extends Component {
               </Typography>
             </Grid>
 
+            <Grid item xs={6}>
+              <TextField
+                id="tag"
+                label="Bind"
+                className={classes.select}
+                select
+                value={this.props.element.tag || ''}
+                onChange={this.handleChange('tag')}
+                margin="normal"
+                SelectProps={{}}
+              >
+                {this.props.schema.map(row => (
+                  <MenuItem
+                    key={row.tag}
+                    value={row.tag}
+                  >
+                    {row.text}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
             <Grid item xs={12}>
-              <Grid item xs={6}>
-                <TextField
-                  id="tag"
-                  label="Bind"
-                  className={classes.select}
-                  select
-                  value={this.props.element.tag || ''}
-                  onChange={this.handleChange('tag')}
-                  margin="normal"
-                  SelectProps={{}}
-                >
-                  {this.props.schema.map(row => (
-                    <MenuItem
-                      key={row.tag}
-                      value={row.tag}
-                    >
-                      {row.text}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
+              <TextField
+                id="content"
+                label="Content"
+                className={classes.select}
+                value={this.props.element.content || ''}
+                onChange={this.handleChange('content')}
+                margin="normal"
+              />
             </Grid>
 
             <Grid item xs={12}>

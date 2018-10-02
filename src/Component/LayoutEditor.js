@@ -16,7 +16,7 @@ class LayoutEditor extends Component {
     const meta = this.props.layout[this.props.parentId].find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
-      return {};
+      return meta.content ? { text: meta.content, tooltip: 'Free text' } : {};
     }
 
     const prop = schema.find(prop => prop.tag === meta.tag);
@@ -67,7 +67,7 @@ class LayoutEditor extends Component {
         containerPadding={[0, 0]}
         isDraggable={this.props.parentId === this.props.selectedGroupId}
         margin={[0, 0]}
-        compactType={null}
+        compactType={layout === 'absolute' ? null : 'vertical'}
         preventCollision={layout === 'absolute'}
         onLayoutChange={layout => this.props.onChangeLayout(layout, this.props.parentId)}
       >
