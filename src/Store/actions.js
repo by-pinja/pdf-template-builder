@@ -5,9 +5,12 @@ export const selectElement = uuid => ({
   payload: uuid
 });
 
-export const addElement = () => ({
+export const addElement = parentId => ({
   type: 'ADD_ELEMENT',
-  payload: TemplateUtil.createComponent()
+  payload: {
+    element: TemplateUtil.createComponent(),
+    parentId
+  }
 });
 
 export const updateElement = element => ({
@@ -20,9 +23,9 @@ export const removeElement = uuid => ({
   payload: uuid
 });
 
-export const setLayout = layout => ({
+export const setLayout = (layout, parentId) => ({
   type: 'SET_LAYOUT',
-  payload: layout
+  payload: {layout, parentId}
 });
 
 export const configure = configurations => ({

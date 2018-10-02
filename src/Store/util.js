@@ -3,7 +3,32 @@ export function getSelectedElementMeta(state) {
     return null;
   }
 
-  const element = state.layout.find(e => e.i === state.selectedUuid);
+  const element = state.layout[getSelectedElementGroupId(state)].find(e => e.i === state.selectedUuid);
+
+  if (!element) {
+    return null;
+  }
 
   return {...element.meta, i: state.selectedUuid};
+}
+
+export function getSelectedElementGroupId(state) {
+  if (!state.selectedUuid) {
+    return null;
+  }
+
+  let id = null;
+
+  Object.keys(state.layout).every(groupId => {
+    return state.layout[groupId].every(e => {
+      if (e.i === state.selectedUuid) {
+        id = groupId;
+        return false;
+      }
+
+      return true;
+    })
+  });
+
+  return id;
 }

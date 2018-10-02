@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import PropTypes from 'prop-types'
 import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
 import SettingTextFontContainer from '../Container/SettingTextFontContainer';
+import NoteAdd from '@material-ui/icons/NoteAdd';
 
 const styles = theme => ({
   actionButton: {
@@ -66,6 +67,19 @@ class ElementTools extends Component {
                     onClick={this.props.onRemoveElement}
                   >
                     <Delete/>
+                  </Button>
+                </Tooltip>
+
+                <Tooltip title="Add new element">
+                  <Button
+                    variant="fab"
+                    color="primary"
+                    aria-label="Add"
+                    mini={true}
+                    onClick={() => this.props.onAddElement(this.props.element.i)}
+                    className={classes.actionButton}
+                  >
+                    <NoteAdd/>
                   </Button>
                 </Tooltip>
               </Typography>

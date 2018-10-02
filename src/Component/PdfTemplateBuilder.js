@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
+import LayoutEditor from './LayoutEditor';
 
 const styles = theme => ({
   toolbox: {
@@ -75,7 +76,7 @@ class PdfTemplateBuilder extends Component {
   getComponentContent(i) {
     const schema = this.props.schema;
 
-    const meta = this.props.layout.find(e => e.i === i).meta;
+    const meta = this.props.layout.root.find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
       return {};
@@ -112,17 +113,18 @@ class PdfTemplateBuilder extends Component {
             elevation={1}
           >
             <GridLayout
-              layout={this.props.layout}
+              layout={this.props.layout.root}
               cols={cols}
               rowHeight={30}
               width={595}
               containerPadding={[0, 0]}
+              isDraggable={this.props.selectedGroupId === 'root'}
               margin={[0, 0]}
               compactType={this.props.page.layoutRelative ? 'horizontal' : null}
               preventCollision={!this.props.page.layoutRelative}
-              onLayoutChange={this.props.onChangeLayout}
+              onLayoutChange={layout => this.props.onChangeLayout(layout, 'root')}
             >
-              {this.props.layout.map(
+              {this.props.layout.root.map(
                 e => {
                   const classes = this.props.selectedUuid === e.i ? 'active' : '';
                   const content = this.getComponentContent(e.i);
@@ -157,14 +159,15 @@ class PdfTemplateBuilder extends Component {
                       key={e.i}
                       data-grid={e}
                       onClick={() => this.props.onSelectElement(e.i)}
-                      onDragEnd={e => e.stopPropagation()}
-                      style={{ boxSizing: 'border-box'}}
+                      style={{ boxSizing: 'border-box' }}
                     >
                       <Tooltip title={content.tooltip || ''}>
                         <span style={textStyle}>
                           {content.text}
                         </span>
                       </Tooltip>
+
+                      <LayoutEditor {...this.props} parentId={e.i} maxRows={e.h} />
                     </div>
                   );
                 })
@@ -179,7 +182,7 @@ class PdfTemplateBuilder extends Component {
 
 PdfTemplateBuilder.propTypes = {
   selectedUuid: PropTypes.string,
-  layout: PropTypes.array.isRequired,
+  layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
