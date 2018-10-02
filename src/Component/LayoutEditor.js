@@ -13,7 +13,7 @@ class LayoutEditor extends Component {
   getComponentContent(i) {
     const schema = this.props.schema;
 
-    const meta = this.props.layout[this.props.parentId].find(e => e.i === i).meta;
+    const meta = this.props.layout[this.props.parent.i].find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
       return meta.content ? { text: meta.content, tooltip: 'Free text' } : {};
@@ -34,15 +34,15 @@ class LayoutEditor extends Component {
   render() {
     const cols = 12;
 
-    if (!this.props.layout[this.props.parentId]) {
+    if (!this.props.layout[this.props.parent.i]) {
       return '';
     }
 
     // Paper width, TODO: refactor when add support for different page sizes
     let width = 595;
 
-    if (this.props.parentId !== 'root') {
-      const parentElement = document.querySelector('#component-' + this.props.parentId);
+    if (this.props.parent.i !== 'root') {
+      const parentElement = document.querySelector('#component-' + this.props.parent.i);
 
       if (!parentElement) {
         return '';
@@ -51,27 +51,31 @@ class LayoutEditor extends Component {
       width = parentElement.offsetWidth;
     }
 
-    let layout = 'absolute';
+    const layout = this.props.layout[this.props.parent.i];
 
-    if (this.props.parentId === 'root') {
-      layout = this.props.page.layoutRelative ? 'relative' : layout;
+    let layoutMode = 'absolute';
+
+    if (this.props.parent.i === 'root') {
+      layoutMode = this.props.page.layoutRelative ? 'relative' : layoutMode;
+    } else {
+      layoutMode = this.props.parent.meta.layoutRelative ? 'relative' : layoutMode;
     }
 
     return(
       <GridLayout
-        layout={this.props.layout[this.props.parentId]}
+        layout={layout}
         cols={cols}
         rowHeight={30}
         width={width}
-        maxRows={this.props.maxRows}
+        maxRows={this.props.parent.h}
         containerPadding={[0, 0]}
-        isDraggable={this.props.parentId === this.props.selectedGroupId}
+        isDraggable={this.props.parent.i === this.props.selectedGroupId}
         margin={[0, 0]}
-        compactType={layout === 'absolute' ? null : 'vertical'}
-        preventCollision={layout === 'absolute'}
-        onLayoutChange={layout => this.props.onChangeLayout(layout, this.props.parentId)}
+        compactType={layoutMode === 'absolute' ? null : 'vertical'}
+        preventCollision={layoutMode === 'absolute'}
+        onLayoutChange={layout => this.props.onChangeLayout(layout, this.props.parent.i)}
       >
-        {this.props.layout[this.props.parentId].map(
+        {this.props.layout[this.props.parent.i].map(
           e => {
             const classes = this.props.selectedUuid === e.i ? 'active' : '';
             const content = this.getComponentContent(e.i);
@@ -92,7 +96,7 @@ class LayoutEditor extends Component {
               textStyle.bottom = 0;
             }
 
-            if (layout === 'relative') {
+            if (layoutMode === 'relative') {
               e.w = cols;
               e.minW = cols;
             } else {
@@ -115,7 +119,7 @@ class LayoutEditor extends Component {
                   </span>
                 </Tooltip>
 
-                <LayoutEditor {...this.props} parentId={e.i} maxRows={e.h} />
+                <LayoutEditor {...this.props} parent={e} />
               </div>
             );
           })
@@ -127,6 +131,7 @@ class LayoutEditor extends Component {
 
 LayoutEditor.propTypes = {
   selectedUuid: PropTypes.string,
+  parent: PropTypes.object.isRequired,
   layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,

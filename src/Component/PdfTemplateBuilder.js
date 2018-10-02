@@ -114,7 +114,7 @@ class PdfTemplateBuilder extends Component {
             className={classes.editor}
             elevation={1}
           >
-            <LayoutEditor {...this.props} parentId="root" maxRows={undefined} />
+            <LayoutEditor {...this.props} parent={{ i: 'root' }} />
           </Paper>
         </div>
       </div>

@@ -13,6 +13,9 @@ import PropTypes from 'prop-types'
 import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
 import SettingTextFontContainer from '../Container/SettingTextFontContainer';
 import NoteAdd from '@material-ui/icons/NoteAdd';
+import FormGroup from '@material-ui/core/FormGroup/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
+import Switch from '@material-ui/core/Switch/Switch';
 
 const styles = theme => ({
   actionButton: {
@@ -30,13 +33,23 @@ class ElementTools extends Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange         = this.handleChange.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
   }
 
   handleChange = name => event => {
     const element = {
       ...this.props.element, 
       [name]: event.target.value
+    };
+
+    this.props.onUpdateElement(element);
+  };
+
+  handleChangeCheckbox = name => event => {
+    const element = {
+      ...this.props.element,
+      [name]: event.target.checked
     };
 
     this.props.onUpdateElement(element);
@@ -83,6 +96,21 @@ class ElementTools extends Component {
                   </Button>
                 </Tooltip>
               </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={this.props.element.layoutRelative}
+                      onChange={this.handleChangeCheckbox('layoutRelative')}
+                      value="layoutRelative"
+                    />
+                  }
+                  label="Use relative layout"
+                />
+              </FormGroup>
             </Grid>
 
             <Grid item xs={6}>

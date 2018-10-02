@@ -12,7 +12,8 @@ class TemplateUtil {
         verticalAlignment: 'top',
         horizontalAlignment: 'left',
         fontFamily: 'Open Sans',
-        fontSize: 16
+        fontSize: 16,
+        layoutRelative: false
       }
     };
   }

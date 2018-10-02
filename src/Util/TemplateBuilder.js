@@ -40,7 +40,7 @@ class TemplateBuilder {
     `;
   }
 
-  static getElementHtml(component, page, layout, groupId) {
+  static getElementHtml(component, page, layout, parent) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
     const content  = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
@@ -56,8 +56,10 @@ class TemplateBuilder {
     let styles = '';
     let position = 'absolute';
 
-    if (!groupId) {
-      position = page.layoutRelative ? 'relative' : 'absolute';
+    if (!parent) {
+      position = page.layoutRelative ? 'relative' : position;
+    } else {
+      position = parent.meta.layoutRelative ? 'relative' : position;
     }
 
     if (position === 'absolute') {
@@ -74,7 +76,7 @@ class TemplateBuilder {
     }
 
     const children = (layout[component.i] || []).map(
-      element => this.getElementHtml(element, page, layout, component.i)
+      element => this.getElementHtml(element, page, layout, component)
     ).join('');
 
     return `
