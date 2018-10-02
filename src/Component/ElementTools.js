@@ -19,7 +19,8 @@ import Switch from '@material-ui/core/Switch/Switch';
 
 const styles = theme => ({
   actionButton: {
-    float: 'right'
+    float: 'right',
+    marginLeft: theme.spacing.unit
   },
   card: {
     marginTop: theme.spacing.unit * 2

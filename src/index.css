@@ -15,4 +15,5 @@ body, html {
 .react-grid-item {
   outline: 1px solid #eee;
   overflow: hidden;
+  transition: none !important;
 }
