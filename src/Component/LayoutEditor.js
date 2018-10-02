@@ -86,7 +86,8 @@ class LayoutEditor extends Component {
               textAlign: meta.horizontalAlignment,
               width: '100%',
               fontFamily: meta.fontFamily,
-              fontSize: Number(meta.fontSize || 16)
+              fontSize: Number(meta.fontSize || 16),
+              color: meta.color
             };
 
             if (meta.verticalAlignment === 'middle') {
