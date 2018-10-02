@@ -32,3 +32,24 @@ export function getSelectedElementGroupId(state) {
 
   return id;
 }
+
+export function getParentElement(uuid, state) {
+  if (!uuid) {
+    return null;
+  }
+
+  let parent = null;
+
+  Object.keys(state.layout).every(groupId => {
+    return state.layout[groupId].every(e => {
+      if (e.i === uuid) {
+        parent = e;
+        return false;
+      }
+
+      return true;
+    })
+  });
+
+  return parent;
+}

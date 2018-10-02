@@ -19,7 +19,7 @@ class LayoutEditor extends Component {
       return meta.content ? { text: meta.content, tooltip: 'Free text' } : {};
     }
 
-    const prop = schema.find(prop => prop.tag === meta.tag);
+    const prop = schema.find(prop => prop.tag === meta.tag.value);
 
     if (!prop) {
       return {};

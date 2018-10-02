@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import PropTypes from 'prop-types'
 import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
 import SettingTextFontContainer from '../Container/SettingTextFontContainer';
@@ -16,6 +15,7 @@ import NoteAdd from '@material-ui/icons/NoteAdd';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
+import Select from 'react-select';
 
 const styles = theme => ({
   actionButton: {
@@ -42,7 +42,7 @@ class ElementTools extends Component {
   handleChange = name => event => {
     const element = {
       ...this.props.element, 
-      [name]: event.target.value
+      [name]: (event.target ? event.target.value : event)
     };
 
     this.props.onUpdateElement(element);
@@ -58,11 +58,28 @@ class ElementTools extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
 
     if (!this.props.element) {
       return '';
     }
+
+    const selectStyles = {
+      control: base => ({
+        ...base,
+        ...theme.typography.body1
+      }),
+      option: base => ({
+        ...base,
+        ...theme.typography.body1
+      }),
+      groupHeading: base => ({
+        ...base,
+        ...theme.typography.caption
+      })
+    };
+
+    const toLabel = schema => ({ label: schema.text, value: schema.tag });
 
     return (
       <Card className={classes.card}>
@@ -116,25 +133,19 @@ class ElementTools extends Component {
             </Grid>
 
             <Grid item xs={6}>
-              <TextField
+              <Select
+                classes={classes}
                 id="tag"
-                label="Bind"
+                label="Bind to property"
                 className={classes.select}
-                select
-                value={this.props.element.tag || ''}
+                value={this.props.element.tag || null}
                 onChange={this.handleChange('tag')}
-                margin="normal"
-                SelectProps={{}}
-              >
-                {this.props.schema.map(row => (
-                  <MenuItem
-                    key={row.tag}
-                    value={row.tag}
-                  >
-                    {row.text}
-                  </MenuItem>
-                ))}
-              </TextField>
+                options={
+                  this.props.schema
+                    .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
+                }
+                styles={selectStyles}
+              />
             </Grid>
 
             <Grid item xs={12}>
@@ -166,4 +177,4 @@ ElementTools.propTypes = {
   onUpdateElement: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(ElementTools);
+export default withStyles(styles, { withTheme: true })(ElementTools);
