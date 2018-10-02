@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
 import GridLayout from 'react-grid-layout';
+import PropTypes from 'prop-types';
 
 class LayoutEditor extends Component {
   constructor(props) {
@@ -37,13 +38,24 @@ class LayoutEditor extends Component {
       return '';
     }
 
-    const parentElement = document.querySelector('#component-' + this.props.parentId);
+    // Paper width, TODO: refactor when add support for different page sizes
+    let width = 595;
 
-    if (!parentElement) {
-      return '';
+    if (this.props.parentId !== 'root') {
+      const parentElement = document.querySelector('#component-' + this.props.parentId);
+
+      if (!parentElement) {
+        return '';
+      }
+
+      width = parentElement.offsetWidth;
     }
 
-    const width = parentElement.offsetWidth;
+    let layout = 'absolute';
+
+    if (this.props.parentId === 'root') {
+      layout = this.props.page.layoutRelative ? 'relative' : layout;
+    }
 
     return(
       <GridLayout
@@ -56,7 +68,7 @@ class LayoutEditor extends Component {
         isDraggable={this.props.parentId === this.props.selectedGroupId}
         margin={[0, 0]}
         compactType={null}
-        preventCollision={true}
+        preventCollision={layout === 'absolute'}
         onLayoutChange={layout => this.props.onChangeLayout(layout, this.props.parentId)}
       >
         {this.props.layout[this.props.parentId].map(
@@ -78,6 +90,13 @@ class LayoutEditor extends Component {
               textStyle.transform = 'translateY(-50%)'
             } else if (meta.verticalAlignment === 'bottom') {
               textStyle.bottom = 0;
+            }
+
+            if (layout === 'relative') {
+              e.w = cols;
+              e.minW = cols;
+            } else {
+              delete e.minW;
             }
 
             return (
@@ -105,5 +124,18 @@ class LayoutEditor extends Component {
     );
   }
 }
+
+LayoutEditor.propTypes = {
+  selectedUuid: PropTypes.string,
+  layout: PropTypes.object.isRequired,
+  page: PropTypes.object.isRequired,
+  onSelectElement: PropTypes.func.isRequired,
+  onChangeLayout: PropTypes.func.isRequired,
+  onDoConfigure: PropTypes.func.isRequired,
+  onDeleteElement: PropTypes.func.isRequired,
+  onUndo: PropTypes.func.isRequired,
+  onRedo: PropTypes.func.isRequired,
+  onClearHistory: PropTypes.func.isRequired
+};
 
 export default LayoutEditor;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import GridLayout from 'react-grid-layout';
 import PageToolsContainer from './../Container/PageToolsContainer';
 import Paper from '@material-ui/core/Paper/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import TemplateBuilder from './../Util/TemplateBuilder';
-import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
@@ -96,7 +94,6 @@ class PdfTemplateBuilder extends Component {
 
   render() {
     const { classes } = this.props;
-    const cols = 12;
 
     return (
       <div>
@@ -112,67 +109,7 @@ class PdfTemplateBuilder extends Component {
             className={classes.editor}
             elevation={1}
           >
-            <GridLayout
-              layout={this.props.layout.root}
-              cols={cols}
-              rowHeight={30}
-              width={595}
-              containerPadding={[0, 0]}
-              isDraggable={this.props.selectedGroupId === 'root'}
-              margin={[0, 0]}
-              compactType={this.props.page.layoutRelative ? 'horizontal' : null}
-              preventCollision={!this.props.page.layoutRelative}
-              onLayoutChange={layout => this.props.onChangeLayout(layout, 'root')}
-            >
-              {this.props.layout.root.map(
-                e => {
-                  const classes = this.props.selectedUuid === e.i ? 'active' : '';
-                  const content = this.getComponentContent(e.i);
-                  const { meta } = e;
-
-                  const textStyle = {
-                    position: 'absolute',
-                    textAlign: meta.horizontalAlignment,
-                    width: '100%',
-                    fontFamily: meta.fontFamily,
-                    fontSize: Number(meta.fontSize || 16)
-                  };
-
-                  if (this.props.page.layoutRelative) {
-                    e.w = cols;
-                    e.minW = cols;
-                  } else {
-                    delete e.minW;
-                  }
-
-                  if (meta.verticalAlignment === 'middle') {
-                    textStyle.top = '50%';
-                    textStyle.transform = 'translateY(-50%)'
-                  } else if (meta.verticalAlignment === 'bottom') {
-                    textStyle.bottom = 0;
-                  }
-
-                  return (
-                    <div
-                      id={'component-' + e.i}
-                      className={classes}
-                      key={e.i}
-                      data-grid={e}
-                      onClick={() => this.props.onSelectElement(e.i)}
-                      style={{ boxSizing: 'border-box' }}
-                    >
-                      <Tooltip title={content.tooltip || ''}>
-                        <span style={textStyle}>
-                          {content.text}
-                        </span>
-                      </Tooltip>
-
-                      <LayoutEditor {...this.props} parentId={e.i} maxRows={e.h} />
-                    </div>
-                  );
-                })
-              }
-            </GridLayout>
+            <LayoutEditor {...this.props} parentId="root" maxRows={undefined} />
           </Paper>
         </div>
       </div>
