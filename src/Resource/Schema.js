@@ -16,6 +16,20 @@ class Schema {
       type: 'array',
       tag: 'rows',
       text: 'Invoice rows',
+      example: [
+        {
+          title: 'Dog house',
+          quantity: '4.99'
+        },
+        {
+          title: 'Cat house',
+          quantity: '12.00'
+        },
+        {
+          title: 'Mouse house',
+          quantity: '1.99'
+        }
+      ],
       items: [
         {
           type: 'text',

@@ -42,7 +42,7 @@ class ElementTools extends Component {
   handleChange = name => event => {
     const element = {
       ...this.props.element, 
-      [name]: (event.target ? event.target.value : event)
+      [name]: (event.target ? event.target.value : (event.length !== undefined ? null : event))
     };
 
     this.props.onUpdateElement(element);
@@ -79,7 +79,12 @@ class ElementTools extends Component {
       })
     };
 
-    const toLabel = schema => ({ label: schema.text, value: schema.tag });
+    const toLabel = schema => ({
+      label: schema.text,
+      value: schema.tag,
+      type: schema.type,
+      example: schema.example
+    });
 
     return (
       <Card className={classes.card}>

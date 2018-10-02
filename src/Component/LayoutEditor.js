@@ -11,23 +11,17 @@ class LayoutEditor extends Component {
   }
 
   getComponentContent(i) {
-    const schema = this.props.schema;
-
     const meta = this.props.layout[this.props.parent.i].find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
       return meta.content ? { text: meta.content, tooltip: 'Free text' } : {};
     }
 
-    const prop = schema.find(prop => prop.tag === meta.tag.value);
-
-    if (!prop) {
-      return {};
-    }
+    const example = meta.tag.example;
 
     return {
-      text: prop.example,
-      tooltip: prop.text
+      text: (!example || typeof example === typeof []) ? '' : example,
+      tooltip: meta.tag.label
     };
   }
 
