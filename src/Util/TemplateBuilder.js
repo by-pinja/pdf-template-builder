@@ -1,23 +1,19 @@
 class TemplateBuilder {
-  static buildTemplate(layout) {
-    const contents = layout
-      .map(component => TemplateBuilder.getElementHtml(component))
+  static buildTemplate(layout, page) {
+    const contents = layout.root
+      .map(component => this.getElementHtml(component, page, layout))
       .join('');
 
     return `
       <html>
-        ${TemplateBuilder.getHead(layout)}
-        ${TemplateBuilder.getBody(contents)}
+        ${this.getHead(layout)}
+        ${this.getBody(contents)}
       </html>
     `;
   }
 
   static getHead(layout) {
-    function onlyUnique(value, index, self) {
-      return self.indexOf(value) === index;
-    }
-
-    const fonts = layout.map(c => (c.meta.fontFamily || 'Open Sans').replace(' ', '+')).filter(onlyUnique).join('|');
+    const fonts = this.getUsedFonts(layout).map(font => font.replace(' ', '+')).join('|');
 
     return `
       <head>
@@ -44,12 +40,89 @@ class TemplateBuilder {
     `;
   }
 
-  static getElementHtml(component) {
+  static getElementHtml(component, page, layout, parent) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
-    const content = component.meta.tag ? `{{${component.meta.tag}}}` : component.meta.content;
+    const content = this.getComponentContent(component, page, layout);
 
-    const textStyle = window.getComputedStyle(document.querySelector(selector + ' span'));
+    let styles = '';
+    let position = 'absolute';
+
+    if (!parent) {
+      position = page.layoutRelative ? 'relative' : position;
+    } else {
+      position = parent.meta.layoutRelative ? 'relative' : position;
+    }
+
+    if (position === 'absolute') {
+      styles += `
+        -webkit-transform: ${style.getPropertyValue('transform')}; /** Required for PhantomJS */ 
+        height: ${style.getPropertyValue('height')};
+        overflow: hidden;
+      `;
+    } else if (position === 'relative') {
+      styles += `
+        display: block; 
+        min-height: ${style.getPropertyValue('height')};
+      `;
+    }
+
+    let start = '';
+    let end = '';
+
+    // Add mustache loop tags if element schema is defined as 'array'
+    if (component.meta.tag && component.meta.tag.type === 'array') {
+      start = `{{#${component.meta.tag.value}}}`;
+      end   = `{{/${component.meta.tag.value}}}`;
+    }
+
+    return `
+        ${start}
+        <div style='
+          position: ${position};
+          ${styles}
+          width: ${style.getPropertyValue('width')};
+          font-size: ${style.getPropertyValue('font-size')};
+          font-family: ${style.getPropertyValue('font-family')};
+          box-sizing: border-box;
+          padding: 0;
+          margin: 0;
+          outline: 1px solid;
+        '>
+          ${content}
+        </div>
+        ${end}
+      `;
+  }
+
+  static getComponentContent(component, page, layout) {
+    const children = (layout[component.i] || []).map(
+      element => this.getElementHtml(element, page, layout, component)
+    ).join('') || '';
+
+    if (!component.meta.tag) {
+      return this.createTextBlock(component, component.meta.content) + children;
+    }
+
+    if (component.meta.tag.type === 'text') {
+      return this.createTextBlock(component, `{{${component.meta.tag.value}}}`) + children;
+    }
+
+    if (component.meta.tag.type === 'array') {
+     return children;
+    }
+
+    return '';
+  }
+
+  static createTextBlock(component, content) {
+    if (!content) {
+      return '';
+    }
+
+    const textStyle = window.getComputedStyle(
+      document.querySelector(`#component-${component.i} span`)
+    );
 
     let verticalAlign = '';
 
@@ -58,34 +131,34 @@ class TemplateBuilder {
     }
 
     return `
-        <div style='
-          position: absolute;
-          -webkit-transform: ${style.getPropertyValue('transform')}; /** Required for PhantomJS */
-          width: ${style.getPropertyValue('width')};
-          height: ${style.getPropertyValue('height')};
-          font-size: ${style.getPropertyValue('font-size')};
-          font-family: ${style.getPropertyValue('font-family')};
-          box-sizing: border-box;
-          padding: 0;
-          margin: 0;
-        '>
-          <span style='
-            position: absolute;
-            bottom: ${textStyle.getPropertyValue('bottom')}; 
-            top: ${textStyle.getPropertyValue('top')}; 
-            text-align: ${textStyle.getPropertyValue('text-align')};
-            font-family: ${textStyle.getPropertyValue('font-family')};
-            font-size: ${textStyle.getPropertyValue('font-size')};
-            color: ${textStyle.getPropertyValue('color')};
-            width: 100%;
-            ${verticalAlign}
-          '>
-            ${content}
-          </span>
-        </div>
-      `;
+      <span style='
+        position: relative;
+        display: block;
+        bottom: ${textStyle.getPropertyValue('bottom')}; 
+        top: ${textStyle.getPropertyValue('top')}; 
+        text-align: ${textStyle.getPropertyValue('text-align')};
+        font-family: ${textStyle.getPropertyValue('font-family')};
+        font-size: ${textStyle.getPropertyValue('font-size')};
+        color: ${textStyle.getPropertyValue('color')};
+        width: 100%;
+        ${verticalAlign}
+      '>
+        ${content}
+      </span>
+    `;
   }
 
+  static getUsedFonts(layout) {
+    const fonts = [];
+
+    Object.keys(layout).forEach(groupId => {
+      return layout[groupId].forEach(e => {
+        !fonts.includes(e.meta.fontFamily) && fonts.push(e.meta.fontFamily);
+      })
+    });
+
+    return fonts;
+  }
 }
 
 export default TemplateBuilder;

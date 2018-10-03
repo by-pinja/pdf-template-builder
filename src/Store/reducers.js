@@ -1,20 +1,29 @@
 import update from 'immutability-helper';
 import Schema from '../Resource/Schema';
 import undoable, { excludeAction } from 'redux-undo';
+import { getSelectedElementGroupId } from './util';
 
 const initialState = getInitialState();
 
 const store = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_ELEMENT':
+      const parentId = action.payload.parentId || 'root';
+
+      if (!state.layout[parentId]) {
+        state.layout[parentId] = [];
+      }
+
       return update(
         {
           ...state,
-          selectedUuid: action.payload.i
+          selectedUuid: action.payload.element.i
         },
         {
           layout: {
-            $push: [action.payload]
+            [action.payload.parentId || 'root']: {
+              $push: [action.payload.element]
+            }
           }
         }
       );
@@ -22,7 +31,9 @@ const store = (state = initialState, action) => {
     case 'REMOVE_ELEMENT':
       return update(state, {
         layout: {
-          $splice: [[state.layout.findIndex(l => l.i === action.payload), 1]]
+          [getSelectedElementGroupId(state)]: {
+            $splice: [[state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload), 1]]
+          }
         },
         $unset: ['selectedUuid']
       });
@@ -30,9 +41,11 @@ const store = (state = initialState, action) => {
     case 'UPDATE_ELEMENT':
       return update(state, {
         layout: {
-          [state.layout.findIndex(l => l.i === action.payload.i)]: {
-            meta: {
-              $set: action.payload
+          [getSelectedElementGroupId(state)]: {
+            [state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload.i)]: {
+              meta: {
+                $set: action.payload
+              }
             }
           }
         }
@@ -48,15 +61,18 @@ const store = (state = initialState, action) => {
     case 'SET_LAYOUT':
       const newState = {
         ...state,
-        layout: action.payload.map(component => {
-          const index = state.layout.findIndex(l => l.i === component.i);
+        layout: {
+          ...state.layout,
+          [action.payload.parentId]: action.payload.layout.map(component => {
+            const index = state.layout[action.payload.parentId].findIndex(l => l.i === component.i);
 
-          if (index >= 0) {
-            return {...component, meta: state.layout[index].meta};
-          }
+            if (index >= 0) {
+              return {...component, meta: state.layout[action.payload.parentId][index].meta};
+            }
 
-          return component;
-        })
+            return component;
+          })
+        }
       };
 
       // Return the same state if really nothing changed (history works better)
@@ -66,6 +82,19 @@ const store = (state = initialState, action) => {
 
       return newState;
 
+    case 'IMPORT_TEMPLATE':
+      return update(
+        state,
+        {
+          layout: {
+            $set: action.payload.layout
+          },
+          page: {
+            $set: action.payload.page
+          }
+        }
+      );
+
     case 'CONFIGURE':
       return {
         ...state,
@@ -73,6 +102,13 @@ const store = (state = initialState, action) => {
         schema: action.payload.schema || [],
         onSaveTemplate: action.payload.onSaveTemplate
       };
+
+    case 'UPDATE_PAGE':
+      return update(state, {
+        page: {
+          $merge: action.payload
+        }
+      });
     default:
       return state;
   }
@@ -80,10 +116,15 @@ const store = (state = initialState, action) => {
 
 function getInitialState() {
   const state = {
-    layout: [],
+    layout: {
+      root: []
+    },
     schema: [],
     selectedUuid: null,
-    pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI
+    pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI,
+    page: {
+      layoutRelative: true
+    }
   };
 
   if (process.env.NODE_ENV === 'development') {

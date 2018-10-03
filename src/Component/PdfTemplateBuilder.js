@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import GridLayout from 'react-grid-layout';
 import PageToolsContainer from './../Container/PageToolsContainer';
 import Paper from '@material-ui/core/Paper/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import TemplateBuilder from './../Util/TemplateBuilder';
-import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
+import LayoutEditor from './LayoutEditor';
 
 const styles = theme => ({
   toolbox: {
@@ -43,21 +42,28 @@ class PdfTemplateBuilder extends Component {
   }
 
   getTemplateHtml() {
-    return TemplateBuilder.buildTemplate(this.props.layout);
+    return TemplateBuilder.buildTemplate(this.props.layout, this.props.page);
   }
 
   exportTemplate() {
-    return this.props.layout;
+    return { page: this.props.page, layout: this.props.layout };
   }
 
   importTemplate(config) {
     this.props.onSelectElement(null);
-    this.props.onChangeLayout(config);
+    this.props.onImportTemplate(config);
     this.props.onClearHistory();
+
+    // Required for nested elements to render properly
+    this.forceUpdate();
   }
 
   componentDidMount() {
     document.addEventListener('keydown', e => {
+      if (['input', 'textarea'].includes(e.target.tagName.toLowerCase())) {
+        return;
+      }
+
       if (e.ctrlKey && e.code === 'KeyZ') {
         if (e.shiftKey) {
           return this.props.onRedo();
@@ -69,13 +75,17 @@ class PdfTemplateBuilder extends Component {
       if (e.code === 'Backspace') {
         this.props.onDeleteElement(this.props.selectedUuid);
       }
+
+      if (e.code === 'Escape') {
+        this.props.onSelectElement(null);
+      }
     });
   }
 
   getComponentContent(i) {
     const schema = this.props.schema;
 
-    const meta = this.props.layout.find(e => e.i === i).meta;
+    const meta = this.props.layout.root.find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
       return {};
@@ -102,66 +112,16 @@ class PdfTemplateBuilder extends Component {
 
         <div className={classes.container}>
           <div className={classes.toolbox}>
-
             <PageToolsContainer />
             <ElementToolsContainer />
           </div>
 
           <Paper
+            id="editor"
             className={classes.editor}
             elevation={1}
           >
-            <GridLayout
-              layout={this.props.layout}
-              cols={12}
-              rowHeight={30}
-              width={595}
-              compactType={null}
-              preventCollision={true}
-              onLayoutChange={this.props.onChangeLayout}
-            >
-              {this.props.layout.map(
-                e => {
-                  const classes = this.props.selectedUuid === e.i ? 'active' : '';
-                  const content = this.getComponentContent(e.i);
-                  const { meta } = e;
-
-                  const textStyle = {
-                    position: 'absolute',
-                    textAlign: meta.horizontalAlignment,
-                    width: '100%',
-                    fontFamily: meta.fontFamily,
-                    fontSize: Number(meta.fontSize || 16),
-                    color: meta.color || '#000'
-                  };
-
-                  if (meta.verticalAlignment === 'middle') {
-                    textStyle.top = '50%';
-                    textStyle.transform = 'translateY(-50%)'
-                  } else if (meta.verticalAlignment === 'bottom') {
-                    textStyle.bottom = 0;
-                  }
-
-                  return (
-                    <div
-                      id={'component-' + e.i}
-                      className={classes}
-                      key={e.i}
-                      data-grid={e}
-                      onClick={() => this.props.onSelectElement(e.i)}
-                      onDragEnd={e => e.stopPropagation()}
-                      style={{ boxSizing: 'border-box'}}
-                    >
-                      <Tooltip title={content.tooltip || ''}>
-                        <span style={textStyle}>
-                          {content.text}
-                        </span>
-                      </Tooltip>
-                    </div>
-                  );
-                })
-              }
-            </GridLayout>
+            <LayoutEditor {...this.props} parent={{ i: 'root' }} />
           </Paper>
         </div>
       </div>
@@ -171,10 +131,12 @@ class PdfTemplateBuilder extends Component {
 
 PdfTemplateBuilder.propTypes = {
   selectedUuid: PropTypes.string,
-  layout: PropTypes.array.isRequired,
+  layout: PropTypes.object.isRequired,
+  page: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,
+  onImportTemplate: PropTypes.func.isRequired,
   onDeleteElement: PropTypes.func.isRequired,
   onUndo: PropTypes.func.isRequired,
   onRedo: PropTypes.func.isRequired,
