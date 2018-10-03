@@ -8,12 +8,21 @@ body, html {
 }
 
 .react-grid-item.active {
-  outline: 1px solid orange !important;
+  border: 1px dashed #3f51b5;
   z-index: 20;
 }
 
 .react-grid-item {
-  outline: 1px solid #eee;
+  border: 1px solid transparent;
   overflow: hidden;
-  transition: none !important;
+  transition: background-color 0.1s !important;
+}
+
+.react-grid-item:not(.active) .react-resizable-handle {
+  display: none;
+}
+
+.react-grid-item:not(.active):hover {
+  background: rgba(63, 81, 181, 0.3);
+  border: 1px dashed #007899;
 }
