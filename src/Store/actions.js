@@ -28,6 +28,11 @@ export const setLayout = (layout, parentId) => ({
   payload: {layout, parentId}
 });
 
+export const importTemplate = data => ({
+  type: 'IMPORT_TEMPLATE',
+  payload: data
+});
+
 export const configure = configurations => ({
   type: 'CONFIGURE',
   payload: configurations

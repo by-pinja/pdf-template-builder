@@ -8,9 +8,9 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import PropTypes from 'prop-types'
-import FormControlLabel from '@material-ui/core/es/FormControlLabel/FormControlLabel';
-import Switch from '@material-ui/core/es/Switch/Switch';
-import FormGroup from '@material-ui/core/es/FormGroup/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
+import Switch from '@material-ui/core/Switch/Switch';
+import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 
 const styles = theme => ({
   actionButton: {

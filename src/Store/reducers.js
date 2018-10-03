@@ -82,6 +82,19 @@ const store = (state = initialState, action) => {
 
       return newState;
 
+    case 'IMPORT_TEMPLATE':
+      return update(
+        state,
+        {
+          layout: {
+            $set: action.payload.layout
+          },
+          page: {
+            $set: action.payload.page
+          }
+        }
+      );
+
     case 'CONFIGURE':
       return {
         ...state,

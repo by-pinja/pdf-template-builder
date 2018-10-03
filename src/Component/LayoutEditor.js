@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import GridLayout from 'react-grid-layout';
 import PropTypes from 'prop-types';
 

@@ -46,13 +46,16 @@ class PdfTemplateBuilder extends Component {
   }
 
   exportTemplate() {
-    return this.props.layout;
+    return { page: this.props.page, layout: this.props.layout };
   }
 
   importTemplate(config) {
     this.props.onSelectElement(null);
-    this.props.onChangeLayout(config);
+    this.props.onImportTemplate(config);
     this.props.onClearHistory();
+
+    // Required for nested elements to render properly
+    this.forceUpdate();
   }
 
   componentDidMount() {
@@ -71,6 +74,10 @@ class PdfTemplateBuilder extends Component {
 
       if (e.code === 'Backspace') {
         this.props.onDeleteElement(this.props.selectedUuid);
+      }
+
+      if (e.code === 'Escape') {
+        this.props.onSelectElement(null);
       }
     });
   }
@@ -129,6 +136,7 @@ PdfTemplateBuilder.propTypes = {
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,
+  onImportTemplate: PropTypes.func.isRequired,
   onDeleteElement: PropTypes.func.isRequired,
   onUndo: PropTypes.func.isRequired,
   onRedo: PropTypes.func.isRequired,
