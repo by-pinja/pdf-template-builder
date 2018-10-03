@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
 import SettingTextFontContainer from '../Container/SettingTextFontContainer';
 import NoteAdd from '@material-ui/icons/NoteAdd';
+import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
@@ -28,6 +29,9 @@ const styles = theme => ({
   },
   select: {
     width: '100%'
+  },
+  iconLeft: {
+    marginRight: theme.spacing.unit
   }
 });
 
@@ -37,6 +41,7 @@ class ElementTools extends Component {
 
     this.handleChange         = this.handleChange.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
+    this.handleImageUpload    = this.handleImageUpload.bind(this);
   }
 
   handleChange = name => event => {
@@ -55,6 +60,26 @@ class ElementTools extends Component {
     };
 
     this.props.onUpdateElement(element);
+  };
+
+  handleImageUpload = event => {
+    if (!event.target.files.length) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+
+    reader.onload = () => {
+      const element = {
+        ...this.props.element,
+        image: reader.result
+      };
+
+      this.props.onUpdateElement(element);
+    };
+
+    reader.onerror = console.error;
   };
 
   render() {
@@ -135,6 +160,23 @@ class ElementTools extends Component {
                   label="Use relative layout"
                 />
               </FormGroup>
+            </Grid>
+
+            <Grid item xs={6}>
+              <input
+                id="file-input"
+                accept="image/*"
+                type="file"
+                style={{ display: 'none' }}
+                onChange={this.handleImageUpload}
+              />
+
+              <label htmlFor="file-input">
+                <Button variant="raised" color="primary" component="span">
+                  <AddAPhoto className={classes.iconLeft} />
+                  Upload image
+                </Button>
+              </label>
             </Grid>
 
             <Grid item xs={6}>

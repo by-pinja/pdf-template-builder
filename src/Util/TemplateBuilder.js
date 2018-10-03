@@ -87,9 +87,9 @@ class TemplateBuilder {
           box-sizing: border-box;
           padding: 0;
           margin: 0;
-          outline: 1px solid;
         '>
           ${content}
+          <img src="${component.meta.image}" style="width: 100%"/>
         </div>
         ${end}
       `;
