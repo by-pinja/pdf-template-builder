@@ -7,7 +7,6 @@ class LayoutEditor extends Component {
   constructor(props) {
     super(props);
 
-    this.getGridBackground   = this.getGridBackground.bind(this);
     this.getComponentContent = this.getComponentContent.bind(this);
   }
 
@@ -24,21 +23,6 @@ class LayoutEditor extends Component {
       text: (!example || typeof example === typeof []) ? '' : example,
       tooltip: meta.tag.label
     };
-  }
-
-  getGridBackground(cellSize, cols, margin = 0) {
-    const content = Array.apply(null, { length: cols + 1 }).map(Number.call, Number)
-      .map(
-        (a, i) =>
-          `<rect stroke='rgb(0, 0, 0, 0.03)' stroke-width='1' fill='none' x='${Math.round(
-            margin / 2 + i * cellSize,
-          )}' y='${margin / 2}' width='${Math.round(
-            cellSize - margin,
-          )}' height='${cellSize - margin}'/>`,
-      )
-      .join('');
-
-    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${cellSize * cols}' height='${cellSize}'>${content}</svg>")`;
   }
 
   render() {
@@ -63,6 +47,7 @@ class LayoutEditor extends Component {
     }
 
     const layout = this.props.layout[parentId];
+    const cols   = width / cellSize;
 
     let layoutMode = 'absolute';
 
@@ -72,83 +57,71 @@ class LayoutEditor extends Component {
       layoutMode = this.props.parent.meta.layoutRelative ? 'relative' : layoutMode;
     }
 
-    const cols = width / cellSize;
-    let backgroundImage = '';
-
-    // Show grid only in the root element
-    if (parentId === 'root') {
-      backgroundImage = this.getGridBackground(15, cols);
-    }
-
     return(
-      <div
-       style={{ backgroundImage }}
+      <GridLayout
+        layout={layout}
+        cols={width / cellSize}
+        rowHeight={cellSize}
+        width={width}
+        maxRows={this.props.parent.h}
+        containerPadding={[0, 0]}
+        isDraggable={parentId === this.props.selectedGroupId}
+        margin={[0, 0]}
+        compactType={layoutMode === 'absolute' ? null : 'vertical'}
+        preventCollision={layoutMode === 'absolute'}
+        onLayoutChange={layout => this.props.onChangeLayout(layout, parentId)}
       >
-        <GridLayout
-          layout={layout}
-          cols={width / cellSize}
-          rowHeight={cellSize}
-          width={width}
-          maxRows={this.props.parent.h}
-          containerPadding={[0, 0]}
-          isDraggable={parentId === this.props.selectedGroupId}
-          margin={[0, 0]}
-          compactType={layoutMode === 'absolute' ? null : 'vertical'}
-          preventCollision={layoutMode === 'absolute'}
-          onLayoutChange={layout => this.props.onChangeLayout(layout, parentId)}
-        >
-          {layout.map(
-            e => {
-              const classes = this.props.selectedUuid === e.i ? 'active' : '';
-              const content = this.getComponentContent(e.i);
-              const { meta } = e;
+        {layout.map(
+          e => {
+            const classes = this.props.selectedUuid === e.i ? 'active' : '';
+            const content = this.getComponentContent(e.i);
+            const { meta } = e;
 
-              const textStyle = {
-                position: 'absolute',
-                textAlign: meta.horizontalAlignment,
-                width: '100%',
-                fontFamily: meta.fontFamily,
-                fontSize: Number(meta.fontSize || 16),
-                color: meta.color
-              };
+            const textStyle = {
+              position: 'absolute',
+              textAlign: meta.horizontalAlignment,
+              width: '100%',
+              fontFamily: meta.fontFamily,
+              fontSize: Number(meta.fontSize || 16),
+              color: meta.color
+            };
 
-              if (meta.verticalAlignment === 'middle') {
-                textStyle.top = '50%';
-                textStyle.transform = 'translateY(-50%)'
-              } else if (meta.verticalAlignment === 'bottom') {
-                textStyle.bottom = 0;
-              }
+            if (meta.verticalAlignment === 'middle') {
+              textStyle.top = '50%';
+              textStyle.transform = 'translateY(-50%)'
+            } else if (meta.verticalAlignment === 'bottom') {
+              textStyle.bottom = 0;
+            }
 
-              if (layoutMode === 'relative') {
-                e.w = cols;
-                e.minW = cols;
-              } else {
-                delete e.minW;
-              }
+            if (layoutMode === 'relative') {
+              e.w = cols;
+              e.minW = cols;
+            } else {
+              delete e.minW;
+            }
 
-              return (
-                <div
-                  id={'component-' + e.i}
-                  className={classes}
-                  key={e.i}
-                  data-grid={e}
-                  onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i)}
-                  onDragEnd={e => e.stopPropagation()}
-                  style={{ boxSizing: 'border-box'}}
-                >
-                  <Tooltip title={content.tooltip || ''}>
-                    <span style={textStyle}>
-                      {content.text}
-                    </span>
-                  </Tooltip>
+            return (
+              <div
+                id={'component-' + e.i}
+                className={classes}
+                key={e.i}
+                data-grid={e}
+                onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i)}
+                onDragEnd={e => e.stopPropagation()}
+                style={{ boxSizing: 'border-box'}}
+              >
+                <Tooltip title={content.tooltip || ''}>
+                  <span style={textStyle}>
+                    {content.text}
+                  </span>
+                </Tooltip>
 
-                  <LayoutEditor {...this.props} parent={e} />
-                </div>
-              );
-            })
-          }
-        </GridLayout>
-      </div>
+                <LayoutEditor {...this.props} parent={e} />
+              </div>
+            );
+          })
+        }
+      </GridLayout>
     );
   }
 }

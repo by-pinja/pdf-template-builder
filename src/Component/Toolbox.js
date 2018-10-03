@@ -7,6 +7,7 @@ import PreviewButtonContainer from '../Container/PreviewButtonContainer';
 import UndoButtonContainer from '../Container/UndoButtonContainer';
 import RedoButtonContainer from '../Container/RedoButtonContainer';
 import SaveButtonContainer from '../Container/SaveButtonContainer';
+import ToggleGridButtonContainer from '../Container/ToggleGridButtonContainer';
 
 const styles = theme => ({
   bar: {
@@ -28,6 +29,7 @@ class Toolbox extends Component {
             PDF template builder
           </Typography>
 
+          <ToggleGridButtonContainer />
           <UndoButtonContainer />
           <RedoButtonContainer />
           <PreviewButtonContainer />

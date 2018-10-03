@@ -12,7 +12,8 @@ if (process.env.REACT_APP_MODE === 'standalone') {
 
   builder.configure({
     onSaveTemplate: () => localStorage.setItem('layout', JSON.stringify(builder.exportTemplate())),
-    schema: new Schema().forExample()
+    schema: new Schema().forExample(),
+    pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI
   });
 
   try {

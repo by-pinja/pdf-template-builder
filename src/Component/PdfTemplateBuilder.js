@@ -35,6 +35,7 @@ class PdfTemplateBuilder extends Component {
 
     this.getTemplateHtml     = this.getTemplateHtml.bind(this);
     this.getComponentContent = this.getComponentContent.bind(this);
+    this.getGridBackground   = this.getGridBackground.bind(this);
   }
 
   configure(props) {
@@ -103,6 +104,28 @@ class PdfTemplateBuilder extends Component {
     };
   }
 
+  getGridBackground() {
+    if (!this.props.gridVisible) {
+      return '';
+    }
+
+    const cellSize = 15;
+    const cols = 595 / cellSize; // TODO: use page width
+
+    const content = Array.apply(null, { length: cols + 1 }).map(Number.call, Number)
+      .map(
+        (a, i) =>
+          `<rect stroke='rgb(0, 0, 0, 0.03)' stroke-width='1' fill='none' x='${Math.round(
+            0 / 2 + i * cellSize,
+          )}' y='${0 / 2}' width='${Math.round(
+            cellSize,
+          )}' height='${cellSize}'/>`,
+      )
+      .join('');
+
+    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${cellSize * cols}' height='${cellSize}'>${content}</svg>")`;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -120,6 +143,7 @@ class PdfTemplateBuilder extends Component {
             id="editor"
             className={classes.editor}
             elevation={1}
+            style={{ backgroundImage: this.getGridBackground() }}
           >
             <LayoutEditor {...this.props} parent={{ i: 'root' }} />
           </Paper>
@@ -133,6 +157,7 @@ PdfTemplateBuilder.propTypes = {
   selectedUuid: PropTypes.string,
   layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,
+  gridVisible: PropTypes.bool.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,

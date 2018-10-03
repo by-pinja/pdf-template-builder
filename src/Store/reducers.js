@@ -109,6 +109,9 @@ const store = (state = initialState, action) => {
           $merge: action.payload
         }
       });
+
+    case 'SET_GRID_VISIBILITY':
+      return {...state, gridVisible: action.payload};
     default:
       return state;
   }
@@ -122,6 +125,7 @@ function getInitialState() {
     schema: [],
     selectedUuid: null,
     pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI,
+    gridVisible: false,
     page: {
       layoutRelative: true
     }
