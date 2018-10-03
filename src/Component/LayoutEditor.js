@@ -113,7 +113,7 @@ class LayoutEditor extends Component {
                 <Tooltip title={content.tooltip || ''}>
                   <span style={textStyle}>
                     {content.text}
-                    <img src={e.meta.image} style={{ width: '100%' }} draggable={false} />
+                    {e.meta.image && <img alt="" src={e.meta.image} style={{ width: '100%' }} draggable={false} />}
                   </span>
                 </Tooltip>
 

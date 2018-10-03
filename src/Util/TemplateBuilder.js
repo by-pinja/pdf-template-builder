@@ -1,6 +1,7 @@
 class TemplateBuilder {
   static buildTemplate(layout, page) {
     const contents = layout.root
+      .sort((a, b) => a.y > b.y ? 1 : -1)
       .map(component => this.getElementHtml(component, page, layout))
       .join('');
 
@@ -96,7 +97,9 @@ class TemplateBuilder {
   }
 
   static getComponentContent(component, page, layout) {
-    const children = (layout[component.i] || []).map(
+    const children = (layout[component.i] || [])
+      .sort((a, b) => a.y > b.y ? 1 : -1)
+      .map(
       element => this.getElementHtml(element, page, layout, component)
     ).join('') || '';
 
