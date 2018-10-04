@@ -13,8 +13,7 @@ import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    height: 250,
+    flexGrow: 1
   },
   input: {
     display: 'flex',
@@ -188,6 +187,10 @@ class MaterialSelect extends Component {
           font: 'inherit',
         },
       }),
+      groupHeading: base => ({
+        ...base,
+        ...theme.typography.caption
+      })
     };
 
     return (
@@ -197,7 +200,7 @@ class MaterialSelect extends Component {
           styles={selectStyles}
           components={components}
           textFieldProps={{
-            label: 'Label',
+            label: this.props.label,
             InputLabelProps: {
               shrink: true,
             },

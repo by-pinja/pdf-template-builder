@@ -83,26 +83,11 @@ class ElementTools extends Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
 
     if (!this.props.element) {
       return '';
     }
-
-    const selectStyles = {
-      control: base => ({
-        ...base,
-        ...theme.typography.body1
-      }),
-      option: base => ({
-        ...base,
-        ...theme.typography.body1
-      }),
-      groupHeading: base => ({
-        ...base,
-        ...theme.typography.caption
-      })
-    };
 
     const toLabel = schema => ({
       label: schema.text,
@@ -181,7 +166,6 @@ class ElementTools extends Component {
 
             <Grid item xs={6}>
               <MaterialSelect
-                classes={classes}
                 id="tag"
                 label="Bind to property"
                 className={classes.select}
@@ -191,7 +175,6 @@ class ElementTools extends Component {
                   this.props.schema
                     .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
                 }
-                styles={selectStyles}
               />
             </Grid>
 
@@ -224,4 +207,4 @@ ElementTools.propTypes = {
   onUpdateElement: PropTypes.func.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(ElementTools);
+export default withStyles(styles)(ElementTools);
