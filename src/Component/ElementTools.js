@@ -16,7 +16,7 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
-import Select from 'react-select';
+import MaterialSelect from './MaterialSelect';
 
 const styles = theme => ({
   actionButton: {
@@ -180,7 +180,7 @@ class ElementTools extends Component {
             </Grid>
 
             <Grid item xs={6}>
-              <Select
+              <MaterialSelect
                 classes={classes}
                 id="tag"
                 label="Bind to property"
