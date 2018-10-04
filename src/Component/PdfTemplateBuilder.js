@@ -16,17 +16,17 @@ const styles = theme => ({
   editor: {
     minHeight: 848,
     width: 595,
-    fontFamily: 'Open Sans'
-  },
-  previewButton: {
-    position: 'absolute',
-    top: 0,
-    right: 0
+    fontFamily: 'Open Sans',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column'
   },
   container: {
     display: 'flex',
     position: 'relative'
-  }
+  },
+  header: { minHeight: 10, borderBottom: '10px solid #eee' },
+  footer: { minHeight: 10, borderTop: '10px solid #eee' }
 });
 
 class PdfTemplateBuilder extends Component {
@@ -47,7 +47,7 @@ class PdfTemplateBuilder extends Component {
   }
 
   exportTemplate() {
-    return { page: this.props.page, layout: this.props.layout };
+    return this.props.exportTemplate();
   }
 
   importTemplate(config) {
@@ -145,7 +145,17 @@ class PdfTemplateBuilder extends Component {
             elevation={1}
             style={{ backgroundImage: this.getGridBackground() }}
           >
-            <LayoutEditor {...this.props} parent={{ i: 'root' }} />
+            <div id="pdf-template-header" className={classes.header}>
+              <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
+            </div>
+
+            <div style={{ flex: 1 }}>
+              <LayoutEditor {...this.props} parent={{ i: 'root' }} />
+            </div>
+
+            <div id="pdf-template-footer" className={classes.footer}>
+              <LayoutEditor {...this.props} parent={{ i: 'footer' }} layoutMode="relative" />
+            </div>
           </Paper>
         </div>
       </div>
@@ -157,6 +167,8 @@ PdfTemplateBuilder.propTypes = {
   selectedUuid: PropTypes.string,
   layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,
+  options: PropTypes.object.isRequired,
+  exportTemplate: PropTypes.func.isRequired,
   gridVisible: PropTypes.bool.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,

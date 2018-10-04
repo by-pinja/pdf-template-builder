@@ -1,9 +1,13 @@
 class TemplateBuilder {
-  static buildTemplate(layout, page) {
-    const contents = layout.root
+  static buildTemplate(layout, page, root = 'root', onlyElement = false) {
+    const contents = layout[root]
       .sort((a, b) => a.y > b.y ? 1 : -1)
       .map(component => this.getElementHtml(component, page, layout))
       .join('');
+
+    if (onlyElement) {
+      return contents;
+    }
 
     return `
       <html>

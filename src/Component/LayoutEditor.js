@@ -36,7 +36,7 @@ class LayoutEditor extends Component {
     let width = 595;
     const cellSize = 15;
 
-    if (parentId !== 'root') {
+    if (!['root', 'header', 'footer'].includes(parentId)) {
       const parentElement = document.querySelector('#component-' + parentId);
 
       if (!parentElement) {
@@ -49,12 +49,14 @@ class LayoutEditor extends Component {
     const layout = this.props.layout[parentId];
     const cols   = width / cellSize;
 
-    let layoutMode = 'absolute';
+    let layoutMode = this.props.layoutMode;
 
-    if (parentId === 'root') {
-      layoutMode = this.props.page.layoutRelative ? 'relative' : layoutMode;
-    } else {
-      layoutMode = this.props.parent.meta.layoutRelative ? 'relative' : layoutMode;
+    if (!layoutMode) {
+      if (['root', 'header', 'footer'].includes(parentId)) {
+        layoutMode = this.props.page.layoutRelative ? 'relative' : 'absolute';
+      } else {
+        layoutMode = this.props.parent.meta.layoutRelative ? 'relative' : 'absolute';
+      }
     }
 
     return(
@@ -117,7 +119,7 @@ class LayoutEditor extends Component {
                   </span>
                 </Tooltip>
 
-                <LayoutEditor {...this.props} parent={e} />
+                <LayoutEditor {...this.props} parent={e} layoutMode={null} />
               </div>
             );
           })
@@ -128,6 +130,7 @@ class LayoutEditor extends Component {
 }
 
 LayoutEditor.propTypes = {
+  layoutMode: PropTypes.string,
   selectedUuid: PropTypes.string,
   parent: PropTypes.object.isRequired,
   layout: PropTypes.object.isRequired,

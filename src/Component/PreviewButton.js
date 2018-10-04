@@ -22,7 +22,7 @@ class PreviewButton extends Component {
         html: this.props.templateHtml(),
         baseData: this.props.templateData,
         rowData: [{}],
-        options: {}
+        options: this.props.exportTemplate().options
       })
     })
       .then(res => res.json())
@@ -54,7 +54,8 @@ class PreviewButton extends Component {
 PreviewButton.propTypes = {
   pdfStorageUri: PropTypes.string,
   templateHtml: PropTypes.func.isRequired,
-  templateData: PropTypes.object.isRequired
+  templateData: PropTypes.object.isRequired,
+  exportTemplate: PropTypes.func.isRequired
 };
 
 export default PreviewButton;
