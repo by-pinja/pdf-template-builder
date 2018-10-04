@@ -84,14 +84,29 @@ const store = (state = initialState, action) => {
       return newState;
 
     case 'IMPORT_TEMPLATE':
+      const initialState = getInitialState();
+
       return update(
         state,
         {
           layout: {
-            $set: action.payload.layout
+            $set: update(
+              action.payload.layout,
+              {
+                header: {
+                  $set: action.payload.layout.header || initialState.layout.header
+                },
+                footer: {
+                  $set: action.payload.layout.footer || initialState.layout.footer
+                }
+              }
+            )
           },
           page: {
-            $set: action.payload.page
+            $set: action.payload.page || initialState.page
+          },
+          options: {
+            $set: action.payload.options || initialState.options
           }
         }
       );
