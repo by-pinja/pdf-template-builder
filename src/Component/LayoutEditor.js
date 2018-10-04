@@ -32,8 +32,7 @@ class LayoutEditor extends Component {
       return '';
     }
 
-    // Paper width, TODO: refactor when add support for different page sizes
-    let width = 595;
+    let width = this.props.paperSize.width;
     const cellSize = 15;
 
     if (!['root', 'header', 'footer'].includes(parentId)) {

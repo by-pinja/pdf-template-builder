@@ -43,6 +43,11 @@ export const updatePage = page => ({
   payload: page
 });
 
+export const updateOptions = options => ({
+  type: 'UPDATE_OPTIONS',
+  payload: options
+});
+
 export const setGridVisibility = visible => ({
   type: 'SET_GRID_VISIBILITY',
   payload: visible

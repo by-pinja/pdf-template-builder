@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
+import SettingPageSizeContainer from '../Container/SettingPageSizeContainer';
 
 const styles = theme => ({
   actionButton: {
@@ -78,6 +79,8 @@ class PageTools extends Component {
               </FormGroup>
             </Grid>
           </Grid>
+
+          <SettingPageSizeContainer />
         </CardContent>
       </Card>
     );

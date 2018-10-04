@@ -14,8 +14,6 @@ const styles = theme => ({
     flex: 1
   },
   editor: {
-    minHeight: 848,
-    width: 595,
     fontFamily: 'Open Sans',
     position: 'relative',
     display: 'flex',
@@ -110,7 +108,7 @@ class PdfTemplateBuilder extends Component {
     }
 
     const cellSize = 15;
-    const cols = 595 / cellSize; // TODO: use page width
+    const cols = this.props.paperSize.width / cellSize;
 
     const content = Array.apply(null, { length: cols + 1 }).map(Number.call, Number)
       .map(
@@ -143,7 +141,11 @@ class PdfTemplateBuilder extends Component {
             id="editor"
             className={classes.editor}
             elevation={1}
-            style={{ backgroundImage: this.getGridBackground() }}
+            style={{
+              backgroundImage: this.getGridBackground(),
+              minHeight: this.props.paperSize.height,
+              width: this.props.paperSize.width
+            }}
           >
             <div id="pdf-template-header" className={classes.header}>
               <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
@@ -170,6 +172,7 @@ PdfTemplateBuilder.propTypes = {
   options: PropTypes.object.isRequired,
   exportTemplate: PropTypes.func.isRequired,
   gridVisible: PropTypes.bool.isRequired,
+  paperSize: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,

@@ -3,6 +3,7 @@ import Schema from '../Resource/Schema';
 import undoable, { excludeAction } from 'redux-undo';
 import { getSelectedElementGroupId } from './util';
 import TemplateUtil from '../Util/TemplateUtil';
+import PageSize from '../Resource/PageSize';
 
 const initialState = getInitialState();
 
@@ -126,6 +127,13 @@ const store = (state = initialState, action) => {
         }
       });
 
+    case 'UPDATE_OPTIONS':
+      return update(state, {
+        options: {
+          $merge: action.payload
+        }
+      });
+
     case 'SET_GRID_VISIBILITY':
       return {...state, gridVisible: action.payload};
     default:
@@ -141,7 +149,12 @@ function getInitialState() {
       footer: [{...TemplateUtil.createComponent(), h: 3}]
     },
     page: { layoutRelative: true },
-    options: { footer: {}, header: {} },
+    options: {
+      footer: {},
+      header: {},
+      orientation: PageSize.orientation.portrait,
+      format: PageSize.format.a4
+    },
     schema: [],
     selectedUuid: null,
     pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI,
