@@ -164,7 +164,7 @@ class ElementTools extends Component {
               </label>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <MaterialSelect
                 id="tag"
                 label="Bind to property"
@@ -190,9 +190,18 @@ class ElementTools extends Component {
             </Grid>
 
             <Grid item xs={12}>
-              <SettingTextAlignContainer />
-              <SettingTextFontContainer />
+              <Grid container spacing={8}>
+                <Grid item xs={12} md={6}>
+                  <SettingTextAlignContainer />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <SettingTextFontContainer />
+                </Grid>
+              </Grid>
             </Grid>
+
+
+
           </Grid>
         </CardContent>
       </Card>
