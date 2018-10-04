@@ -2,6 +2,18 @@ class Schema {
   forExample = () => ([
     {
       type: 'text',
+      tag: 'page',
+      text: 'Current page number',
+      example: '1'
+    },
+    {
+      type: 'text',
+      tag: 'pages',
+      text: 'Total page count',
+      example: '12'
+    },
+    {
+      type: 'text',
       tag: 'invoiceNumber',
       text: 'Invoice number',
       example: '201230123'
