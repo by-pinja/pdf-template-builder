@@ -1,5 +1,3 @@
-import TemplateBuilder from '../Util/TemplateBuilder';
-
 export function getSelectedElementMeta(state) {
   if (!state.selectedUuid) {
     return null;
@@ -60,12 +58,10 @@ export function exportTemplate(state) {
   return () => {
     const { page, layout, options } = state;
 
-    options.header.contents = TemplateBuilder.buildTemplate(layout, page, 'header', true);
     options.header.height = document.querySelector('#pdf-template-header .react-grid-layout')
       .style.getPropertyValue('height')
     ;
 
-    options.footer.contents = TemplateBuilder.buildTemplate(layout, page, 'footer', true);
     options.footer.height = document.querySelector('#pdf-template-footer .react-grid-layout')
       .style.getPropertyValue('height')
     ;

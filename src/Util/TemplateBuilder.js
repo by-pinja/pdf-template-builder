@@ -9,9 +9,17 @@ class TemplateBuilder {
       return contents;
     }
 
+    const header = this.buildTemplate(layout, page, 'header', true);
+    const footer = this.buildTemplate(layout, page, 'footer', true);
+
     return `
       <html>
         ${this.getHead(layout)}
+        
+        <!-- Include header and footer in the html to support templating -->
+        <div id="pageHeader">${header}</div>
+        <div id="pageFooter">${footer}</div>
+        
         ${this.getBody(contents)}
       </html>
     `;
