@@ -1,5 +1,5 @@
 {
-  "name": "pdf-template-builder",
+  "name": "@protacon/pdf-template-builder",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
