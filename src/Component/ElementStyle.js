@@ -5,6 +5,11 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import FormatBoldIcon from '@material-ui/icons/FormatBold';
+import FormatItalicIcon from '@material-ui/icons/FormatItalic';
+import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
+import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -24,7 +29,7 @@ class ElementStyle extends Component {
   handleChange = name => (event, value) => {
     const element = {
       ...this.props.element,
-      [name]: event.target.value || value
+      [name]: value
     };
 
     this.props.onUpdateElement(element);
@@ -38,22 +43,45 @@ class ElementStyle extends Component {
     }
 
     return (
-      <Grid container direction="row" className={classes.root}>
-        <ToggleButtonGroup
-          value={element.horizontalAlignment || 'left'}
-          exclusive
-          onChange={this.handleChange('horizontalAlignment')}
-        >
-          <ToggleButton value="left">
-            <FormatAlignLeftIcon />
-          </ToggleButton>
-          <ToggleButton value="center">
-            <FormatAlignCenterIcon />
-          </ToggleButton>
-          <ToggleButton value="right">
-            <FormatAlignRightIcon />
-          </ToggleButton>
-        </ToggleButtonGroup>
+      <Grid container direction="row" className={classes.root} spacing={8}>
+        <Grid item>
+          <ToggleButtonGroup
+            value={element.horizontalAlignment || 'left'}
+            exclusive
+            onChange={this.handleChange('horizontalAlignment')}
+          >
+            <ToggleButton value="left">
+              <FormatAlignLeftIcon />
+            </ToggleButton>
+            <ToggleButton value="center">
+              <FormatAlignCenterIcon />
+            </ToggleButton>
+            <ToggleButton value="right">
+              <FormatAlignRightIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+
+        <Grid item>
+          <ToggleButtonGroup
+            value={element.fontStyle}
+            onChange={this.handleChange('fontStyle')}
+          >
+            <ToggleButton value="bold">
+              <FormatBoldIcon />
+            </ToggleButton>
+            <ToggleButton value="italic">
+              <FormatItalicIcon />
+            </ToggleButton>
+            <ToggleButton value="underline">
+              <FormatUnderlinedIcon />
+            </ToggleButton>
+            <ToggleButton disabled value="color">
+              <FormatColorFillIcon />
+              <ArrowDropDownIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
       </Grid>
     );
   }

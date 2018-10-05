@@ -78,13 +78,18 @@ class LayoutEditor extends Component {
             const content = this.getComponentContent(e.i);
             const { meta } = e;
 
+            const fontStyle = meta.fontStyle || [];
+
             const textStyle = {
               position: 'absolute',
               textAlign: meta.horizontalAlignment,
               width: '100%',
               fontFamily: meta.fontFamily,
               fontSize: Number(meta.fontSize || 16),
-              color: meta.color
+              color: meta.color,
+              fontStyle: fontStyle.includes('italic') ? 'italic' : null,
+              fontWeight: fontStyle.includes('bold') ? 'bold' : 'normal',
+              textDecoration: fontStyle.includes('underline') ? 'underline' : null
             };
 
             if (meta.verticalAlignment === 'middle') {

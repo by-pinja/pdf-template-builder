@@ -142,7 +142,24 @@ class TemplateBuilder {
     let verticalAlign = '';
 
     if (component.meta.verticalAlignment === 'middle') {
-      verticalAlign = '-webkit-transform: translateY(-50%)';
+      verticalAlign = '-webkit-transform: translateY(-50%);';
+    }
+
+    const fontStyles = component.meta.fontStyle || [];
+    let textDecoration = 'none';
+    let fontWeight = '400';
+    let fontStyle = 'none';
+
+    if (fontStyles.includes('bold')) {
+      fontWeight = 'bold';
+    }
+
+    if (fontStyles.includes('underline')) {
+      textDecoration = 'underline';
+    }
+
+    if (fontStyles.includes('italic')) {
+      fontStyle = 'italic';
     }
 
     return `
@@ -156,6 +173,9 @@ class TemplateBuilder {
         font-size: ${textStyle.getPropertyValue('font-size')};
         color: ${textStyle.getPropertyValue('color')};
         width: 100%;
+        font-style: ${fontStyle};
+        text-decoration: ${textDecoration};
+        font-weight: ${fontWeight};
         ${verticalAlign}
       '>
         ${content}
@@ -168,7 +188,8 @@ class TemplateBuilder {
 
     Object.keys(layout).forEach(groupId => {
       return layout[groupId].forEach(e => {
-        !fonts.includes(e.meta.fontFamily) && fonts.push(e.meta.fontFamily);
+        // TODO: Optimize - load different sizes and italic versions only if used in the layout
+        !fonts.includes(e.meta.fontFamily) && fonts.push(e.meta.fontFamily + ':400,400i,700,700i');
       })
     });
 
