@@ -21,7 +21,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     transition: 'width 0.5s ease, height 0.5s ease',
-    transitionDelay: '0.2s'
+    transitionDelay: '0.2s',
+    margin: 'auto'
   },
   container: {
     display: 'flex',

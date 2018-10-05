@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types'
-import SettingTextFontContainer from '../Container/SettingTextFontContainer';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
@@ -186,10 +185,6 @@ class ElementTools extends Component {
                 onChange={this.handleChange('content')}
                 margin="normal"
               />
-            </Grid>
-
-            <Grid item xs={12}>
-              <SettingTextFontContainer />
             </Grid>
           </Grid>
         </CardContent>

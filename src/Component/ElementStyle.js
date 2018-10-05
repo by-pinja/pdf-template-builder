@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/es/Grid/Grid';
+import Grid from '@material-ui/core/Grid/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
@@ -15,11 +15,13 @@ import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/es/Paper/Paper';
-import Fade from '@material-ui/core/es/Fade/Fade';
-import Popper from '@material-ui/core/es/Popper/Popper';
+import Paper from '@material-ui/core/Paper/Paper';
+import Fade from '@material-ui/core/Fade/Fade';
+import Popper from '@material-ui/core/Popper/Popper';
 import { SketchPicker } from 'react-color';
-import ClickAwayListener from '@material-ui/core/es/ClickAwayListener/ClickAwayListener';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
+import FontSelector from './FontSelector';
+import TextField from '@material-ui/core/TextField/TextField';
 
 const styles = theme => ({
   root: {
@@ -46,6 +48,10 @@ class ElementStyle extends Component {
     };
 
     this.props.onUpdateElement(element);
+  };
+
+  handleEventChange = name => event => {
+    this.handleChange(name)(event, event.target.value);
   };
 
   handleColorPopper = event => {
@@ -79,85 +85,109 @@ class ElementStyle extends Component {
 
     return (
       <Grid container direction="row" className={classes.root} spacing={8}>
-        <Grid item>
-          <ToggleButtonGroup
-            value={element.horizontalAlignment || 'left'}
-            exclusive
-            onChange={this.handleChange('horizontalAlignment')}
-          >
-            <ToggleButton value="left">
-              <FormatAlignLeftIcon />
-            </ToggleButton>
-            <ToggleButton value="center">
-              <FormatAlignCenterIcon />
-            </ToggleButton>
-            <ToggleButton value="right">
-              <FormatAlignRightIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
+        <Grid item container xs={6} spacing={8} justify="flex-start">
+          <Grid item xs={12} container spacing={8}>
+            <Grid item style={{ width: '150px' }}>
+              <FontSelector
+                value={element.fontFamily}
+                onChange={this.handleEventChange('fontFamily')}
+                style={{ width: '100%' }}
+              />
+            </Grid>
+
+            <Grid item style={{ width: '50px' }}>
+              <TextField
+                id="fontSize"
+                type="number"
+                value={this.props.element.fontSize || 12}
+                onChange={this.handleEventChange('fontSize')}
+                style={{ width: '100%' }}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item>
+            <ToggleButtonGroup
+              value={element.fontStyle}
+              onChange={this.handleChange('fontStyle')}
+            >
+              <ToggleButton value="bold">
+                <FormatBoldIcon />
+              </ToggleButton>
+              <ToggleButton value="italic">
+                <FormatItalicIcon />
+              </ToggleButton>
+              <ToggleButton value="underline">
+                <FormatUnderlinedIcon />
+              </ToggleButton>
+
+              <ClickAwayListener onClickAway={this.handleClickAway}>
+                <div style={{ display: 'inline-block' }}>
+                  <ToggleButton value="color" onClick={this.handleColorPopper}>
+                    <FormatColorTextIcon />
+                    <ArrowDropDownIcon />
+                  </ToggleButton>
+                  <Popper
+                    id={popperId}
+                    style={{ zIndex: 100 }}
+                    open={popperOpen}
+                    disablePortal={true}
+                    anchorEl={popperRef}
+                    transition
+                  >
+                    {({ TransitionProps }) => (
+                      <Fade {...TransitionProps} timeout={150}>
+                        <Paper>
+                          <SketchPicker
+                            color={element.color || '#000'}
+                            onChange={this.handleColorChange}
+                          />
+                        </Paper>
+                      </Fade>
+                    )}
+                  </Popper>
+                </div>
+              </ClickAwayListener>
+            </ToggleButtonGroup>
+          </Grid>
         </Grid>
 
-        <Grid item>
-          <ToggleButtonGroup
-            value={element.verticalAlignment || 'top'}
-            exclusive
-            onChange={this.handleChange('verticalAlignment')}
-          >
-            <ToggleButton value="top">
-              <VerticalAlignTopIcon />
-            </ToggleButton>
-            <ToggleButton value="middle">
-              <VerticalAlignMiddleIcon />
-            </ToggleButton>
-            <ToggleButton value="bottom">
-              <VerticalAlignBottomIcon />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Grid>
+        <Grid item container direction="row" xs={6} spacing={8} justify="flex-end">
+          <Grid item>
+            <ToggleButtonGroup
+              value={element.horizontalAlignment || 'left'}
+              exclusive
+              onChange={this.handleChange('horizontalAlignment')}
+            >
+              <ToggleButton value="left">
+                <FormatAlignLeftIcon />
+              </ToggleButton>
+              <ToggleButton value="center">
+                <FormatAlignCenterIcon />
+              </ToggleButton>
+              <ToggleButton value="right">
+                <FormatAlignRightIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
 
-        <Grid item>
-          <ToggleButtonGroup
-            value={element.fontStyle}
-            onChange={this.handleChange('fontStyle')}
-          >
-            <ToggleButton value="bold">
-              <FormatBoldIcon />
-            </ToggleButton>
-            <ToggleButton value="italic">
-              <FormatItalicIcon />
-            </ToggleButton>
-            <ToggleButton value="underline">
-              <FormatUnderlinedIcon />
-            </ToggleButton>
-
-            <ClickAwayListener onClickAway={this.handleClickAway}>
-              <div style={{ display: 'inline-block' }}>
-                <ToggleButton value="color" onClick={this.handleColorPopper}>
-                  <FormatColorTextIcon />
-                  <ArrowDropDownIcon />
-                </ToggleButton>
-                <Popper
-                  id={popperId}
-                  style={{ zIndex: 100 }}
-                  open={popperOpen}
-                  disablePortal={true}
-                  anchorEl={popperRef}
-                  transition
-                >
-                  {({ TransitionProps }) => (
-                    <Fade {...TransitionProps} timeout={150}>
-                      <Paper>
-                        <SketchPicker
-                          color={element.color || '#000'}
-                          onChange={this.handleColorChange}
-                        />
-                      </Paper>
-                    </Fade>
-                  )}
-                </Popper>
-              </div>
-            </ClickAwayListener>
-          </ToggleButtonGroup>
+          <Grid item>
+            <ToggleButtonGroup
+              value={element.verticalAlignment || 'top'}
+              exclusive
+              onChange={this.handleChange('verticalAlignment')}
+            >
+              <ToggleButton value="top">
+                <VerticalAlignTopIcon />
+              </ToggleButton>
+              <ToggleButton value="middle">
+                <VerticalAlignMiddleIcon />
+              </ToggleButton>
+              <ToggleButton value="bottom">
+                <VerticalAlignBottomIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
         </Grid>
       </Grid>
     );
