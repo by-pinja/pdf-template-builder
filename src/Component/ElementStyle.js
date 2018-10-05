@@ -8,7 +8,7 @@ import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
-import FormatColorFillIcon from '@material-ui/icons/FormatColorFill';
+import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -112,7 +112,7 @@ class ElementStyle extends Component {
             <ClickAwayListener onClickAway={this.handleClickAway}>
               <div style={{ display: 'inline-block' }}>
                 <ToggleButton value="color" onClick={this.handleColorPopper}>
-                  <FormatColorFillIcon />
+                  <FormatColorTextIcon />
                   <ArrowDropDownIcon />
                 </ToggleButton>
                 <Popper
