@@ -136,6 +136,10 @@ const store = (state = initialState, action) => {
 
     case 'SET_GRID_VISIBILITY':
       return {...state, gridVisible: action.payload};
+
+    case 'SET_EDITOR_LOADING':
+      return {...state, editorLoading: action.payload};
+
     default:
       return state;
   }

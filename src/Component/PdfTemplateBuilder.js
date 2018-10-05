@@ -8,6 +8,7 @@ import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
 import LayoutEditor from './LayoutEditor';
 import ElementStyleContainer from '../Container/ElementStyleContainer';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const styles = theme => ({
   toolbox: {
@@ -18,11 +19,19 @@ const styles = theme => ({
     fontFamily: 'Open Sans',
     position: 'relative',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    transition: 'width 0.5s ease, height 0.5s ease',
+    transitionDelay: '0.2s'
   },
   container: {
     display: 'flex',
     position: 'relative'
+  },
+  loader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
   },
   header: { minHeight: 10, borderBottom: '10px solid #eee' },
   footer: { minHeight: 10, borderTop: '10px solid #eee' }
@@ -126,7 +135,36 @@ class PdfTemplateBuilder extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, editorLoading} = this.props;
+
+    let editor = <div className={classes.loader}><CircularProgress size={100} /></div>;
+
+    if (!editorLoading) {
+      editor = (
+        <Paper
+          id="editor"
+          className={classes.editor}
+          elevation={1}
+          style={{
+            backgroundImage: this.getGridBackground(),
+            minHeight: this.props.paperSize.height,
+            width: this.props.paperSize.width
+          }}
+        >
+          <div id="pdf-template-header" className={classes.header}>
+            <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <LayoutEditor {...this.props} parent={{ i: 'root' }} />
+          </div>
+
+          <div id="pdf-template-footer" className={classes.footer}>
+            <LayoutEditor {...this.props} parent={{ i: 'footer' }} layoutMode="relative" />
+          </div>
+        </Paper>
+      );
+    }
 
     return (
       <div>
@@ -151,17 +189,7 @@ class PdfTemplateBuilder extends Component {
                 width: this.props.paperSize.width
               }}
             >
-              <div id="pdf-template-header" className={classes.header}>
-                <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
-              </div>
-
-              <div style={{ flex: 1 }}>
-                <LayoutEditor {...this.props} parent={{ i: 'root' }} />
-              </div>
-
-              <div id="pdf-template-footer" className={classes.footer}>
-                <LayoutEditor {...this.props} parent={{ i: 'footer' }} layoutMode="relative" />
-              </div>
+              {editor}
             </Paper>
           </div>
         </div>

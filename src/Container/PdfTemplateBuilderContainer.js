@@ -21,6 +21,7 @@ const mapStateToProps = ({present}) => ({
   layout: present.layout,
   page: present.page,
   options: present.options,
+  editorLoading: present.editorLoading,
   exportTemplate: exportTemplate(present),
   selectedGroupId: getSelectedElementGroupId(present),
   schema: present.schema,
