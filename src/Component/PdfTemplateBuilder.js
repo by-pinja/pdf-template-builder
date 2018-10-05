@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
 import LayoutEditor from './LayoutEditor';
+import ElementStyleContainer from '../Container/ElementStyleContainer';
 
 const styles = theme => ({
   toolbox: {
@@ -137,28 +138,32 @@ class PdfTemplateBuilder extends Component {
             <ElementToolsContainer />
           </div>
 
-          <Paper
-            id="editor"
-            className={classes.editor}
-            elevation={1}
-            style={{
-              backgroundImage: this.getGridBackground(),
-              minHeight: this.props.paperSize.height,
-              width: this.props.paperSize.width
-            }}
-          >
-            <div id="pdf-template-header" className={classes.header}>
-              <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
-            </div>
+          <div>
+            <ElementStyleContainer />
 
-            <div style={{ flex: 1 }}>
-              <LayoutEditor {...this.props} parent={{ i: 'root' }} />
-            </div>
+            <Paper
+              id="editor"
+              className={classes.editor}
+              elevation={1}
+              style={{
+                backgroundImage: this.getGridBackground(),
+                minHeight: this.props.paperSize.height,
+                width: this.props.paperSize.width
+              }}
+            >
+              <div id="pdf-template-header" className={classes.header}>
+                <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
+              </div>
 
-            <div id="pdf-template-footer" className={classes.footer}>
-              <LayoutEditor {...this.props} parent={{ i: 'footer' }} layoutMode="relative" />
-            </div>
-          </Paper>
+              <div style={{ flex: 1 }}>
+                <LayoutEditor {...this.props} parent={{ i: 'root' }} />
+              </div>
+
+              <div id="pdf-template-footer" className={classes.footer}>
+                <LayoutEditor {...this.props} parent={{ i: 'footer' }} layoutMode="relative" />
+              </div>
+            </Paper>
+          </div>
         </div>
       </div>
     );
