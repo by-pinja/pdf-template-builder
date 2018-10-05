@@ -5,6 +5,9 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
+import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import VerticalAlignMiddleIcon from '@material-ui/icons/VerticalAlignCenter';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
@@ -90,6 +93,24 @@ class ElementStyle extends Component {
             </ToggleButton>
             <ToggleButton value="right">
               <FormatAlignRightIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+
+        <Grid item>
+          <ToggleButtonGroup
+            value={element.verticalAlignment || 'top'}
+            exclusive
+            onChange={this.handleChange('verticalAlignment')}
+          >
+            <ToggleButton value="top">
+              <VerticalAlignTopIcon />
+            </ToggleButton>
+            <ToggleButton value="middle">
+              <VerticalAlignMiddleIcon />
+            </ToggleButton>
+            <ToggleButton value="bottom">
+              <VerticalAlignBottomIcon />
             </ToggleButton>
           </ToggleButtonGroup>
         </Grid>
