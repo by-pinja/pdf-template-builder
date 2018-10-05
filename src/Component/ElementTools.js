@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types'
-import SettingTextAlignContainer from '../Container/SettingTextAlignContainer';
 import SettingTextFontContainer from '../Container/SettingTextFontContainer';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
@@ -190,18 +189,8 @@ class ElementTools extends Component {
             </Grid>
 
             <Grid item xs={12}>
-              <Grid container spacing={8}>
-                <Grid item xs={12} md={6}>
-                  <SettingTextAlignContainer />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <SettingTextFontContainer />
-                </Grid>
-              </Grid>
+              <SettingTextFontContainer />
             </Grid>
-
-
-
           </Grid>
         </CardContent>
       </Card>
