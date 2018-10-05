@@ -22,6 +22,7 @@ import { SketchPicker } from 'react-color';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
 import FontSelector from './FontSelector';
 import TextField from '@material-ui/core/TextField/TextField';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 
 const styles = theme => ({
   root: {
@@ -112,19 +113,27 @@ class ElementStyle extends Component {
               onChange={this.handleChange('fontStyle')}
             >
               <ToggleButton value="bold">
-                <FormatBoldIcon />
+                <Tooltip title="Bold">
+                  <FormatBoldIcon />
+                </Tooltip>
               </ToggleButton>
               <ToggleButton value="italic">
-                <FormatItalicIcon />
+                <Tooltip title="Italic">
+                  <FormatItalicIcon />
+                </Tooltip>
               </ToggleButton>
               <ToggleButton value="underline">
-                <FormatUnderlinedIcon />
+                <Tooltip title="Underline">
+                  <FormatUnderlinedIcon />
+                </Tooltip>
               </ToggleButton>
 
               <ClickAwayListener onClickAway={this.handleClickAway}>
                 <div style={{ display: 'inline-block' }}>
                   <ToggleButton value="color" onClick={this.handleColorPopper}>
-                    <FormatColorTextIcon />
+                    <Tooltip title="Text color">
+                      <FormatColorTextIcon />
+                    </Tooltip>
                     <ArrowDropDownIcon />
                   </ToggleButton>
                   <Popper
@@ -160,13 +169,19 @@ class ElementStyle extends Component {
               onChange={this.handleChange('horizontalAlignment')}
             >
               <ToggleButton value="left">
-                <FormatAlignLeftIcon />
+                <Tooltip title="Align left">
+                  <FormatAlignLeftIcon />
+                </Tooltip>
               </ToggleButton>
               <ToggleButton value="center">
-                <FormatAlignCenterIcon />
+                <Tooltip title="Align center">
+                  <FormatAlignCenterIcon />
+                </Tooltip>
               </ToggleButton>
               <ToggleButton value="right">
-                <FormatAlignRightIcon />
+                <Tooltip title="Align right">
+                  <FormatAlignRightIcon />
+                </Tooltip>
               </ToggleButton>
             </ToggleButtonGroup>
           </Grid>
@@ -178,13 +193,19 @@ class ElementStyle extends Component {
               onChange={this.handleChange('verticalAlignment')}
             >
               <ToggleButton value="top">
-                <VerticalAlignTopIcon />
+                <Tooltip title="Align top">
+                  <VerticalAlignTopIcon />
+                </Tooltip>
               </ToggleButton>
               <ToggleButton value="middle">
-                <VerticalAlignMiddleIcon />
+                <Tooltip title="Align middle">
+                  <VerticalAlignMiddleIcon />
+                </Tooltip>
               </ToggleButton>
               <ToggleButton value="bottom">
-                <VerticalAlignBottomIcon />
+                <Tooltip title="Align bottom">
+                  <VerticalAlignBottomIcon />
+                </Tooltip>
               </ToggleButton>
             </ToggleButtonGroup>
           </Grid>
