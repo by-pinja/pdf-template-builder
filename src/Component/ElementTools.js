@@ -22,7 +22,6 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit
   },
   card: {
-    marginTop: theme.spacing.unit * 2,
     overflow: 'visible'
   },
   select: {

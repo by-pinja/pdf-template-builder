@@ -23,6 +23,8 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayList
 import FontSelector from './FontSelector';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
+import Card from '@material-ui/core/Card/Card';
+import CardContent from '@material-ui/core/CardContent/CardContent';
 
 const styles = theme => ({
   root: {
@@ -85,132 +87,136 @@ class ElementStyle extends Component {
     const popperId = popperOpen ? 'color-popper' : null;
 
     return (
-      <Grid container direction="row" className={classes.root} spacing={8}>
-        <Grid item container xs={6} spacing={8} justify="flex-start">
-          <Grid item xs={12} container spacing={8}>
-            <Grid item style={{ width: '150px' }}>
-              <FontSelector
-                value={element.fontFamily}
-                onChange={this.handleEventChange('fontFamily')}
-                style={{ width: '100%' }}
-              />
-            </Grid>
+      <Card className={classes.root}>
+        <CardContent>
+          <Grid container direction="row" spacing={8}>
+            <Grid item container xs={6} spacing={8} justify="flex-start">
+              <Grid item xs={12} container spacing={8}>
+                <Grid item style={{ width: '150px' }}>
+                  <FontSelector
+                    value={element.fontFamily}
+                    onChange={this.handleEventChange('fontFamily')}
+                    style={{ width: '100%' }}
+                  />
+                </Grid>
 
-            <Grid item style={{ width: '50px' }}>
-              <TextField
-                id="fontSize"
-                type="number"
-                value={this.props.element.fontSize || 12}
-                onChange={this.handleEventChange('fontSize')}
-                style={{ width: '100%' }}
-              />
-            </Grid>
-          </Grid>
+                <Grid item style={{ width: '50px' }}>
+                  <TextField
+                    id="fontSize"
+                    type="number"
+                    value={this.props.element.fontSize || 12}
+                    onChange={this.handleEventChange('fontSize')}
+                    style={{ width: '100%' }}
+                  />
+                </Grid>
+              </Grid>
 
-          <Grid item>
-            <ToggleButtonGroup
-              value={element.fontStyle}
-              onChange={this.handleChange('fontStyle')}
-            >
-              <ToggleButton value="bold">
-                <Tooltip title="Bold">
-                  <FormatBoldIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="italic">
-                <Tooltip title="Italic">
-                  <FormatItalicIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="underline">
-                <Tooltip title="Underline">
-                  <FormatUnderlinedIcon />
-                </Tooltip>
-              </ToggleButton>
-
-              <ClickAwayListener onClickAway={this.handleClickAway}>
-                <div style={{ display: 'inline-block' }}>
-                  <ToggleButton value="color" onClick={this.handleColorPopper}>
-                    <Tooltip title="Text color">
-                      <FormatColorTextIcon />
+              <Grid item>
+                <ToggleButtonGroup
+                  value={element.fontStyle}
+                  onChange={this.handleChange('fontStyle')}
+                >
+                  <ToggleButton value="bold">
+                    <Tooltip title="Bold">
+                      <FormatBoldIcon />
                     </Tooltip>
-                    <ArrowDropDownIcon />
                   </ToggleButton>
-                  <Popper
-                    id={popperId}
-                    style={{ zIndex: 100 }}
-                    open={popperOpen}
-                    disablePortal={true}
-                    anchorEl={popperRef}
-                    transition
-                  >
-                    {({ TransitionProps }) => (
-                      <Fade {...TransitionProps} timeout={150}>
-                        <Paper>
-                          <SketchPicker
-                            color={element.color || '#000'}
-                            onChange={this.handleColorChange}
-                          />
-                        </Paper>
-                      </Fade>
-                    )}
-                  </Popper>
-                </div>
-              </ClickAwayListener>
-            </ToggleButtonGroup>
-          </Grid>
-        </Grid>
+                  <ToggleButton value="italic">
+                    <Tooltip title="Italic">
+                      <FormatItalicIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton value="underline">
+                    <Tooltip title="Underline">
+                      <FormatUnderlinedIcon />
+                    </Tooltip>
+                  </ToggleButton>
 
-        <Grid item container direction="row" xs={6} spacing={8} justify="flex-end">
-          <Grid item>
-            <ToggleButtonGroup
-              value={element.horizontalAlignment || 'left'}
-              exclusive
-              onChange={this.handleChange('horizontalAlignment')}
-            >
-              <ToggleButton value="left">
-                <Tooltip title="Align left">
-                  <FormatAlignLeftIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="center">
-                <Tooltip title="Align center">
-                  <FormatAlignCenterIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="right">
-                <Tooltip title="Align right">
-                  <FormatAlignRightIcon />
-                </Tooltip>
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Grid>
+                  <ClickAwayListener onClickAway={this.handleClickAway}>
+                    <div style={{ display: 'inline-block' }}>
+                      <ToggleButton value="color" onClick={this.handleColorPopper}>
+                        <Tooltip title="Text color">
+                          <FormatColorTextIcon />
+                        </Tooltip>
+                        <ArrowDropDownIcon />
+                      </ToggleButton>
+                      <Popper
+                        id={popperId}
+                        style={{ zIndex: 100 }}
+                        open={popperOpen}
+                        disablePortal={true}
+                        anchorEl={popperRef}
+                        transition
+                      >
+                        {({ TransitionProps }) => (
+                          <Fade {...TransitionProps} timeout={150}>
+                            <Paper>
+                              <SketchPicker
+                                color={element.color || '#000'}
+                                onChange={this.handleColorChange}
+                              />
+                            </Paper>
+                          </Fade>
+                        )}
+                      </Popper>
+                    </div>
+                  </ClickAwayListener>
+                </ToggleButtonGroup>
+              </Grid>
+            </Grid>
 
-          <Grid item>
-            <ToggleButtonGroup
-              value={element.verticalAlignment || 'top'}
-              exclusive
-              onChange={this.handleChange('verticalAlignment')}
-            >
-              <ToggleButton value="top">
-                <Tooltip title="Align top">
-                  <VerticalAlignTopIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="middle">
-                <Tooltip title="Align middle">
-                  <VerticalAlignMiddleIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="bottom">
-                <Tooltip title="Align bottom">
-                  <VerticalAlignBottomIcon />
-                </Tooltip>
-              </ToggleButton>
-            </ToggleButtonGroup>
+            <Grid item container direction="row" xs={6} spacing={8} justify="flex-end">
+              <Grid item>
+                <ToggleButtonGroup
+                  value={element.horizontalAlignment || 'left'}
+                  exclusive
+                  onChange={this.handleChange('horizontalAlignment')}
+                >
+                  <ToggleButton value="left">
+                    <Tooltip title="Align left">
+                      <FormatAlignLeftIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton value="center">
+                    <Tooltip title="Align center">
+                      <FormatAlignCenterIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton value="right">
+                    <Tooltip title="Align right">
+                      <FormatAlignRightIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+
+              <Grid item>
+                <ToggleButtonGroup
+                  value={element.verticalAlignment || 'top'}
+                  exclusive
+                  onChange={this.handleChange('verticalAlignment')}
+                >
+                  <ToggleButton value="top">
+                    <Tooltip title="Align top">
+                      <VerticalAlignTopIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton value="middle">
+                    <Tooltip title="Align middle">
+                      <VerticalAlignMiddleIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                  <ToggleButton value="bottom">
+                    <Tooltip title="Align bottom">
+                      <VerticalAlignBottomIcon />
+                    </Tooltip>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </CardContent>
+      </Card>
     );
   }
 }
