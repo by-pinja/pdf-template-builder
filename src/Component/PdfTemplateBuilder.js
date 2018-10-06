@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PageToolsContainer from './../Container/PageToolsContainer';
 import Paper from '@material-ui/core/Paper/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import TemplateBuilder from './../Util/TemplateBuilder';
@@ -12,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 
 const styles = theme => ({
   toolbox: {
-    marginRight: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit * 2,
     flex: 1
   },
   editor: {
@@ -172,10 +171,6 @@ class PdfTemplateBuilder extends Component {
         <Toolbox />
 
         <div className={classes.container}>
-          <div className={classes.toolbox}>
-            <ElementToolsContainer />
-          </div>
-
           <div>
             <ElementStyleContainer />
 
@@ -191,6 +186,10 @@ class PdfTemplateBuilder extends Component {
             >
               {editor}
             </Paper>
+          </div>
+
+          <div className={classes.toolbox}>
+            <ElementToolsContainer />
           </div>
         </div>
       </div>
