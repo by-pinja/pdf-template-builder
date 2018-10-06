@@ -173,7 +173,6 @@ class PdfTemplateBuilder extends Component {
 
         <div className={classes.container}>
           <div className={classes.toolbox}>
-            <PageToolsContainer />
             <ElementToolsContainer />
           </div>
 

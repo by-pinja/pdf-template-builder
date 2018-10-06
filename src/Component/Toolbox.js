@@ -8,6 +8,7 @@ import UndoButtonContainer from '../Container/UndoButtonContainer';
 import RedoButtonContainer from '../Container/RedoButtonContainer';
 import SaveButtonContainer from '../Container/SaveButtonContainer';
 import ToggleGridButtonContainer from '../Container/ToggleGridButtonContainer';
+import PageToolsContainer from '../Container/PageToolsContainer';
 
 const styles = theme => ({
   bar: {
@@ -29,6 +30,7 @@ class Toolbox extends Component {
             PDF template builder
           </Typography>
 
+          <PageToolsContainer />
           <ToggleGridButtonContainer />
           <UndoButtonContainer />
           <RedoButtonContainer />
