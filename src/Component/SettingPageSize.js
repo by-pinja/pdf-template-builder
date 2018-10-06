@@ -6,11 +6,11 @@ import Typography from '@material-ui/core/Typography/Typography';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
-import FormControl from '@material-ui/core/es/FormControl/FormControl';
-import FormLabel from '@material-ui/core/es/FormLabel/FormLabel';
-import RadioGroup from '@material-ui/core/es/RadioGroup/RadioGroup';
-import FormControlLabel from '@material-ui/core/es/FormControlLabel/FormControlLabel';
-import Radio from '@material-ui/core/es/Radio/Radio';
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import FormLabel from '@material-ui/core/FormLabel/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
+import Radio from '@material-ui/core/Radio/Radio';
 import PageSize from '../Resource/PageSize';
 
 class SettingPageSize extends Component {

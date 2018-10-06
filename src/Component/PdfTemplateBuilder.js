@@ -8,7 +8,7 @@ import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
 import LayoutEditor from './LayoutEditor';
 import ElementStyleContainer from '../Container/ElementStyleContainer';
-import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 
 const styles = theme => ({
   toolbox: {
