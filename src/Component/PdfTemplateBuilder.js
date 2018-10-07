@@ -8,6 +8,7 @@ import Toolbox from './Toolbox';
 import LayoutEditor from './LayoutEditor';
 import ElementStyleContainer from '../Container/ElementStyleContainer';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
+import ElementSpeedDialContainer from '../Container/ElementSpeedDialContainer';
 
 const styles = theme => ({
   toolbox: {
@@ -169,6 +170,7 @@ class PdfTemplateBuilder extends Component {
     return (
       <div>
         <Toolbox />
+        <ElementSpeedDialContainer />
 
         <div className={classes.container}>
           <div>
@@ -183,6 +185,7 @@ class PdfTemplateBuilder extends Component {
                 minHeight: this.props.paperSize.height,
                 width: this.props.paperSize.width
               }}
+              onClick={() => this.props.onSelectElement(null)}
             >
               {editor}
             </Paper>

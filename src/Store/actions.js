@@ -5,10 +5,10 @@ export const selectElement = uuid => ({
   payload: uuid
 });
 
-export const addElement = parentId => ({
+export const addElement = (parentId, type = 'text') => ({
   type: 'ADD_ELEMENT',
   payload: {
-    element: TemplateUtil.createComponent(),
+    element: {...TemplateUtil.createComponent(), type},
     parentId
   }
 });
