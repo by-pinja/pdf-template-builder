@@ -3,6 +3,7 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import Save from '@material-ui/icons/Save';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 class SaveButton extends Component {
   render() {
@@ -10,12 +11,14 @@ class SaveButton extends Component {
       return '';
     }
 
+    const { t } = this.props;
+
     return (
-      <Tooltip title="Save">
+      <Tooltip title={t('doSave')}>
         <div>
           <IconButton
             color="inherit"
-            aria-label="Save"
+            aria-label={t('doSave')}
             onClick={this.props.onSaveTemplate}
           >
             <Save />
@@ -30,4 +33,4 @@ SaveButton.propTypes = {
   onSaveTemplate: PropTypes.func
 };
 
-export default SaveButton;
+export default withNamespaces()(SaveButton);

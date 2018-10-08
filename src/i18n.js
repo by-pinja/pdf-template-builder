@@ -35,7 +35,8 @@ i18n
           pageSettings: 'Page settings',
           addElement: 'Add element',
           showPreview: 'Show preview',
-          doRedo: 'Redo'
+          doRedo: 'Redo',
+          doSave: 'Save'
         }
       },
       fi: {
@@ -66,7 +67,8 @@ i18n
           pageSettings: 'Sivun asetukset',
           addElement: 'Lisää elementti',
           showPreview: 'Näytä esikatselu',
-          doRedo: 'Tee uudelleen'
+          doRedo: 'Tee uudelleen',
+          doSave: 'Tallenna'
         }
       }
     }
