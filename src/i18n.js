@@ -12,7 +12,19 @@ i18n
           common: {
             group: 'Group',
             text: 'Text',
-            image: 'Image'
+            image: 'Image',
+            bold: 'Bold',
+            italic: 'Italic',
+            underline: 'Underline',
+            color: 'Color',
+            align: {
+              left: 'Align left',
+              right: 'Align right',
+              center: 'Align center',
+              top: 'Align top',
+              middle: 'Align middle',
+              bottom: 'Align bottom'
+            }
           }
         }
       },
@@ -21,7 +33,19 @@ i18n
           common: {
             group: 'Ryhmä',
             text: 'Teksti',
-            image: 'Kuva'
+            image: 'Kuva',
+            bold: 'Lihavoi',
+            italic: 'Kursivoi',
+            underline: 'Alleviivaa',
+            color: 'Väri',
+            align: {
+              left: 'Tasaa vasemmalle',
+              right: 'Tasaa oikealle',
+              center: 'Tasaa keskelle',
+              top: 'Tasaa ylös',
+              middle: 'Tasaa keskelle',
+              bottom: 'Tasaa alas'
+            }
           }
         }
       }

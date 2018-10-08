@@ -23,6 +23,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayList
 import FontSelector from './FontSelector';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
+import { withI18n } from 'react-i18next';
 
 const styles = theme => ({
   root: {
@@ -75,7 +76,7 @@ class ElementStyle extends Component {
   };
 
   render() {
-    const { element } = this.props;
+    const { element, t } = this.props;
     const { popperOpen, popperRef } = this.state;
 
     if (!element) {
@@ -113,17 +114,17 @@ class ElementStyle extends Component {
               onChange={this.handleChange('fontStyle')}
             >
               <ToggleButton value="bold">
-                <Tooltip title="Bold">
+                <Tooltip title={t('common.bold')}>
                   <FormatBoldIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="italic">
-                <Tooltip title="Italic">
+                <Tooltip title={t('common.italic')}>
                   <FormatItalicIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="underline">
-                <Tooltip title="Underline">
+                <Tooltip title={t('common.underline')}>
                   <FormatUnderlinedIcon />
                 </Tooltip>
               </ToggleButton>
@@ -131,7 +132,7 @@ class ElementStyle extends Component {
               <ClickAwayListener onClickAway={this.handleClickAway}>
                 <div style={{ display: 'inline-block' }}>
                   <ToggleButton value="color" onClick={this.handleColorPopper}>
-                    <Tooltip title="Text color">
+                    <Tooltip title={t('common.color')}>
                       <FormatColorTextIcon />
                     </Tooltip>
                     <ArrowDropDownIcon />
@@ -169,17 +170,17 @@ class ElementStyle extends Component {
               onChange={this.handleChange('horizontalAlignment')}
             >
               <ToggleButton value="left">
-                <Tooltip title="Align left">
+                <Tooltip title={t('common.align.left')}>
                   <FormatAlignLeftIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="center">
-                <Tooltip title="Align center">
+                <Tooltip title={t('common.align.center')}>
                   <FormatAlignCenterIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="right">
-                <Tooltip title="Align right">
+                <Tooltip title={t('common.align.right')}>
                   <FormatAlignRightIcon />
                 </Tooltip>
               </ToggleButton>
@@ -193,17 +194,17 @@ class ElementStyle extends Component {
               onChange={this.handleChange('verticalAlignment')}
             >
               <ToggleButton value="top">
-                <Tooltip title="Align top">
+                <Tooltip title={t('common.align.top')}>
                   <VerticalAlignTopIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="middle">
-                <Tooltip title="Align middle">
+                <Tooltip title={t('common.align.middle')}>
                   <VerticalAlignMiddleIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="bottom">
-                <Tooltip title="Align bottom">
+                <Tooltip title={t('common.align.bottom')}>
                   <VerticalAlignBottomIcon />
                 </Tooltip>
               </ToggleButton>
@@ -220,4 +221,4 @@ ElementStyle.propTypes = {
   onUpdateElement: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(ElementStyle);
+export default withI18n()(withStyles(styles)(ElementStyle));
