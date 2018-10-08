@@ -42,8 +42,8 @@ const styles = theme => ({
     justifyContent: 'center',
     flex: 1
   },
-  header: { minHeight: 10, borderBottom: '10px solid #eee' },
-  footer: { minHeight: 10, borderTop: '10px solid #eee' }
+  header: { minHeight: 10, borderBottom: '15px solid #eee' },
+  footer: { minHeight: 10, borderTop: '15px solid #eee' }
 });
 
 class PdfTemplateBuilder extends Component {
