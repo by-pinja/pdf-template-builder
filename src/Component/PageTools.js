@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import Card from '@material-ui/core/Card/Card';
 import Typography from '@material-ui/core/Typography/Typography';
 import CardContent from '@material-ui/core/CardContent/CardContent';
-import Button from '@material-ui/core/Button/Button';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
-import NoteAdd from '@material-ui/icons/NoteAdd';
 import PropTypes from 'prop-types'
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
@@ -16,15 +13,7 @@ import SettingPageSizeContainer from '../Container/SettingPageSizeContainer';
 import Popper from '@material-ui/core/Popper/Popper';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
-
-const styles = theme => ({
-  actionButton: {
-    float: 'right'
-  },
-  card: {
-    marginTop: theme.spacing.unit * 2
-  }
-});
+import { withNamespaces } from 'react-i18next';
 
 class PageTools extends Component {
   constructor(props) {
@@ -61,7 +50,7 @@ class PageTools extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { t } = this.props;
     const { open, anchorEl } = this.state;
 
     const id = open ? 'page-settings-popper' : null;
@@ -69,10 +58,10 @@ class PageTools extends Component {
     return (
       <ClickAwayListener onClickAway={this.handleClickAway}>
         <div style={{ zIndex: 100 }}>
-          <Tooltip title="Page settings">
+          <Tooltip title={t('pageSettings')}>
             <IconButton
               color="inherit"
-              aria-label="Page settings"
+              aria-label={t('pageSettings')}
               onClick={this.handleToggleSettings}
             >
               <SettingsIcon/>
@@ -84,20 +73,7 @@ class PageTools extends Component {
                 <Grid container spacing={24}>
                   <Grid item xs={12}>
                     <Typography color="textSecondary" variant="headline">
-                      Page settings
-
-                      <Tooltip title="Add new element">
-                        <Button
-                          variant="fab"
-                          color="primary"
-                          aria-label="Add"
-                          mini={true}
-                          onClick={this.props.onAddElement}
-                          className={classes.actionButton}
-                        >
-                          <NoteAdd/>
-                        </Button>
-                      </Tooltip>
+                      {t('pageSettings')}
                     </Typography>
                   </Grid>
 
@@ -111,7 +87,7 @@ class PageTools extends Component {
                             value="layoutRelative"
                           />
                         }
-                        label="Use relative layout"
+                        label={t('layoutRelative')}
                       />
                     </FormGroup>
                   </Grid>
@@ -133,4 +109,4 @@ PageTools.propTypes = {
   page: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(PageTools);
+export default withNamespaces()(PageTools);

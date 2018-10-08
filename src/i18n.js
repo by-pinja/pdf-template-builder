@@ -31,7 +31,9 @@ i18n
           bindToProperty: 'Bind to property',
           layoutRelative: 'Use relative layout',
           deleteThisElement: 'Delete this {{type}}',
-          elementSettings: '{{type}} settings'
+          elementSettings: '{{type}} settings',
+          pageSettings: 'Page settings',
+          addElement: 'Add element'
         }
       },
       fi: {
@@ -59,6 +61,8 @@ i18n
           layoutRelative: 'Asettele suhteellisesti',
           deleteThisElement: 'Poista {{type}}',
           elementSettings: '{{type}}n asetukset',
+          pageSettings: 'Sivun asetukset',
+          addElement: 'Lisää elementti'
         }
       }
     }
