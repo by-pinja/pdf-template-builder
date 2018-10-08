@@ -1,10 +1,10 @@
 import { addElement, removeElement, resizeElement, updateElement } from '../Store/actions';
 import { connect } from 'react-redux';
 import ElementTools from '../Component/ElementTools';
-import { getParentElement, getSelectedElementGroupId, getSelectedElementMeta } from '../Store/util';
+import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from '../Store/util';
 
 const getAllowedSchemaObjects = (elementUuid, state) => {
-  const parent = getParentElement(elementUuid, state);
+  const parent = getElement(elementUuid, state);
 
   const allowed = [
     { label: 'Root', options: state.schema.slice() }

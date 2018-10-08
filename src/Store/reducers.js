@@ -1,7 +1,7 @@
 import update from 'immutability-helper';
 import Schema from '../Resource/Schema';
 import undoable, { excludeAction } from 'redux-undo';
-import { getSelectedElementGroupId, getSelectedElementMeta } from './util';
+import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from './util';
 import TemplateUtil from '../Util/TemplateUtil';
 import PageSize from '../Resource/PageSize';
 
@@ -10,7 +10,22 @@ const initialState = getInitialState();
 const store = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_ELEMENT':
-      const parentId = action.payload.parentId || 'root';
+      let parentId = action.payload.parentId || 'root';
+
+      // Get closest element with type 'group'
+      if (parentId !== 'root') {
+        (() => {
+          while (true) {
+            const parentEl = getElement(parentId, state);
+
+            if (parentId === 'root' || parentEl.meta.type === 'group') {
+              break;
+            }
+
+            parentId = getSelectedElementGroupId(state, parentEl.i);
+          }
+        })();
+      }
 
       if (!state.layout[parentId]) {
         state.layout[parentId] = [];
@@ -23,7 +38,7 @@ const store = (state = initialState, action) => {
         },
         {
           layout: {
-            [action.payload.parentId || 'root']: {
+            [parentId]: {
               $push: [action.payload.element]
             }
           }

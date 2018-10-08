@@ -12,8 +12,8 @@ export function getSelectedElementMeta(state) {
   return {...element.meta, i: state.selectedUuid};
 }
 
-export function getSelectedElementGroupId(state) {
-  if (!state.selectedUuid) {
+export function getSelectedElementGroupId(state, uuid = state.selectedUuid) {
+  if (!uuid) {
     return null;
   }
 
@@ -33,7 +33,7 @@ export function getSelectedElementGroupId(state) {
   return id;
 }
 
-export function getParentElement(uuid, state) {
+export function getElement(uuid, state) {
   if (!uuid) {
     return null;
   }
