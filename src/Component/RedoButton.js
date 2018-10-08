@@ -3,15 +3,18 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import Redo from '@material-ui/icons/Redo';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 class RedoButton extends Component {
   render() {
+    const { t } = this.props;
+
     return (
-      <Tooltip title="Redo">
+      <Tooltip title={t('doRedo')}>
         <div>
           <IconButton
             color="inherit"
-            aria-label="Redo"
+            aria-label={t('doRedo')}
             onClick={this.props.onRedo}
             disabled={!this.props.canRedo}
           >
@@ -28,4 +31,4 @@ RedoButton.propTypes = {
   onRedo: PropTypes.func.isRequired
 };
 
-export default RedoButton;
+export default withNamespaces()(RedoButton);
