@@ -12,6 +12,7 @@ import RadioGroup from '@material-ui/core/RadioGroup/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Radio from '@material-ui/core/Radio/Radio';
 import PageSize from '../Resource/PageSize';
+import { withNamespaces } from 'react-i18next';
 
 class SettingPageSize extends Component {
   constructor(props) {
@@ -38,26 +39,28 @@ class SettingPageSize extends Component {
   );
 
   render() {
+    const { t, options } = this.props;
+
     const current = (
       <Typography variant="caption">
-        {this.props.options.format}&nbsp;
-        {this.props.options.orientation}
+        {options.format}&nbsp;
+        {t(options.orientation)}
       </Typography>
     );
 
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Size and orientation {current}</Typography>
+          <Typography>{t('sizeAndOrientation')} {current}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Grid container spacing={16}>
             <Grid item xs={6}>
               <FormControl component="fieldset">
-                <FormLabel component="legend">Format</FormLabel>
+                <FormLabel component="legend">{t('paperSize')}</FormLabel>
 
                 <RadioGroup
-                  aria-label="Format"
+                  aria-label={t('paperSize')}
                   name="format"
                   value={this.props.options.format}
                   onChange={this.handleChange('format')}
@@ -76,16 +79,16 @@ class SettingPageSize extends Component {
 
             <Grid item xs={6}>
               <FormControl component="fieldset">
-                <FormLabel component="legend">Orientation</FormLabel>
+                <FormLabel component="legend">{t('paperOrientation')}</FormLabel>
 
                 <RadioGroup
-                  aria-label="Format"
+                  aria-label={t('paperOrientation')}
                   name="format"
                   value={this.props.options.orientation}
                   onChange={this.handleChange('orientation')}
                 >
-                  <FormControlLabel value="portrait" control={<Radio />} label="Portrait" />
-                  <FormControlLabel value="landscape" control={<Radio />} label="Landscape" />
+                  <FormControlLabel value="portrait" control={<Radio />} label={t('portrait')} />
+                  <FormControlLabel value="landscape" control={<Radio />} label={t('landscape')} />
                 </RadioGroup>
               </FormControl>
             </Grid>
@@ -101,4 +104,4 @@ SettingPageSize.propTypes = {
   onUpdateOptions: PropTypes.func.isRequired
 };
 
-export default SettingPageSize;
+export default withNamespaces()(SettingPageSize);

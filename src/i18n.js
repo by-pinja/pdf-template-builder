@@ -36,7 +36,12 @@ i18n
           addElement: 'Add element',
           showPreview: 'Show preview',
           doRedo: 'Redo',
-          doSave: 'Save'
+          doSave: 'Save',
+          sizeAndOrientation: 'Size and orientation',
+          paperSize: 'Paper format',
+          paperOrientation: 'Orientation',
+          landscape: 'Landscape',
+          portrait: 'Portrait'
         }
       },
       fi: {
@@ -68,7 +73,12 @@ i18n
           addElement: 'Lisää elementti',
           showPreview: 'Näytä esikatselu',
           doRedo: 'Tee uudelleen',
-          doSave: 'Tallenna'
+          doSave: 'Tallenna',
+          sizeAndOrientation: 'Koko ja asettelu',
+          paperSize: 'Paperin koko',
+          paperOrientation: 'Sivun asettelu',
+          landscape: 'Vaaka',
+          portrait: 'Pysty'
         }
       }
     }
