@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import GridLayout from 'react-grid-layout';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 class LayoutEditor extends Component {
   constructor(props) {
@@ -11,10 +12,12 @@ class LayoutEditor extends Component {
   }
 
   getComponentContent(i) {
-    const meta = this.props.layout[this.props.parent.i].find(e => e.i === i).meta;
+    const { t, layout } = this.props;
+
+    const meta = layout[this.props.parent.i].find(e => e.i === i).meta;
 
     if (!meta || !meta.tag) {
-      return meta.content ? { text: meta.content, tooltip: 'Free text' } : {};
+      return meta.content ? { text: meta.content, tooltip: t('freeText') } : {};
     }
 
     const example = meta.tag.example;
@@ -119,7 +122,7 @@ class LayoutEditor extends Component {
                 <Tooltip title={content.tooltip || ''}>
                   <span style={textStyle}>
                     {content.text}
-                    {e.meta.image && <img alt="" src={e.meta.image} style={{ width: '100%' }} draggable={false} />}
+                    {e.meta.image && <img alt='' src={e.meta.image} style={{ width: '100%' }} draggable={false} />}
                   </span>
                 </Tooltip>
 
@@ -148,4 +151,4 @@ LayoutEditor.propTypes = {
   onClearHistory: PropTypes.func.isRequired
 };
 
-export default LayoutEditor;
+export default withNamespaces()(LayoutEditor);

@@ -27,6 +27,7 @@ i18n
             },
             content: 'Content'
           },
+          freeText: 'Free text',
           bindToProperty: 'Bind to property',
           layoutRelative: 'Use relative layout',
           deleteThisElement: 'Delete this {{type}}',
@@ -53,6 +54,7 @@ i18n
             },
             content: 'Sisältö'
           },
+          freeText: 'Vapaa teksti',
           bindToProperty: 'Sido arvo',
           layoutRelative: 'Asettele suhteellisesti',
           deleteThisElement: 'Poista {{type}}',
