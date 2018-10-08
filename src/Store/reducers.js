@@ -1,7 +1,7 @@
 import update from 'immutability-helper';
 import Schema from '../Resource/Schema';
 import undoable, { excludeAction } from 'redux-undo';
-import { getSelectedElementGroupId } from './util';
+import { getSelectedElementGroupId, getSelectedElementMeta } from './util';
 import TemplateUtil from '../Util/TemplateUtil';
 import PageSize from '../Resource/PageSize';
 
@@ -35,17 +35,19 @@ const store = (state = initialState, action) => {
         layout: {
           [getSelectedElementGroupId(state)]: {
             [state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload.i)]: {
-              w: {
-                $set: action.payload.width
-              },
-              h: {
-                $set: action.payload.height
-              }
+              w: { $set: action.payload.width },
+              h: { $set: action.payload.height }
             }
           }
         }
       });
+
     case 'REMOVE_ELEMENT':
+      // Prevent removal if element is required
+      if (getSelectedElementMeta(state).required) {
+        return state;
+      }
+
       return update(state, {
         layout: {
           [getSelectedElementGroupId(state)]: {
@@ -161,11 +163,28 @@ const store = (state = initialState, action) => {
 };
 
 function getInitialState() {
+  const header = update(
+    TemplateUtil.createComponent(),
+    {
+      h: {
+        $set: 3
+      },
+      meta: {
+        required: {
+          $set: true
+        },
+        type: {
+          $set: 'group'
+        },
+      }
+    }
+  );
+
   const state = {
     layout: {
       root: [],
-      header: [{...TemplateUtil.createComponent(), h: 3}],
-      footer: [{...TemplateUtil.createComponent(), h: 3}]
+      header: [header],
+      footer: [{...header}]
     },
     page: { layoutRelative: true },
     options: {

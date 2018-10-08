@@ -124,18 +124,21 @@ class ElementTools extends Component {
               <Typography color="textSecondary" variant="headline">
                 {capitalize(element.type)} settings
 
-                <Tooltip title={`Delete this ${element.type}`}>
-                  <Button
-                    variant="fab"
-                    color="secondary"
-                    aria-label="Remove"
-                    mini={true}
-                    className={classes.actionButton}
-                    onClick={this.props.onRemoveElement}
-                  >
-                    <Delete/>
-                  </Button>
-                </Tooltip>
+                {!element.required && (
+                  <Tooltip title={`Delete this ${element.type}`}>
+                    <Button
+                      variant="fab"
+                      color="secondary"
+                      aria-label="Remove"
+                      mini={true}
+                      className={classes.actionButton}
+                      onClick={this.props.onRemoveElement}
+                    >
+                      <Delete/>
+                    </Button>
+                  </Tooltip>
+                )}
+
               </Typography>
             </Grid>
 
