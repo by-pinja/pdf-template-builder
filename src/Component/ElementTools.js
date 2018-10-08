@@ -123,10 +123,10 @@ class ElementTools extends Component {
           <Grid container spacing={16} direction="column">
             <Grid item xs={12}>
               <Typography color="textSecondary" variant="headline">
-                {t('elementSettings', { type: capitalize(t('common.' + element.type)) })}
+                {t('elementSettings', { type: capitalize(t(element.type)) })}
 
                 {!element.required && (
-                  <Tooltip title={t('deleteThisElement', { type: t('common.' + element.type).toLowerCase() })}>
+                  <Tooltip title={t('deleteThisElement', { type: t(element.type).toLowerCase() })}>
                     <Button
                       variant="fab"
                       color="secondary"
@@ -207,7 +207,7 @@ class ElementTools extends Component {
               <Grid item xs={12}>
                 <TextField
                   id="content"
-                  label={t('common.content')}
+                  label={t('content')}
                   className={classes.select}
                   value={this.props.element.content || ''}
                   onChange={this.handleChange('content')}

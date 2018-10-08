@@ -114,17 +114,17 @@ class ElementStyle extends Component {
               onChange={this.handleChange('fontStyle')}
             >
               <ToggleButton value="bold">
-                <Tooltip title={t('common.bold')}>
+                <Tooltip title={t('bold')}>
                   <FormatBoldIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="italic">
-                <Tooltip title={t('common.italic')}>
+                <Tooltip title={t('italic')}>
                   <FormatItalicIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="underline">
-                <Tooltip title={t('common.underline')}>
+                <Tooltip title={t('underline')}>
                   <FormatUnderlinedIcon />
                 </Tooltip>
               </ToggleButton>
@@ -132,7 +132,7 @@ class ElementStyle extends Component {
               <ClickAwayListener onClickAway={this.handleClickAway}>
                 <div style={{ display: 'inline-block' }}>
                   <ToggleButton value="color" onClick={this.handleColorPopper}>
-                    <Tooltip title={t('common.color')}>
+                    <Tooltip title={t('color')}>
                       <FormatColorTextIcon />
                     </Tooltip>
                     <ArrowDropDownIcon />
@@ -170,17 +170,17 @@ class ElementStyle extends Component {
               onChange={this.handleChange('horizontalAlignment')}
             >
               <ToggleButton value="left">
-                <Tooltip title={t('common.align.left')}>
+                <Tooltip title={t('alignLeft')}>
                   <FormatAlignLeftIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="center">
-                <Tooltip title={t('common.align.center')}>
+                <Tooltip title={t('alignCenter')}>
                   <FormatAlignCenterIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="right">
-                <Tooltip title={t('common.align.right')}>
+                <Tooltip title={t('alignRight')}>
                   <FormatAlignRightIcon />
                 </Tooltip>
               </ToggleButton>
@@ -194,17 +194,17 @@ class ElementStyle extends Component {
               onChange={this.handleChange('verticalAlignment')}
             >
               <ToggleButton value="top">
-                <Tooltip title={t('common.align.top')}>
+                <Tooltip title={t('alignTop')}>
                   <VerticalAlignTopIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="middle">
-                <Tooltip title={t('common.align.middle')}>
+                <Tooltip title={t('alignMiddle')}>
                   <VerticalAlignMiddleIcon />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="bottom">
-                <Tooltip title={t('common.align.bottom')}>
+                <Tooltip title={t('alignBottom')}>
                   <VerticalAlignBottomIcon />
                 </Tooltip>
               </ToggleButton>

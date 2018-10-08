@@ -18,9 +18,9 @@ const styles = theme => ({
 });
 
 const actions = [
-  { icon: <AddPhotoAlternate />, name: 'Image', title: 'common.image' },
-  { icon: <TextFields />, name: 'Text', title: 'common.text' },
-  { icon: <GroupIcon />, name: 'Group', title: 'common.group' },
+  { icon: <AddPhotoAlternate />, name: 'Image', title: 'image' },
+  { icon: <TextFields />, name: 'Text', title: 'text' },
+  { icon: <GroupIcon />, name: 'Group', title: 'group' },
 ];
 
 class ElementSpeedDial extends Component {
