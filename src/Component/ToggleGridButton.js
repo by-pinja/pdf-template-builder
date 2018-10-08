@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import GridOn from '@material-ui/icons/GridOn';
 import GridOff from '@material-ui/icons/GridOff';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 class ToggleGridButton extends Component {
   constructor(props) {
@@ -17,8 +18,10 @@ class ToggleGridButton extends Component {
   }
 
   render() {
-    const title = this.props.gridVisible ? 'Hide grid' : 'Show grid';
-    const icon  = this.props.gridVisible ? <GridOff /> : <GridOn />;
+    const { gridVisible, t } = this.props;
+
+    const title = gridVisible ? t('hideGrid') : t('showGrid');
+    const icon  = gridVisible ? <GridOff /> : <GridOn />;
     return (
       <Tooltip title={title}>
         <div>
@@ -40,4 +43,4 @@ ToggleGridButton.propTypes = {
   onChangeGridVisibility: PropTypes.func.isRequired
 };
 
-export default ToggleGridButton;
+export default withNamespaces()(ToggleGridButton);

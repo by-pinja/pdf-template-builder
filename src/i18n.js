@@ -41,7 +41,9 @@ i18n
           paperSize: 'Paper format',
           paperOrientation: 'Orientation',
           landscape: 'Landscape',
-          portrait: 'Portrait'
+          portrait: 'Portrait',
+          showGrid: 'Show grid',
+          hideGrid: 'Hide grid'
         }
       },
       fi: {
@@ -78,7 +80,9 @@ i18n
           paperSize: 'Paperin koko',
           paperOrientation: 'Sivun asettelu',
           landscape: 'Vaaka',
-          portrait: 'Pysty'
+          portrait: 'Pysty',
+          showGrid: 'Näytä ruudukko',
+          hideGrid: 'Piilota ruudukko'
         }
       }
     }
