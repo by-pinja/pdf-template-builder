@@ -33,7 +33,8 @@ i18n
           deleteThisElement: 'Delete this {{type}}',
           elementSettings: '{{type}} settings',
           pageSettings: 'Page settings',
-          addElement: 'Add element'
+          addElement: 'Add element',
+          showPreview: 'Show preview'
         }
       },
       fi: {
@@ -62,7 +63,8 @@ i18n
           deleteThisElement: 'Poista {{type}}',
           elementSettings: '{{type}}n asetukset',
           pageSettings: 'Sivun asetukset',
-          addElement: 'Lisää elementti'
+          addElement: 'Lisää elementti',
+          showPreview: 'Näytä esikatselu'
         }
       }
     }

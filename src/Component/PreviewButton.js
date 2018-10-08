@@ -3,6 +3,7 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next';
 
 class PreviewButton extends Component {
   constructor(props) {
@@ -37,11 +38,13 @@ class PreviewButton extends Component {
       return '';
     }
 
+    const { t } = this.props;
+
     return (
-      <Tooltip title="Preview">
+      <Tooltip title={t('showPreview')}>
         <IconButton
           color="inherit"
-          aria-label="Preview"
+          aria-label={t('showPreview')}
           onClick={this.preview}
         >
           <RemoveRedEye/>
@@ -58,4 +61,4 @@ PreviewButton.propTypes = {
   exportTemplate: PropTypes.func.isRequired
 };
 
-export default PreviewButton;
+export default withNamespaces()(PreviewButton);
