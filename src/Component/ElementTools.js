@@ -15,6 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabe
 import Switch from '@material-ui/core/Switch/Switch';
 import MaterialSelect from './MaterialSelect';
 import ElementStyleContainer from '../Container/ElementStyleContainer';
+import { capitalize } from '../Util/String';
 
 const styles = theme => ({
   actionButton: {
@@ -80,9 +81,9 @@ class ElementTools extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, element } = this.props;
 
-    if (!this.props.element) {
+    if (!element) {
       return '';
     }
 
@@ -93,15 +94,19 @@ class ElementTools extends Component {
       example: schema.example
     });
 
+    const isImage = element.type === 'image';
+    const isGroup = element.type === 'group';
+    const isText  = element.type === 'text';
+
     return (
       <Card className={classes.card}>
         <CardContent>
           <Grid container spacing={16} direction="column">
             <Grid item xs={12}>
               <Typography color="textSecondary" variant="headline">
-                Element settings
+                {capitalize(element.type)} settings
 
-                <Tooltip title="Delete this element">
+                <Tooltip title={`Delete this ${element.type}`}>
                   <Button
                     variant="fab"
                     color="secondary"
@@ -116,66 +121,76 @@ class ElementTools extends Component {
               </Typography>
             </Grid>
 
-            <Grid item xs={12}>
-              <ElementStyleContainer />
-            </Grid>
+            {(isText || isGroup) && (
+              <Grid item xs={12}>
+                <ElementStyleContainer />
+              </Grid>
+            )}
 
-            <Grid item xs={12}>
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={this.props.element.layoutRelative}
-                      onChange={this.handleChangeCheckbox('layoutRelative')}
-                      value="layoutRelative"
-                    />
-                  }
-                  label="Use relative layout"
+            {isGroup && (
+              <Grid item xs={12}>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.props.element.layoutRelative}
+                        onChange={this.handleChangeCheckbox('layoutRelative')}
+                        value="layoutRelative"
+                      />
+                    }
+                    label="Use relative layout"
+                  />
+                </FormGroup>
+              </Grid>
+            )}
+
+            {isImage && (
+              <Grid item xs={6}>
+                <input
+                  id="file-input"
+                  accept="image/*"
+                  type="file"
+                  style={{ display: 'none' }}
+                  onChange={this.handleImageUpload}
                 />
-              </FormGroup>
-            </Grid>
 
-            <Grid item xs={6}>
-              <input
-                id="file-input"
-                accept="image/*"
-                type="file"
-                style={{ display: 'none' }}
-                onChange={this.handleImageUpload}
-              />
+                <label htmlFor="file-input">
+                  <Button variant="raised" color="primary" component="span">
+                    <AddAPhoto className={classes.iconLeft} />
+                    Upload image
+                  </Button>
+                </label>
+              </Grid>
+            )}
 
-              <label htmlFor="file-input">
-                <Button variant="raised" color="primary" component="span">
-                  <AddAPhoto className={classes.iconLeft} />
-                  Upload image
-                </Button>
-              </label>
-            </Grid>
+            {isText && (
+              <Grid item xs={12}>
+                <MaterialSelect
+                  id="tag"
+                  label="Bind to property"
+                  className={classes.select}
+                  value={this.props.element.tag || null}
+                  onChange={this.handleChange('tag')}
+                  options={
+                    this.props.schema
+                      .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
+                  }
+                />
+              </Grid>
+            )}
 
-            <Grid item xs={12} md={6}>
-              <MaterialSelect
-                id="tag"
-                label="Bind to property"
-                className={classes.select}
-                value={this.props.element.tag || null}
-                onChange={this.handleChange('tag')}
-                options={
-                  this.props.schema
-                    .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
-                }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="content"
-                label="Content"
-                className={classes.select}
-                value={this.props.element.content || ''}
-                onChange={this.handleChange('content')}
-                margin="normal"
-              />
-            </Grid>
+            {isText && (
+              <Grid item xs={12}>
+                <TextField
+                  id="content"
+                  label="Content"
+                  className={classes.select}
+                  value={this.props.element.content || ''}
+                  onChange={this.handleChange('content')}
+                  margin="normal"
+                />
+              </Grid>
+            )}
           </Grid>
         </CardContent>
       </Card>
