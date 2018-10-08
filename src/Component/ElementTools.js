@@ -9,12 +9,12 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types'
-import NoteAdd from '@material-ui/icons/NoteAdd';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
 import MaterialSelect from './MaterialSelect';
+import ElementStyleContainer from '../Container/ElementStyleContainer';
 
 const styles = theme => ({
   actionButton: {
@@ -113,20 +113,11 @@ class ElementTools extends Component {
                     <Delete/>
                   </Button>
                 </Tooltip>
-
-                <Tooltip title="Add new element">
-                  <Button
-                    variant="fab"
-                    color="primary"
-                    aria-label="Add"
-                    mini={true}
-                    onClick={() => this.props.onAddElement(this.props.element.i)}
-                    className={classes.actionButton}
-                  >
-                    <NoteAdd/>
-                  </Button>
-                </Tooltip>
               </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <ElementStyleContainer />
             </Grid>
 
             <Grid item xs={12}>

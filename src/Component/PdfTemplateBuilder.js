@@ -6,14 +6,22 @@ import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
 import LayoutEditor from './LayoutEditor';
-import ElementStyleContainer from '../Container/ElementStyleContainer';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import ElementSpeedDialContainer from '../Container/ElementSpeedDialContainer';
 
 const styles = theme => ({
   toolbox: {
     marginLeft: theme.spacing.unit * 2,
-    flex: 1
+    width: 450,
+    minWidth: 450
+  },
+  editorContainer: {
+    background: theme.palette.background.default,
+    borderRadius: 10,
+    padding: 20,
+    boxSizing: 'border-box',
+    flex: 1,
+    overflowX: 'auto',
   },
   editor: {
     fontFamily: 'Open Sans',
@@ -173,9 +181,7 @@ class PdfTemplateBuilder extends Component {
         <ElementSpeedDialContainer />
 
         <div className={classes.container}>
-          <div>
-            <ElementStyleContainer />
-
+          <div className={classes.editorContainer}>
             <Paper
               id="editor"
               className={classes.editor}

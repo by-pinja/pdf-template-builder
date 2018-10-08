@@ -10,7 +10,7 @@ export default class PageSize {
   };
 
   static size = {
-    a4: { width: 595, height: 898 },
+    a4: { width: 595, height: 842 },
     letter: { width: 612, height: 792 }
   };
 }
