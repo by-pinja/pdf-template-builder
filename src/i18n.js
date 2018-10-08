@@ -9,6 +9,7 @@ i18n
     resources: {
       en: {
         translation: {
+          pdfTemplateBuilder: 'PDF template builder',
           common: {
             group: 'Group',
             text: 'Text',
@@ -48,6 +49,7 @@ i18n
       },
       fi: {
         translation: {
+          pdfTemplateBuilder: 'PDF-pohjien rakennustyökalu',
           common: {
             group: 'Ryhmä',
             text: 'Teksti',

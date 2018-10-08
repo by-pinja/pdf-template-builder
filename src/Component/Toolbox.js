@@ -9,6 +9,7 @@ import RedoButtonContainer from '../Container/RedoButtonContainer';
 import SaveButtonContainer from '../Container/SaveButtonContainer';
 import ToggleGridButtonContainer from '../Container/ToggleGridButtonContainer';
 import PageToolsContainer from '../Container/PageToolsContainer';
+import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
   bar: {
@@ -21,13 +22,13 @@ const styles = theme => ({
 
 class Toolbox extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
 
     return (
       <AppBar position="static" className={classes.bar}>
         <Toolbar>
           <Typography variant="title" color="inherit" className={classes.grow}>
-            PDF template builder
+            {t('pdfTemplateBuilder')}
           </Typography>
 
           <PageToolsContainer />
@@ -42,4 +43,4 @@ class Toolbox extends Component {
   }
 }
 
-export default withStyles(styles)(Toolbox);
+export default withNamespaces()(withStyles(styles)(Toolbox));
