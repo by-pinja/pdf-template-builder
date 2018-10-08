@@ -28,6 +28,7 @@ i18n
             },
             content: 'Content'
           },
+          commonProperties: 'Common properties',
           freeText: 'Free text',
           bindToProperty: 'Bind to property',
           layoutRelative: 'Use relative layout',
@@ -69,6 +70,7 @@ i18n
             },
             content: 'Sisältö'
           },
+          commonProperties: 'Yleiset arvot',
           freeText: 'Vapaa teksti',
           bindToProperty: 'Sido arvo',
           layoutRelative: 'Asettele suhteellisesti',

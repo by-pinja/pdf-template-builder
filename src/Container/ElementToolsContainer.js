@@ -2,12 +2,13 @@ import { addElement, removeElement, resizeElement, updateElement } from '../Stor
 import { connect } from 'react-redux';
 import ElementTools from '../Component/ElementTools';
 import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from '../Store/util';
+import { t } from 'i18next';
 
 const getAllowedSchemaObjects = (elementUuid, state) => {
   const parent = getElement(elementUuid, state);
 
   const allowed = [
-    { label: 'Root', options: state.schema.slice() }
+    { label: t('commonProperties'), options: state.schema.slice() }
   ];
 
   if (parent && parent.meta.tag) {

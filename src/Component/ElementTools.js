@@ -194,6 +194,7 @@ class ElementTools extends Component {
                   className={classes.select}
                   value={this.props.element.tag || null}
                   onChange={this.handleChange('tag')}
+                  placeholder={t('bindToProperty')}
                   options={
                     this.props.schema
                       .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
