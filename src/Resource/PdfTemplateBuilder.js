@@ -4,6 +4,7 @@ import PdfTemplateBuilderContainer from '../Container/PdfTemplateBuilderContaine
 import Provider from 'react-redux/es/components/Provider';
 import pdfTemplateBuilder from '../Store/reducers';
 import { createStore } from 'redux';
+import i18n from 'i18next';
 
 class PdfTemplateBuilder {
   ref = null;
@@ -27,6 +28,8 @@ class PdfTemplateBuilder {
 
   configure(config) {
     this.checkState() || this.ref.configure(config);
+
+    config.language && this.changeLanguage(config.language);
   }
 
   getTemplateHtml() {
@@ -39,6 +42,10 @@ class PdfTemplateBuilder {
 
   importTemplate(config) {
     this.checkState() || this.ref.importTemplate(config);
+  }
+
+  changeLanguage(lang) {
+    i18n.changeLanguage(lang);
   }
 
   checkState() {

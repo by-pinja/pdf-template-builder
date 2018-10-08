@@ -6,6 +6,7 @@ import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
 import TextFields from '@material-ui/icons/TextFields';
 import GroupIcon from '@material-ui/icons/BrandingWatermark';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction/SpeedDialAction';
+import { withI18n } from 'react-i18next';
 
 const styles = theme => ({
   speedDial: {
@@ -17,9 +18,9 @@ const styles = theme => ({
 });
 
 const actions = [
-  { icon: <AddPhotoAlternate />, name: 'Image' },
-  { icon: <TextFields />, name: 'Text' },
-  { icon: <GroupIcon />, name: 'Group' },
+  { icon: <AddPhotoAlternate />, name: 'Image', title: 'common.image' },
+  { icon: <TextFields />, name: 'Text', title: 'common.text' },
+  { icon: <GroupIcon />, name: 'Group', title: 'common.group' },
 ];
 
 class ElementSpeedDial extends Component {
@@ -55,7 +56,7 @@ class ElementSpeedDial extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
     const { open } = this.state;
 
     return (
@@ -75,7 +76,7 @@ class ElementSpeedDial extends Component {
             <SpeedDialAction
               key={action.name}
               icon={action.icon}
-              tooltipTitle={action.name}
+              tooltipTitle={t(action.title)}
               tooltipPlacement="left"
               tooltipOpen
               onClick={this.handleClick(action.name)}
@@ -87,4 +88,4 @@ class ElementSpeedDial extends Component {
   }
 }
 
-export default withStyles(styles)(ElementSpeedDial);
+export default withI18n()(withStyles(styles)(ElementSpeedDial));

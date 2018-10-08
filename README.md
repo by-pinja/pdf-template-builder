@@ -62,7 +62,8 @@ builder.configure({
     // the save button in the builder toolbox.
     // This callback will be called when user clicks that button
     // so you can do perform required actions to store the template
-  }
+  },
+  language: 'en' // en|fi
 });
 
 // Get the result template

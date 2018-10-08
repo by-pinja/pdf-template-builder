@@ -144,7 +144,7 @@ class PdfTemplateBuilder extends Component {
   }
 
   render() {
-    const { classes, editorLoading} = this.props;
+    const { classes, editorLoading } = this.props;
 
     let editor = <div className={classes.loader}><CircularProgress size={100} /></div>;
 
