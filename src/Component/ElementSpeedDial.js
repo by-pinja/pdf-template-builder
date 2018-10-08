@@ -6,7 +6,7 @@ import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
 import TextFields from '@material-ui/icons/TextFields';
 import GroupIcon from '@material-ui/icons/BrandingWatermark';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction/SpeedDialAction';
-import { withI18n } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
   speedDial: {
@@ -88,4 +88,4 @@ class ElementSpeedDial extends Component {
   }
 }
 
-export default withI18n()(withStyles(styles)(ElementSpeedDial));
+export default withNamespaces()(withStyles(styles)(ElementSpeedDial));

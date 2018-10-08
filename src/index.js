@@ -23,6 +23,8 @@ if (process.env.REACT_APP_MODE === 'standalone') {
   } catch(e) {
     // Silence
   }
+
+  window.builder = builder;
 } else {
   window.PdfTemplateBuilder = PdfTemplateBuilder;
 }

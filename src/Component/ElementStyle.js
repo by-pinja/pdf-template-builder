@@ -23,7 +23,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayList
 import FontSelector from './FontSelector';
 import TextField from '@material-ui/core/TextField/TextField';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
-import { withI18n } from 'react-i18next';
+import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
   root: {
@@ -221,4 +221,4 @@ ElementStyle.propTypes = {
   onUpdateElement: PropTypes.func.isRequired
 };
 
-export default withI18n()(withStyles(styles)(ElementStyle));
+export default withNamespaces()(withStyles(styles)(ElementStyle));

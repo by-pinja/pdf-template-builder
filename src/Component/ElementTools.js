@@ -17,6 +17,7 @@ import MaterialSelect from './MaterialSelect';
 import ElementStyleContainer from '../Container/ElementStyleContainer';
 import { capitalize } from '../Util/String';
 import { scaleWidthTo, getSizeOf } from '../Util/Image';
+import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
   actionButton: {
@@ -99,7 +100,7 @@ class ElementTools extends Component {
   };
 
   render() {
-    const { classes, element } = this.props;
+    const { classes, element, t } = this.props;
 
     if (!element) {
       return '';
@@ -122,10 +123,10 @@ class ElementTools extends Component {
           <Grid container spacing={16} direction="column">
             <Grid item xs={12}>
               <Typography color="textSecondary" variant="headline">
-                {capitalize(element.type)} settings
+                {t('elementSettings', { type: capitalize(t('common.' + element.type)) })}
 
                 {!element.required && (
-                  <Tooltip title={`Delete this ${element.type}`}>
+                  <Tooltip title={t('deleteThisElement', { type: t('common.' + element.type).toLowerCase() })}>
                     <Button
                       variant="fab"
                       color="secondary"
@@ -159,7 +160,7 @@ class ElementTools extends Component {
                         value="layoutRelative"
                       />
                     }
-                    label="Use relative layout"
+                    label={t('layoutRelative')}
                   />
                 </FormGroup>
               </Grid>
@@ -189,7 +190,7 @@ class ElementTools extends Component {
               <Grid item xs={12}>
                 <MaterialSelect
                   id="tag"
-                  label="Bind to property"
+                  label={t('bindToProperty')}
                   className={classes.select}
                   value={this.props.element.tag || null}
                   onChange={this.handleChange('tag')}
@@ -205,7 +206,7 @@ class ElementTools extends Component {
               <Grid item xs={12}>
                 <TextField
                   id="content"
-                  label="Content"
+                  label={t('common.content')}
                   className={classes.select}
                   value={this.props.element.content || ''}
                   onChange={this.handleChange('content')}
@@ -228,4 +229,4 @@ ElementTools.propTypes = {
   onResizeElement: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(ElementTools);
+export default withNamespaces()(withStyles(styles)(ElementTools));

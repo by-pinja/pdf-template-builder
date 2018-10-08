@@ -24,8 +24,13 @@ i18n
               top: 'Align top',
               middle: 'Align middle',
               bottom: 'Align bottom'
-            }
-          }
+            },
+            content: 'Content'
+          },
+          bindToProperty: 'Bind to property',
+          layoutRelative: 'Use relative layout',
+          deleteThisElement: 'Delete this {{type}}',
+          elementSettings: '{{type}} settings'
         }
       },
       fi: {
@@ -45,8 +50,13 @@ i18n
               top: 'Tasaa ylös',
               middle: 'Tasaa keskelle',
               bottom: 'Tasaa alas'
-            }
-          }
+            },
+            content: 'Sisältö'
+          },
+          bindToProperty: 'Sido arvo',
+          layoutRelative: 'Asettele suhteellisesti',
+          deleteThisElement: 'Poista {{type}}',
+          elementSettings: '{{type}}n asetukset',
         }
       }
     }
