@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch/Switch';
 import MaterialSelect from './MaterialSelect';
 import ElementStyleContainer from '../Container/ElementStyleContainer';
 import { capitalize } from '../Util/String';
+import { scaleWidthTo, getSizeOf } from '../Util/Image';
 
 const styles = theme => ({
   actionButton: {
@@ -40,6 +41,17 @@ class ElementTools extends Component {
     this.handleChange         = this.handleChange.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleImageUpload    = this.handleImageUpload.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    if (!props.element || (this.props.element && this.props.element.i === props.element.i)) {
+      return;
+    }
+
+    // Automatically open the image input
+    if (props.element.type === 'image' && !props.element.image) {
+      setTimeout(() => this.fileInput.click());
+    }
   }
 
   handleChange = name => event => {
@@ -69,12 +81,18 @@ class ElementTools extends Component {
     reader.readAsDataURL(event.target.files[0]);
 
     reader.onload = () => {
-      const element = {
-        ...this.props.element,
-        image: reader.result
-      };
+      getSizeOf(reader.result, size => {
+        const element = {
+          ...this.props.element,
+          image: reader.result
+        };
 
-      this.props.onUpdateElement(element);
+        // Scale image container down or up to some proper size
+        const { width, height } = scaleWidthTo(10, size);
+
+        this.props.onResizeElement(element.i, width, height);
+        this.props.onUpdateElement(element);
+      });
     };
 
     reader.onerror = console.error;
@@ -152,6 +170,7 @@ class ElementTools extends Component {
                   type="file"
                   style={{ display: 'none' }}
                   onChange={this.handleImageUpload}
+                  ref={input => this.fileInput = input}
                 />
 
                 <label htmlFor="file-input">
@@ -202,7 +221,8 @@ ElementTools.propTypes = {
   element: PropTypes.object,
   schema: PropTypes.array.isRequired,
   onRemoveElement: PropTypes.func.isRequired,
-  onUpdateElement: PropTypes.func.isRequired
+  onUpdateElement: PropTypes.func.isRequired,
+  onResizeElement: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ElementTools);

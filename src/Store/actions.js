@@ -23,6 +23,11 @@ export const addElement = (parentId, type = 'text') => ({
   }
 });
 
+export const resizeElement = (i, width, height) => ({
+  type: 'RESIZE_ELEMENT',
+  payload: { i, width, height }
+});
+
 export const updateElement = element => ({
   type: 'UPDATE_ELEMENT',
   payload: element

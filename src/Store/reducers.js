@@ -30,6 +30,21 @@ const store = (state = initialState, action) => {
         }
       );
 
+    case 'RESIZE_ELEMENT':
+      return update(state, {
+        layout: {
+          [getSelectedElementGroupId(state)]: {
+            [state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload.i)]: {
+              w: {
+                $set: action.payload.width
+              },
+              h: {
+                $set: action.payload.height
+              }
+            }
+          }
+        }
+      });
     case 'REMOVE_ELEMENT':
       return update(state, {
         layout: {
