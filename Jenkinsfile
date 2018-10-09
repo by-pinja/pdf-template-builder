@@ -34,6 +34,17 @@ podTemplate(label: pod.label,
           """
         }
       }
+      stage('Report') {
+        publishHTML(target: [
+          allowMissing: false,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'coverage',
+          reportFiles: 'index.html',
+          reportName: 'Code Coverage',
+          reportTitles: ''
+        ])
+      }
     }
     catch (e) {
       currentBuild.result = 'FAILED'
