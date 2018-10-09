@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import SpeedDial from '@material-ui/lab/SpeedDial/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon/SpeedDialIcon';
 import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
-import TextFields from '@material-ui/icons/TextFields';
 import GroupIcon from '@material-ui/icons/BrandingWatermark';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import SpeedDial from '@material-ui/lab/SpeedDial/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction/SpeedDialAction';
-import { withNamespaces } from 'react-i18next';
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon/SpeedDialIcon';
 import TemplateUtil from '../Util/TemplateUtil';
+import TextFields from '@material-ui/icons/TextFields';
+import { withNamespaces } from 'react-i18next';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   speedDial: {
@@ -88,5 +89,10 @@ class ElementSpeedDial extends Component {
     );
   }
 }
+
+ElementSpeedDial.propTypes = {
+  onAddElement: PropTypes.func.isRequired,
+  selectedUuid: PropTypes.string
+};
 
 export default withNamespaces()(withStyles(styles)(ElementSpeedDial));
