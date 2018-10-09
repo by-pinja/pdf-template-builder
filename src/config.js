@@ -1,12 +1,18 @@
-const font = {
-  default: 'Open Sans',
-  all: [
-    'Open Sans',
-    'Roboto',
-    'Mali',
-    'Roboto Mono',
-    'Charmonman'
-  ]
+const defaults = {
+  font: {
+    default: 'Open Sans',
+    all: [
+      'Open Sans',
+      'Roboto',
+      'Mali',
+      'Roboto Mono',
+      'Charmonman'
+    ]
+  },
+  alignment: {
+    vertical: 'top',
+    horizontal: 'left'
+  }
 };
 
-export { font };
+export { defaults };

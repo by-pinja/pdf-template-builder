@@ -1,29 +1,28 @@
-import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid/Grid';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
+import Fade from '@material-ui/core/Fade/Fade';
+import FontSelector from './FontSelector';
 import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
-import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
-import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
-import VerticalAlignMiddleIcon from '@material-ui/icons/VerticalAlignCenter';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
+import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
-import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
-import Fade from '@material-ui/core/Fade/Fade';
 import Popper from '@material-ui/core/Popper/Popper';
-import { SketchPicker } from 'react-color';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
-import FontSelector from './FontSelector';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import SettingVerticalAlign from './SettingVerticalAlign';
 import TextField from '@material-ui/core/TextField/TextField';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
+import { defaults } from '../config';
+import { SketchPicker } from 'react-color';
 import { withNamespaces } from 'react-i18next';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
@@ -188,27 +187,11 @@ class ElementStyle extends Component {
           </Grid>
 
           <Grid item>
-            <ToggleButtonGroup
-              value={element.verticalAlignment || 'top'}
-              exclusive
+            <SettingVerticalAlign
+              value={element.verticalAlignment}
+              defaultValue={defaults.alignment.vertical}
               onChange={this.handleChange('verticalAlignment')}
-            >
-              <ToggleButton value="top">
-                <Tooltip title={t('alignTop')}>
-                  <VerticalAlignTopIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="middle">
-                <Tooltip title={t('alignMiddle')}>
-                  <VerticalAlignMiddleIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="bottom">
-                <Tooltip title={t('alignBottom')}>
-                  <VerticalAlignBottomIcon />
-                </Tooltip>
-              </ToggleButton>
-            </ToggleButtonGroup>
+            />
           </Grid>
         </Grid>
       </Grid>
