@@ -35,11 +35,20 @@ podTemplate(label: pod.label,
         }
       }
       stage('Report') {
+        step([
+          $class: 'CloverPublisher',
+          cloverReportDir: 'coverage',
+          cloverReportFileName: 'clover.xml',
+          healthyTarget: [methodCoverage: 100, conditionalCoverage: 80, statementCoverage: 80],
+          unhealthyTarget: [methodCoverage: 45, conditionalCoverage: 45, statementCoverage: 45],
+          failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]
+        ])
+
         publishHTML(target: [
           allowMissing: false,
           alwaysLinkToLastBuild: true,
           keepAll: true,
-          reportDir: 'coverage',
+          reportDir: 'coverage/lcov-report',
           reportFiles: 'index.html',
           reportName: 'Code Coverage',
           reportTitles: ''
