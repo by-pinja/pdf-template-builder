@@ -1,22 +1,13 @@
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
-import Fade from '@material-ui/core/Fade/Fade';
 import FontSelector from './FontSelector';
-import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import Grid from '@material-ui/core/Grid/Grid';
-import Paper from '@material-ui/core/Paper/Paper';
-import Popper from '@material-ui/core/Popper/Popper';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import SettingFontColor from './SettingFontColor';
 import SettingFontStyle from './SettingFontStyle';
 import SettingHorizontalAlign from './SettingHorizontalAlign';
 import SettingVerticalAlign from './SettingVerticalAlign';
 import TextField from '@material-ui/core/TextField/TextField';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { defaults } from '../config';
-import { SketchPicker } from 'react-color';
-import { withNamespaces } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -30,11 +21,7 @@ class ElementStyle extends Component {
     super(props);
 
     this.handleChange      = this.handleChange.bind(this);
-    this.handleColorPopper = this.handleColorPopper.bind(this);
-    this.handleClickAway   = this.handleClickAway.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
-
-    this.state = { popperOpen: false };
   }
 
   handleChange = name => (event, value) => {
@@ -50,34 +37,16 @@ class ElementStyle extends Component {
     this.handleChange(name)(event, event.target.value);
   };
 
-  handleColorPopper = event => {
-    event.persist();
-
-    this.setState({
-      popperOpen: !this.state.popperOpen,
-      popperRef: event.target
-    });
-  };
-
   handleColorChange = (color, event) => {
     this.handleChange('color')(event, color.hex);
   };
 
-  handleClickAway = () => {
-    this.setState({
-      popperOpen: false
-    });
-  };
-
   render() {
-    const { element, t } = this.props;
-    const { popperOpen, popperRef } = this.state;
+    const { element } = this.props;
 
     if (!element) {
       return '';
     }
-
-    const popperId = popperOpen ? 'color-popper' : null;
 
     return (
       <Grid container direction="row" spacing={8} item xs={12}>
@@ -108,35 +77,11 @@ class ElementStyle extends Component {
               onChange={this.handleChange('fontStyle') }
             />
 
-            <ClickAwayListener onClickAway={this.handleClickAway}>
-              <div style={{ display: 'inline-block' }}>
-                <ToggleButton value="color" onClick={this.handleColorPopper}>
-                  <Tooltip title={t('color')}>
-                    <FormatColorTextIcon />
-                  </Tooltip>
-                  <ArrowDropDownIcon />
-                </ToggleButton>
-                <Popper
-                  id={popperId}
-                  style={{ zIndex: 100 }}
-                  open={popperOpen}
-                  disablePortal={true}
-                  anchorEl={popperRef}
-                  transition
-                >
-                  {({ TransitionProps }) => (
-                    <Fade {...TransitionProps} timeout={150}>
-                      <Paper>
-                        <SketchPicker
-                          color={element.color || '#000'}
-                          onChange={this.handleColorChange}
-                        />
-                      </Paper>
-                    </Fade>
-                  )}
-                </Popper>
-              </div>
-            </ClickAwayListener>
+            <SettingFontColor
+              value={element.color}
+              defaultValue={defaults.font.color}
+              onChange={this.handleColorChange}
+            />
           </Grid>
         </Grid>
 
@@ -167,4 +112,4 @@ ElementStyle.propTypes = {
   onUpdateElement: PropTypes.func.isRequired
 };
 
-export default withNamespaces()(withStyles(styles)(ElementStyle));
+export default withStyles(styles)(ElementStyle);

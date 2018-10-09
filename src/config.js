@@ -1,6 +1,7 @@
 const defaults = {
   font: {
-    family: 'Open Sans'
+    family: 'Open Sans',
+    color: '#000'
   },
   alignment: {
     vertical: 'top',
