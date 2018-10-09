@@ -15,7 +15,7 @@ class UndoButton extends Component {
           <IconButton
             color="inherit"
             aria-label={t('doUndo')}
-            onClick={this.props.onUndo}
+            onClick={this.props.canUndo ? this.props.onUndo : undefined}
             disabled={!this.props.canUndo}
           >
             <Undo />
