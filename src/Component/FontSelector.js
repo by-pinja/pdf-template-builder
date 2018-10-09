@@ -2,25 +2,18 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField/TextField';
 import WebFont from 'webfontloader';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-
-const defaultFont = 'Open Sans';
-
-const availableFonts = [
-  defaultFont,
-  'Roboto',
-  'Mali',
-  'Roboto Mono',
-  'Charmonman'
-].sort();
+import { font } from '../config';
 
 WebFont.load({
   google: {
-    families: availableFonts
+    families: font.all
   }
 });
 
 class FontSelector extends Component {
   render() {
+    const fonts = font.all.slice().sort();
+
     return (
       <TextField
         id="fontFamily"
@@ -28,7 +21,7 @@ class FontSelector extends Component {
         SelectProps={{}}
         {...this.props}
       >
-        {availableFonts.map(font => (
+        {fonts.map(font => (
           <MenuItem
             key={font}
             value={font}
