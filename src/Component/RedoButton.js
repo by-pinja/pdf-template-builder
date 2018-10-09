@@ -15,7 +15,7 @@ class RedoButton extends Component {
           <IconButton
             color="inherit"
             aria-label={t('doRedo')}
-            onClick={this.props.onRedo}
+            onClick={this.props.canRedo ? this.props.onRedo : undefined}
             disabled={!this.props.canRedo}
           >
             <Redo />
