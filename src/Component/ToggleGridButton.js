@@ -1,9 +1,9 @@
+import GridOff from '@material-ui/icons/GridOff';
+import GridOn from '@material-ui/icons/GridOn';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import GridOn from '@material-ui/icons/GridOn';
-import GridOff from '@material-ui/icons/GridOff';
-import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 
 class ToggleGridButton extends Component {
@@ -22,6 +22,7 @@ class ToggleGridButton extends Component {
 
     const title = gridVisible ? t('hideGrid') : t('showGrid');
     const icon  = gridVisible ? <GridOff /> : <GridOn />;
+
     return (
       <Tooltip title={title}>
         <div>
