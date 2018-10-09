@@ -30,7 +30,7 @@ podTemplate(label: pod.label,
       stage('Test') {
         container('node') {
           sh """
-            npm test
+            npm run test:ci
           """
         }
       }
