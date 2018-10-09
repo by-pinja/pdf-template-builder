@@ -1,5 +1,7 @@
 # What is this
 
+[![Build Status](https://jenkins.protacon.cloud/buildStatus/icon?job=www.github.com/pdf-template-builder/master)](https://jenkins.protacon.cloud/job/www.github.com/job/pdf-template-builder/job/master/)
+
 Template builder for [pdf-storage](https://github.com/protacon/pdf-storage)
 
 ## Table of contents
