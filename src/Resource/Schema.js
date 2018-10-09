@@ -1,5 +1,13 @@
+import logo from './logo.png';
+
 class Schema {
   forExample = () => ([
+    {
+      type: 'image',
+      tag: 'logo',
+      text: 'Logo',
+      example: logo
+    },
     {
       type: 'text',
       tag: 'page',

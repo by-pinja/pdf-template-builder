@@ -50,7 +50,11 @@ class ElementTools extends Component {
     }
 
     // Automatically open the image input
-    if (props.element.type === 'image' && !props.element.image) {
+    if (
+      props.element.type === 'image' &&
+      !props.element.image &&
+      (!props.element.tag || !props.element.tag.type === 'image')
+    ) {
       setTimeout(() => this.fileInput.click());
     }
   }
@@ -180,13 +184,13 @@ class ElementTools extends Component {
                 <label htmlFor="file-input">
                   <Button variant="raised" color="primary" component="span">
                     <AddAPhoto className={classes.iconLeft} />
-                    Upload image
+                    {t('uploadImage')}
                   </Button>
                 </label>
               </Grid>
             )}
 
-            {isText && (
+            {(isText || isImage) && (
               <Grid item xs={12}>
                 <MaterialSelect
                   id="tag"

@@ -43,6 +43,7 @@ i18n
           sizeAndOrientation: 'Size and orientation',
           text: 'Text',
           underline: 'Underline',
+          uploadImage: 'Upload image',
         }
       },
       fi: {
@@ -81,6 +82,7 @@ i18n
           sizeAndOrientation: 'Koko ja asettelu',
           text: 'Teksti',
           underline: 'Alleviivaa',
+          uploadImage: 'Lataa kuva',
         }
       }
     }

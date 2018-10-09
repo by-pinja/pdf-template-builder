@@ -16,7 +16,7 @@ class LayoutEditor extends Component {
 
     const meta = layout[this.props.parent.i].find(e => e.i === i).meta;
 
-    if (!meta || !meta.tag) {
+    if (!meta || !meta.tag || meta.tag.type !== 'text') {
       return meta.content ? { text: meta.content, tooltip: t('freeText') } : {};
     }
 
@@ -109,6 +109,16 @@ class LayoutEditor extends Component {
               delete e.minW;
             }
 
+            let imageContent = e.meta.image &&
+              <img alt='' src={e.meta.image} style={{ width: '100%' }} draggable={false} />
+            ;
+
+            if (e.meta.tag && e.meta.tag.type === 'image') {
+              imageContent = (
+                <img alt='' src={e.meta.tag.example} style={{ width: '100%' }} draggable={false} />
+              );
+            }
+
             return (
               <div
                 id={'component-' + e.i}
@@ -122,7 +132,7 @@ class LayoutEditor extends Component {
                 <Tooltip title={content.tooltip || ''}>
                   <span style={textStyle}>
                     {content.text}
-                    {e.meta.image && <img alt='' src={e.meta.image} style={{ width: '100%' }} draggable={false} />}
+                    {imageContent}
                   </span>
                 </Tooltip>
 

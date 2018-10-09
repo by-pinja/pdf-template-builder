@@ -6,9 +6,16 @@ import { t } from 'i18next';
 
 const getAllowedSchemaObjects = (elementUuid, state) => {
   const parent = getElement(elementUuid, state);
+  const current = getElement(state.selectedUuid, state);
+
+  if (!current) {
+    return [];
+  }
+
+  const typeFilter = s => s.type === current.meta.type;
 
   const allowed = [
-    { label: t('commonProperties'), options: state.schema.slice() }
+    { label: t('commonProperties'), options: state.schema.slice().filter(typeFilter) }
   ];
 
   if (parent && parent.meta.tag) {
@@ -21,7 +28,7 @@ const getAllowedSchemaObjects = (elementUuid, state) => {
     allowed.unshift({ 
       label: parent.meta.tag.label,
       options: state.schema
-        .find(s => s.tag === parent.meta.tag.value).items
+        .find(s => s.tag === parent.meta.tag.value).items.filter(typeFilter)
     });
   }
 

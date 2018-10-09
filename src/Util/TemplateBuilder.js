@@ -89,6 +89,12 @@ class TemplateBuilder {
       end   = `{{/${component.meta.tag.value}}}`;
     }
 
+    let imageContent = `<img src="${component.meta.image}" style="width: 100%"/>`;
+
+    if (component.meta.tag && component.meta.tag.type === 'image') {
+      imageContent = `<img src="{{${component.meta.tag.value}}}" style="width: 100%"/>`;
+    }
+
     return `
         ${start}
         <div style='
@@ -102,7 +108,7 @@ class TemplateBuilder {
           margin: 0;
         '>
           ${content}
-          <img src="${component.meta.image}" style="width: 100%"/>
+          ${imageContent}
         </div>
         ${end}
       `;
