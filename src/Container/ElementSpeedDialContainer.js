@@ -1,4 +1,4 @@
-import {addElement} from '../Store/actions';
+import { addElement } from '../Store/actions';
 import { connect } from 'react-redux';
 import ElementSpeedDial from '../Component/ElementSpeedDial';
 
@@ -7,7 +7,7 @@ const mapStateToProps = ({present}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAddElement: (selectedUuid, type) => dispatch(addElement(selectedUuid, type))
+  onAddElement: (element, selectedUuid) => dispatch(addElement(element, selectedUuid))
 });
 
 const ElementSpeedDialContainer = connect(

@@ -27,4 +27,21 @@ describe('redux actions', () => {
     });
   });
 
+  describe('add element', () => {
+    test('dispatches the correct action and payload', () => {
+      const element = { i: '3301-ad2412-asd' };
+      const parentId = 'root';
+
+      const expectedActions = [
+        {
+          payload: { parentId, element },
+          type: 'ADD_ELEMENT'
+        }
+      ];
+
+      store.dispatch(actions.addElement(element, parentId));
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
 });

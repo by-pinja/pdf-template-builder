@@ -7,6 +7,7 @@ import TextFields from '@material-ui/icons/TextFields';
 import GroupIcon from '@material-ui/icons/BrandingWatermark';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction/SpeedDialAction';
 import { withNamespaces } from 'react-i18next';
+import TemplateUtil from '../Util/TemplateUtil';
 
 const styles = theme => ({
   speedDial: {
@@ -49,10 +50,10 @@ class ElementSpeedDial extends Component {
       open: !state.open,
     }));
 
-    this.props.onAddElement(
-      this.props.selectedUuid,
-      action.toLowerCase()
-    );
+    const element = TemplateUtil.createComponent();
+    element.meta.type = action.toLowerCase();
+
+    this.props.onAddElement(element, this.props.selectedUuid);
   };
 
   render() {

@@ -1,5 +1,5 @@
 import PageTools from '../Component/PageTools';
-import {addElement, updatePage} from '../Store/actions';
+import { updatePage } from '../Store/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = ({present}) => ({
@@ -7,7 +7,6 @@ const mapStateToProps = ({present}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAddElement: () => dispatch(addElement()),
   onUpdatePage: page => dispatch(updatePage(page))
 });
 

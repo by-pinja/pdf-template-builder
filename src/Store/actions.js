@@ -1,26 +1,11 @@
-import TemplateUtil from '../Util/TemplateUtil';
-import update from 'immutability-helper';
-
 export const selectElement = uuid => ({
   type: 'SELECT_ELEMENT',
   payload: uuid
 });
 
-export const addElement = (parentId, type = 'text') => ({
+export const addElement = (element, parentId) => ({
   type: 'ADD_ELEMENT',
-  payload: {
-    element: update(
-      TemplateUtil.createComponent(),
-      {
-        meta: {
-          type: {
-            $set: type
-          }
-        }
-      }
-    ),
-    parentId
-  }
+  payload: { element, parentId }
 });
 
 export const resizeElement = (i, width, height) => ({

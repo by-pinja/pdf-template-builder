@@ -104,7 +104,6 @@ class PageTools extends Component {
 }
 
 PageTools.propTypes = {
-  onAddElement: PropTypes.func.isRequired,
   onUpdatePage: PropTypes.func.isRequired,
   page: PropTypes.object.isRequired
 };
