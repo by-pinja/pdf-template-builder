@@ -25,7 +25,7 @@ export const removeElement = uuid => ({
 
 export const setLayout = (layout, parentId) => ({
   type: 'SET_LAYOUT',
-  payload: {layout, parentId}
+  payload: { layout, parentId }
 });
 
 export const importTemplate = data => ({
