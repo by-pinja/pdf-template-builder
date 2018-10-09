@@ -2,9 +2,6 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
 import Fade from '@material-ui/core/Fade/Fade';
 import FontSelector from './FontSelector';
-import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
-import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
-import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -14,6 +11,7 @@ import Paper from '@material-ui/core/Paper/Paper';
 import Popper from '@material-ui/core/Popper/Popper';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import SettingHorizontalAlign from './SettingHorizontalAlign';
 import SettingVerticalAlign from './SettingVerticalAlign';
 import TextField from '@material-ui/core/TextField/TextField';
 import ToggleButton from '@material-ui/lab/ToggleButton';
@@ -163,27 +161,11 @@ class ElementStyle extends Component {
 
         <Grid item container direction="row" xs={5} spacing={8}>
           <Grid item>
-            <ToggleButtonGroup
-              value={element.horizontalAlignment || 'left'}
-              exclusive
+            <SettingHorizontalAlign
+              value={element.horizontalAlignment}
+              defaultValue={defaults.alignment.horizontal}
               onChange={this.handleChange('horizontalAlignment')}
-            >
-              <ToggleButton value="left">
-                <Tooltip title={t('alignLeft')}>
-                  <FormatAlignLeftIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="center">
-                <Tooltip title={t('alignCenter')}>
-                  <FormatAlignCenterIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="right">
-                <Tooltip title={t('alignRight')}>
-                  <FormatAlignRightIcon />
-                </Tooltip>
-              </ToggleButton>
-            </ToggleButtonGroup>
+            />
           </Grid>
 
           <Grid item>
