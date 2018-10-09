@@ -1,13 +1,6 @@
 const defaults = {
   font: {
-    default: 'Open Sans',
-    all: [
-      'Open Sans',
-      'Roboto',
-      'Mali',
-      'Roboto Mono',
-      'Charmonman'
-    ]
+    family: 'Open Sans'
   },
   alignment: {
     vertical: 'top',
@@ -15,4 +8,14 @@ const defaults = {
   }
 };
 
-export { defaults };
+const available = {
+  fonts: [
+    'Open Sans',
+    'Roboto',
+    'Mali',
+    'Roboto Mono',
+    'Charmonman'
+  ]
+};
+
+export { defaults, available };

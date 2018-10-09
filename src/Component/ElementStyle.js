@@ -2,20 +2,17 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
 import Fade from '@material-ui/core/Fade/Fade';
 import FontSelector from './FontSelector';
-import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
-import FormatItalicIcon from '@material-ui/icons/FormatItalic';
-import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 import Grid from '@material-ui/core/Grid/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
 import Popper from '@material-ui/core/Popper/Popper';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import SettingFontStyle from './SettingFontStyle';
 import SettingHorizontalAlign from './SettingHorizontalAlign';
 import SettingVerticalAlign from './SettingVerticalAlign';
 import TextField from '@material-ui/core/TextField/TextField';
 import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { defaults } from '../config';
 import { SketchPicker } from 'react-color';
@@ -98,64 +95,48 @@ class ElementStyle extends Component {
               <TextField
                 id="fontSize"
                 type="number"
-                value={this.props.element.fontSize || 12}
+                value={element.fontSize || 12}
                 onChange={this.handleEventChange('fontSize')}
                 style={{ width: '100%' }}
               />
             </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <ToggleButtonGroup
+          <Grid item xs={12} container direction="row">
+            <SettingFontStyle
               value={element.fontStyle}
-              onChange={this.handleChange('fontStyle')}
-            >
-              <ToggleButton value="bold">
-                <Tooltip title={t('bold')}>
-                  <FormatBoldIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="italic">
-                <Tooltip title={t('italic')}>
-                  <FormatItalicIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="underline">
-                <Tooltip title={t('underline')}>
-                  <FormatUnderlinedIcon />
-                </Tooltip>
-              </ToggleButton>
+              onChange={this.handleChange('fontStyle') }
+            />
 
-              <ClickAwayListener onClickAway={this.handleClickAway}>
-                <div style={{ display: 'inline-block' }}>
-                  <ToggleButton value="color" onClick={this.handleColorPopper}>
-                    <Tooltip title={t('color')}>
-                      <FormatColorTextIcon />
-                    </Tooltip>
-                    <ArrowDropDownIcon />
-                  </ToggleButton>
-                  <Popper
-                    id={popperId}
-                    style={{ zIndex: 100 }}
-                    open={popperOpen}
-                    disablePortal={true}
-                    anchorEl={popperRef}
-                    transition
-                  >
-                    {({ TransitionProps }) => (
-                      <Fade {...TransitionProps} timeout={150}>
-                        <Paper>
-                          <SketchPicker
-                            color={element.color || '#000'}
-                            onChange={this.handleColorChange}
-                          />
-                        </Paper>
-                      </Fade>
-                    )}
-                  </Popper>
-                </div>
-              </ClickAwayListener>
-            </ToggleButtonGroup>
+            <ClickAwayListener onClickAway={this.handleClickAway}>
+              <div style={{ display: 'inline-block' }}>
+                <ToggleButton value="color" onClick={this.handleColorPopper}>
+                  <Tooltip title={t('color')}>
+                    <FormatColorTextIcon />
+                  </Tooltip>
+                  <ArrowDropDownIcon />
+                </ToggleButton>
+                <Popper
+                  id={popperId}
+                  style={{ zIndex: 100 }}
+                  open={popperOpen}
+                  disablePortal={true}
+                  anchorEl={popperRef}
+                  transition
+                >
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={150}>
+                      <Paper>
+                        <SketchPicker
+                          color={element.color || '#000'}
+                          onChange={this.handleColorChange}
+                        />
+                      </Paper>
+                    </Fade>
+                  )}
+                </Popper>
+              </div>
+            </ClickAwayListener>
           </Grid>
         </Grid>
 

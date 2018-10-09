@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField/TextField';
 import WebFont from 'webfontloader';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import { defaults } from '../config';
+import { available } from '../config';
 
 WebFont.load({
   google: {
-    families: defaults.font.all
+    families: available.fonts
   }
 });
 
 class FontSelector extends Component {
   render() {
-    const fonts = defaults.font.all.slice().sort();
+    const fonts = available.fonts.slice().sort();
 
     return (
       <TextField

@@ -1,7 +1,7 @@
 import FontSelector from '../../Component/FontSelector';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import React from 'react';
-import { defaults } from '../../config';
+import { available } from '../../config';
 import { shallow } from 'enzyme';
 
 describe('<FontSelector />', () => {
@@ -10,7 +10,7 @@ describe('<FontSelector />', () => {
       const wrapper = shallow(<FontSelector/>);
       const component = wrapper.dive();
 
-      const allFonts = defaults.font.all.slice().sort();
+      const allFonts = available.fonts.slice().sort();
       const renderedFonts = [];
 
       component.find(MenuItem)
