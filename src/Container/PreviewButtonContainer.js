@@ -17,10 +17,10 @@ const getTemplateData = state => {
 };
 
 const mapStateToProps = ({present}) => ({
-  templateHtml: getTemplateHtml(present),
   exportTemplate: exportTemplate(present),
+  onPreview: present.onPreview,
   templateData: getTemplateData(present),
-  pdfStorageUri: present.pdfStorageUri
+  templateHtml: getTemplateHtml(present),
 });
 
 const PreviewButtonContainer = connect(

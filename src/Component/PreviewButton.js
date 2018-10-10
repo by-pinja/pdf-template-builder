@@ -6,46 +6,19 @@ import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next';
 
 class PreviewButton extends Component {
-  constructor(props) {
-    super(props);
-
-    this.preview = this.preview.bind(this);
-  }
-
-  preview() {
-    fetch(this.props.pdfStorageUri, {
-      method: 'POST',
-      headers: {
-        Authorization: 'ApiKey apikeyfortesting',
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify({
-        html: this.props.templateHtml(),
-        baseData: this.props.templateData,
-        rowData: [{}],
-        options: this.props.exportTemplate().options
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        window.open(res[0].pdfUri, '_blank');
-      })
-    ;
-  }
-
   render() {
-    if (!this.props.pdfStorageUri) {
+    const { t, onPreview, templateData, templateHtml, exportTemplate } = this.props;
+
+    if (!onPreview) {
       return '';
     }
-
-    const { t } = this.props;
 
     return (
       <Tooltip title={t('showPreview')}>
         <IconButton
           color="inherit"
           aria-label={t('showPreview')}
-          onClick={this.preview}
+          onClick={() => onPreview(templateHtml(), templateData, exportTemplate().options)}
         >
           <RemoveRedEye/>
         </IconButton>
@@ -55,10 +28,10 @@ class PreviewButton extends Component {
 }
 
 PreviewButton.propTypes = {
-  pdfStorageUri: PropTypes.string,
+  onPreview: PropTypes.func,
   templateHtml: PropTypes.func.isRequired,
   templateData: PropTypes.object.isRequired,
-  exportTemplate: PropTypes.func.isRequired
+  exportTemplate: PropTypes.func.isRequired,
 };
 
 export default withNamespaces()(PreviewButton);

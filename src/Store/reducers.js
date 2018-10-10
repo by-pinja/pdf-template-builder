@@ -147,8 +147,8 @@ const store = (state = initialState, action) => {
     case 'CONFIGURE':
       return {
         ...state,
-        pdfStorageUri: action.payload.pdfStorageUri,
         schema: action.payload.schema || [],
+        onPreview: action.payload.onPreview,
         onSaveTemplate: action.payload.onSaveTemplate
       };
 
@@ -210,7 +210,6 @@ function getInitialState() {
     },
     schema: [],
     selectedUuid: null,
-    pdfStorageUri: process.env.REACT_APP_PDF_STORAGE_URI,
     gridVisible: false
   };
 

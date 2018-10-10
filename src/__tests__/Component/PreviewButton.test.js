@@ -4,9 +4,9 @@ import { shallow } from 'enzyme';
 
 describe('<PreviewButton />', () => {
   describe('render()', () => {
-    test('will render a button if pdfStorageUri prop is given', () => {
+    test('will render a button if onPreview callback is given', () => {
       const wrapper = shallow(
-        <PreviewButton pdfStorageUri={'https://dummy:5000/api/'} />
+        <PreviewButton onPreview={() => {}} />
       );
 
       expect(wrapper.html()).not.toBe(null);
