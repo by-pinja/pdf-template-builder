@@ -8,6 +8,7 @@ import Toolbox from './Toolbox';
 import LayoutEditor from './LayoutEditor';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import ElementSpeedDialContainer from '../Container/ElementSpeedDialContainer';
+import KeymasterContainer from '../Container/KeymasterContainer';
 
 const styles = theme => ({
   toolbox: {
@@ -74,30 +75,6 @@ class PdfTemplateBuilder extends Component {
 
     // Required for nested elements to render properly
     this.forceUpdate();
-  }
-
-  componentDidMount() {
-    document.addEventListener('keydown', e => {
-      if (['input', 'textarea'].includes(e.target.tagName.toLowerCase())) {
-        return;
-      }
-
-      if (e.ctrlKey && e.code === 'KeyZ') {
-        if (e.shiftKey) {
-          return this.props.onRedo();
-        }
-
-        this.props.onUndo();
-      }
-
-      if (e.code === 'Backspace') {
-        this.props.onDeleteElement(this.props.selectedUuid);
-      }
-
-      if (e.code === 'Escape') {
-        this.props.onSelectElement(null);
-      }
-    });
   }
 
   getComponentContent(i) {
@@ -177,6 +154,7 @@ class PdfTemplateBuilder extends Component {
 
     return (
       <div>
+        <KeymasterContainer />
         <Toolbox />
         <ElementSpeedDialContainer />
 
@@ -218,9 +196,6 @@ PdfTemplateBuilder.propTypes = {
   onChangeLayout: PropTypes.func.isRequired,
   onDoConfigure: PropTypes.func.isRequired,
   onImportTemplate: PropTypes.func.isRequired,
-  onDeleteElement: PropTypes.func.isRequired,
-  onUndo: PropTypes.func.isRequired,
-  onRedo: PropTypes.func.isRequired,
   onClearHistory: PropTypes.func.isRequired
 };
 

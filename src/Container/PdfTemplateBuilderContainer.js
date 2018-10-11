@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import PdfTemplateBuilder from '../Component/PdfTemplateBuilder';
-import { configure, removeElement, importTemplate, selectElement, setLayout } from '../Store/actions';
+import { configure, importTemplate, selectElement, setLayout } from '../Store/actions';
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import { exportTemplate, getSelectedElementGroupId } from '../Store/util';
 import PageSize from '../Resource/PageSize';
@@ -37,9 +37,6 @@ const mapDispatchToProps = dispatch => ({
   onChangeLayout: (layout, parentId) => dispatch(setLayout(layout, parentId)),
   onImportTemplate: layout => dispatch(importTemplate(layout)),
   onDoConfigure: configurations => dispatch(configure(configurations)),
-  onDeleteElement: uuid => dispatch(removeElement(uuid)),
-  onUndo: () => dispatch(UndoActionCreators.undo()),
-  onRedo: () => dispatch(UndoActionCreators.redo()),
   onClearHistory: () => dispatch(UndoActionCreators.clearHistory())
 });
 
