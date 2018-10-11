@@ -178,7 +178,7 @@ const store = (state = initialState, action) => {
 };
 
 function getInitialState() {
-  const header = update(
+  const header = () => update(
     TemplateUtil.createComponent(),
     {
       h: {
@@ -198,8 +198,8 @@ function getInitialState() {
   const state = {
     layout: {
       root: [],
-      header: [header],
-      footer: [{...header}]
+      header: [header()],
+      footer: [header()]
     },
     page: { layoutRelative: true },
     options: {
