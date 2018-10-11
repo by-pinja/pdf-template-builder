@@ -1,3 +1,5 @@
+import {defaults} from '../config';
+
 class TemplateBuilder {
   static buildTemplate(layout, page, root = 'root', onlyElement = false) {
     const contents = layout[root]
@@ -80,8 +82,11 @@ class TemplateBuilder {
       `;
     }
 
+    const borderWidth = component.meta.borderWidth || defaults.border.width;
+    const borderColor = component.meta.borderColor || defaults.border.color;
+
     (component.meta.border || [])
-      .forEach(border => styles += `border-${border}: 1px solid ${component.meta.borderColor};`)
+      .forEach(border => styles += `border-${border}: ${borderWidth}px solid ${borderColor};`)
     ;
 
     let start = '';

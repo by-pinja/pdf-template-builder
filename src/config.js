@@ -8,7 +8,8 @@ const defaults = {
     horizontal: 'left'
   },
   border: {
-    color: '#000'
+    color: '#000',
+    width: 1
   }
 };
 

@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import GridLayout from 'react-grid-layout';
 import PropTypes from 'prop-types';
-import { withNamespaces } from 'react-i18next';
+import React, { Component } from 'react';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { capitalize } from '../Util/String';
+import { defaults } from '../config';
+import { withNamespaces } from 'react-i18next';
 
 class LayoutEditor extends Component {
   constructor(props) {
@@ -102,8 +103,11 @@ class LayoutEditor extends Component {
               height: '100%',
             };
 
+            const borderWidth = meta.borderWidth || defaults.border.width;
+            const borderColor = meta.borderColor || defaults.border.color;
+
             (meta.border || [])
-              .forEach(border => containerStyle[`border${capitalize(border)}`] = `1px solid ${meta.borderColor}`);
+              .forEach(border => containerStyle[`border${capitalize(border)}`] = `${borderWidth}px solid ${borderColor}`);
 
             if (meta.verticalAlignment === 'middle') {
               textStyle.top = '50%';

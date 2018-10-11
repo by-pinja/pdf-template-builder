@@ -2,6 +2,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import FontSelector from './FontSelector';
 import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import Grid from '@material-ui/core/Grid/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import SettingBorder from './SettingBorder';
@@ -56,7 +57,7 @@ class ElementStyle extends Component {
       <Grid container direction="row" spacing={8} item xs={12}>
         <Grid item container xs={7} spacing={8} justify="flex-start">
           <Grid item xs={12} container spacing={8}>
-            <Grid item style={{ width: '150px' }}>
+            <Grid item xs={8}>
               <FontSelector
                 value={element.fontFamily}
                 onChange={this.handleEventChange('fontFamily')}
@@ -64,13 +65,20 @@ class ElementStyle extends Component {
               />
             </Grid>
 
-            <Grid item style={{ width: '50px' }}>
+            <Grid item xs={4}>
               <TextField
                 id="fontSize"
                 type="number"
                 value={element.fontSize || 12}
                 onChange={this.handleEventChange('fontSize')}
                 style={{ width: '100%' }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment variant="filled" position="end">
+                      px
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
           </Grid>
@@ -110,18 +118,38 @@ class ElementStyle extends Component {
         </Grid>
 
         <Grid item container direction="row" xs={12}>
-          <SettingBorder
-            value={element.border || []}
-            onChange={this.handleChange('border')}
-          />
+          <Grid item>
+            <SettingBorder
+              value={element.border || []}
+              onChange={this.handleChange('border')}
+            />
+          </Grid>
 
-          <SettingColor
-            title={t('color')}
-            value={element.borderColor}
-            defaultValue={defaults.border.color}
-            onChange={this.handleChange('borderColor')}
-            icon={<BorderColorIcon />}
-          />
+          <Grid item>
+            <SettingColor
+              title={t('color')}
+              value={element.borderColor}
+              defaultValue={defaults.border.color}
+              onChange={this.handleChange('borderColor')}
+              icon={<BorderColorIcon />}
+            />
+          </Grid>
+
+          <Grid item xs={2}>
+            <TextField
+              id="borderWidth"
+              type="number"
+              value={element.borderWidth}
+              onChange={this.handleEventChange('borderWidth')}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment variant="filled" position="end">
+                    px
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
         </Grid>
       </Grid>
     );
