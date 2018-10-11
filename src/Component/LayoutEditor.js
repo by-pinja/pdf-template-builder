@@ -103,7 +103,7 @@ class LayoutEditor extends Component {
             };
 
             (meta.border || [])
-              .forEach(border => containerStyle[`border${capitalize(border)}`] = '1px solid');
+              .forEach(border => containerStyle[`border${capitalize(border)}`] = `1px solid ${meta.borderColor}`);
 
             if (meta.verticalAlignment === 'middle') {
               textStyle.top = '50%';

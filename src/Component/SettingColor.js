@@ -1,7 +1,6 @@
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
 import Fade from '@material-ui/core/Fade/Fade';
-import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import Paper from '@material-ui/core/Paper/Paper';
 import Popper from '@material-ui/core/Popper/Popper';
 import PropTypes from 'prop-types';
@@ -11,12 +10,12 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { SketchPicker } from 'react-color';
 import { withNamespaces } from 'react-i18next';
 
-class SettingFontColor extends Component {
+class SettingColor extends Component {
   constructor(props) {
     super(props);
 
     this.handleClickAway = this.handleClickAway.bind(this);
-    this.handlePopper = this.handlePopper.bind(this);
+    this.handlePopper    = this.handlePopper.bind(this);
 
     this.state = { ref: null, open: false };
   }
@@ -37,17 +36,17 @@ class SettingFontColor extends Component {
   }
 
   render() {
-    const { t, value, defaultValue, onChange } = this.props;
+    const { title, value, defaultValue, onChange, icon } = this.props;
     const { ref, open } = this.state;
 
-    const id = open ? 'color-popper' : null;
+    const id = open ? 'popper' : null;
 
     return (
       <ClickAwayListener onClickAway={this.handleClickAway}>
         <div style={{ display: 'inline-block' }}>
-          <ToggleButton value="color" onClick={this.handlePopper}>
-            <Tooltip title={t('color')}>
-              <FormatColorTextIcon />
+          <ToggleButton value="" onClick={this.handlePopper}>
+            <Tooltip title={title}>
+              {icon}
             </Tooltip>
             <ArrowDropDownIcon />
           </ToggleButton>
@@ -65,7 +64,7 @@ class SettingFontColor extends Component {
                 <Paper>
                   <SketchPicker
                     color={value || defaultValue}
-                    onChange={onChange}
+                    onChange={(color, event) => onChange(event, color.hex)}
                   />
                 </Paper>
               </Fade>
@@ -77,10 +76,11 @@ class SettingFontColor extends Component {
   }
 }
 
-SettingFontColor.propTypes = {
+SettingColor.propTypes = {
+  title: PropTypes.string,
   value: PropTypes.string,
   defaultValue: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default withNamespaces()(SettingFontColor);
+export default withNamespaces()(SettingColor);

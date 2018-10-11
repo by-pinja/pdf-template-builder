@@ -1,15 +1,18 @@
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 import FontSelector from './FontSelector';
+import FormatColorTextIcon from '@material-ui/icons/FormatColorText';
 import Grid from '@material-ui/core/Grid/Grid';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import SettingFontColor from './SettingFontColor';
+import SettingBorder from './SettingBorder';
+import SettingColor from './SettingColor';
 import SettingFontStyle from './SettingFontStyle';
 import SettingHorizontalAlign from './SettingHorizontalAlign';
 import SettingVerticalAlign from './SettingVerticalAlign';
 import TextField from '@material-ui/core/TextField/TextField';
 import { defaults } from '../config';
+import { withNamespaces } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
-import SettingBorder from './SettingBorder';
 
 const styles = theme => ({
   root: {
@@ -43,7 +46,7 @@ class ElementStyle extends Component {
   };
 
   render() {
-    const { element } = this.props;
+    const { element, t } = this.props;
 
     if (!element) {
       return '';
@@ -78,10 +81,12 @@ class ElementStyle extends Component {
               onChange={this.handleChange('fontStyle') }
             />
 
-            <SettingFontColor
+            <SettingColor
+              title={t('color')}
               value={element.color}
               defaultValue={defaults.font.color}
-              onChange={this.handleColorChange}
+              onChange={this.handleChange('color')}
+              icon={<FormatColorTextIcon />}
             />
           </Grid>
         </Grid>
@@ -109,6 +114,14 @@ class ElementStyle extends Component {
             value={element.border || []}
             onChange={this.handleChange('border')}
           />
+
+          <SettingColor
+            title={t('color')}
+            value={element.borderColor}
+            defaultValue={defaults.border.color}
+            onChange={this.handleChange('borderColor')}
+            icon={<BorderColorIcon />}
+          />
         </Grid>
       </Grid>
     );
@@ -120,4 +133,4 @@ ElementStyle.propTypes = {
   onUpdateElement: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(ElementStyle);
+export default withNamespaces()(withStyles(styles)(ElementStyle));

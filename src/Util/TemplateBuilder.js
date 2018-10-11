@@ -81,7 +81,7 @@ class TemplateBuilder {
     }
 
     (component.meta.border || [])
-      .forEach(border => styles += `border-${border}: 1px solid;`)
+      .forEach(border => styles += `border-${border}: 1px solid ${component.meta.borderColor};`)
     ;
 
     let start = '';

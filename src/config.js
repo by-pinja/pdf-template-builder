@@ -6,6 +6,9 @@ const defaults = {
   alignment: {
     vertical: 'top',
     horizontal: 'left'
+  },
+  border: {
+    color: '#000'
   }
 };
 
