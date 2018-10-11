@@ -9,6 +9,7 @@ import SettingVerticalAlign from './SettingVerticalAlign';
 import TextField from '@material-ui/core/TextField/TextField';
 import { defaults } from '../config';
 import { withStyles } from '@material-ui/core/styles';
+import SettingBorder from './SettingBorder';
 
 const styles = theme => ({
   root: {
@@ -101,6 +102,13 @@ class ElementStyle extends Component {
               onChange={this.handleChange('verticalAlignment')}
             />
           </Grid>
+        </Grid>
+
+        <Grid item container direction="row" xs={12}>
+          <SettingBorder
+            value={element.border || []}
+            onChange={this.handleChange('border')}
+          />
         </Grid>
       </Grid>
     );

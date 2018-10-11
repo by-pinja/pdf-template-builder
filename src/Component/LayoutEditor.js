@@ -3,6 +3,7 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import GridLayout from 'react-grid-layout';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import { capitalize } from '../Util/String';
 
 class LayoutEditor extends Component {
   constructor(props) {
@@ -95,6 +96,15 @@ class LayoutEditor extends Component {
               textDecoration: fontStyle.includes('underline') ? 'underline' : null
             };
 
+            const containerStyle = {
+              boxSizing: 'border-box',
+              width: '100%',
+              height: '100%',
+            };
+
+            (meta.border || [])
+              .forEach(border => containerStyle[`border${capitalize(border)}`] = '1px solid');
+
             if (meta.verticalAlignment === 'middle') {
               textStyle.top = '50%';
               textStyle.transform = 'translateY(-50%)'
@@ -127,7 +137,7 @@ class LayoutEditor extends Component {
                 data-grid={e}
                 onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i)}
                 onDragEnd={e => e.stopPropagation()}
-                style={{ boxSizing: 'border-box'}}
+                style={containerStyle}
               >
                 <Tooltip title={content.tooltip || ''}>
                   <span style={textStyle}>
