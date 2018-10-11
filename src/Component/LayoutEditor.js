@@ -5,6 +5,28 @@ import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { capitalize } from '../Util/String';
 import { defaults } from '../config';
 import { withNamespaces } from 'react-i18next';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+  selected: {
+    border: '1px dashed #3f51b5',
+    zIndex: 20
+  },
+  element: {
+    overflow: 'hidden',
+    transition: 'background-color 0.1s !important',
+    '&:hover': {
+      background: 'rgba(63, 81, 181, 0.3)',
+      border: '1px dashed #007899'
+    },
+    '& .react-resizable-handle': {
+      display: 'none'
+    }
+  },
+  transformHelpers: {
+    border: '1px solid rgba(0, 0, 0, 0.1)'
+  }
+};
 
 class LayoutEditor extends Component {
   constructor(props) {
@@ -32,6 +54,7 @@ class LayoutEditor extends Component {
 
   render() {
     const parentId = this.props.parent.i;
+    const { classes, bordersVisible } = this.props;
 
     if (!this.props.layout[parentId]) {
       return '';
@@ -79,7 +102,10 @@ class LayoutEditor extends Component {
       >
         {layout.map(
           e => {
-            const classes = this.props.selectedUuid === e.i ? 'active' : '';
+            let className = this.props.selectedUuid === e.i ? classes.selected : classes.element;
+
+            bordersVisible && (className += ' ' + classes.transformHelpers);
+
             const content = this.getComponentContent(e.i);
             const { meta } = e;
 
@@ -136,7 +162,7 @@ class LayoutEditor extends Component {
             return (
               <div
                 id={'component-' + e.i}
-                className={classes}
+                className={className}
                 key={e.i}
                 data-grid={e}
                 onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i)}
@@ -161,18 +187,19 @@ class LayoutEditor extends Component {
 }
 
 LayoutEditor.propTypes = {
-  layoutMode: PropTypes.string,
-  selectedUuid: PropTypes.string,
-  parent: PropTypes.object.isRequired,
+  bordersVisible: PropTypes.bool.isRequired,
   layout: PropTypes.object.isRequired,
-  page: PropTypes.object.isRequired,
-  onSelectElement: PropTypes.func.isRequired,
+  layoutMode: PropTypes.string,
   onChangeLayout: PropTypes.func.isRequired,
-  onDoConfigure: PropTypes.func.isRequired,
+  onClearHistory: PropTypes.func.isRequired,
   onDeleteElement: PropTypes.func.isRequired,
-  onUndo: PropTypes.func.isRequired,
+  onDoConfigure: PropTypes.func.isRequired,
   onRedo: PropTypes.func.isRequired,
-  onClearHistory: PropTypes.func.isRequired
+  onSelectElement: PropTypes.func.isRequired,
+  onUndo: PropTypes.func.isRequired,
+  page: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired,
+  selectedUuid: PropTypes.string,
 };
 
-export default withNamespaces()(LayoutEditor);
+export default withNamespaces()(withStyles(styles)(LayoutEditor));

@@ -20,9 +20,8 @@ Template builder for [pdf-storage](https://github.com/protacon/pdf-storage)
 The `pdf-template-builder` is designed to be used as a embedded tool inside other applications
 communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) service.
 
-1. Include necessary files to your own application `(build/static/[css|js])`
+1. Include necessary js file to your own application `(build/static/*.js)`
 ```html
-<link rel="stylesheet" type="text/css" href="path/to/package/style.css" />
 <script type="text/javascript" src="path/to/package/script.js"></script>
 ```
 

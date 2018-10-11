@@ -1,6 +1,5 @@
 import PdfTemplateBuilder from './Resource/PdfTemplateBuilder';
 
-import './index.css';
 import './i18n';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';

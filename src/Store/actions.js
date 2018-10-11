@@ -53,6 +53,11 @@ export const setGridVisibility = visible => ({
   payload: visible
 });
 
+export const setBorderVisibility = visible => ({
+  type: 'SET_BORDER_VISIBILITY',
+  payload: visible
+});
+
 export const setEditorLoading = visible => ({
   type: 'SET_EDITOR_LOADING',
   payload: visible

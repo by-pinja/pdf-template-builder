@@ -18,6 +18,7 @@ const getPaperSize = state => {
 };
 
 const mapStateToProps = ({present}) => ({
+  bordersVisible: present.bordersVisible,
   layout: present.layout,
   page: present.page,
   options: present.options,

@@ -144,7 +144,7 @@ class PdfTemplateBuilder extends Component {
   }
 
   render() {
-    const { classes, editorLoading } = this.props;
+    const { classes, editorLoading, ...other } = this.props;
 
     let editor = <div className={classes.loader}><CircularProgress size={100} /></div>;
 
@@ -161,15 +161,15 @@ class PdfTemplateBuilder extends Component {
           }}
         >
           <div id="pdf-template-header" className={classes.header}>
-            <LayoutEditor {...this.props} parent={{ i: 'header' }} layoutMode="relative" />
+            <LayoutEditor {...other} parent={{ i: 'header' }} layoutMode="relative" />
           </div>
 
           <div style={{ flex: 1 }}>
-            <LayoutEditor {...this.props} parent={{ i: 'root' }} />
+            <LayoutEditor {...other} parent={{ i: 'root' }} />
           </div>
 
           <div id="pdf-template-footer" className={classes.footer}>
-            <LayoutEditor {...this.props} parent={{ i: 'footer' }} layoutMode="relative" />
+            <LayoutEditor {...other} parent={{ i: 'footer' }} layoutMode="relative" />
           </div>
         </Paper>
       );

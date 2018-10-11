@@ -169,6 +169,9 @@ const store = (state = initialState, action) => {
     case 'SET_GRID_VISIBILITY':
       return {...state, gridVisible: action.payload};
 
+    case 'SET_BORDER_VISIBILITY':
+      return {...state, bordersVisible: action.payload};
+
     case 'SET_EDITOR_LOADING':
       return {...state, editorLoading: action.payload};
 
@@ -210,7 +213,8 @@ function getInitialState() {
     },
     schema: [],
     selectedUuid: null,
-    gridVisible: false
+    gridVisible: false,
+    bordersVisible: true,
   };
 
   if (process.env.NODE_ENV === 'development') {
