@@ -1,5 +1,5 @@
 import FormatShapesIcon from '@material-ui/icons/FormatShapes';
-import IconButton from '@material-ui/core/es/IconButton/IconButton';
+import IconButton from '@material-ui/core/IconButton/IconButton';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';

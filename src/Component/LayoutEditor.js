@@ -13,7 +13,8 @@ const styles = {
   },
   selected: {
     border: '1px dashed #3f51b5',
-    zIndex: 20
+    zIndex: 20,
+    transition: 'none'
   },
   element: {
     overflow: 'hidden',
@@ -22,7 +23,7 @@ const styles = {
       background: 'rgba(63, 81, 181, 0.3)',
       border: '1px dashed #007899'
     },
-    '& .react-resizable-handle': {
+    '& > .react-resizable-handle': {
       display: 'none'
     }
   }

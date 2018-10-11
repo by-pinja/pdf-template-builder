@@ -4,9 +4,9 @@ import BorderRightIcon from '@material-ui/icons/BorderRight';
 import BorderTopIcon from '@material-ui/icons/BorderTop';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import ToggleButton from '@material-ui/lab/es/ToggleButton/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/es/ToggleButtonGroup/ToggleButtonGroup';
-import Tooltip from '@material-ui/core/es/Tooltip/Tooltip';
+import ToggleButton from '@material-ui/lab/ToggleButton/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup/ToggleButtonGroup';
+import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { withNamespaces } from 'react-i18next';
 
 const options = [
