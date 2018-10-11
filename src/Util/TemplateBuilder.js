@@ -92,8 +92,8 @@ class TemplateBuilder {
     let start = '';
     let end = '';
 
-    // Add mustache loop tags if element schema is defined as 'array'
-    if (component.meta.tag && component.meta.tag.type === 'array') {
+    // Add mustache loop tags if element schema is defined as 'group'
+    if (component.meta.tag && component.meta.tag.type === 'group') {
       start = `{{#${component.meta.tag.value}}}`;
       end   = `{{/${component.meta.tag.value}}}`;
     }
@@ -138,7 +138,7 @@ class TemplateBuilder {
       return this.createTextBlock(component, `{{${component.meta.tag.value}}}`) + children;
     }
 
-    if (component.meta.tag.type === 'array') {
+    if (component.meta.tag.type === 'group') {
      return children;
     }
 

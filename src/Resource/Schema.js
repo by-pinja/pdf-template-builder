@@ -33,7 +33,7 @@ class Schema {
       example: '12.2.2018'
     },
     {
-      type: 'array',
+      type: 'group',
       tag: 'rows',
       text: 'Invoice rows',
       example: [

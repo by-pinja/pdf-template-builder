@@ -190,22 +190,20 @@ class ElementTools extends Component {
               </Grid>
             )}
 
-            {(isText || isImage) && (
-              <Grid item xs={12}>
-                <MaterialSelect
-                  id="tag"
-                  label={t('bindToProperty')}
-                  className={classes.select}
-                  value={this.props.element.tag || null}
-                  onChange={this.handleChange('tag')}
-                  placeholder={t('bindToProperty')}
-                  options={
-                    this.props.schema
-                      .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <MaterialSelect
+                id="tag"
+                label={t('bindToProperty')}
+                className={classes.select}
+                value={this.props.element.tag || null}
+                onChange={this.handleChange('tag')}
+                placeholder={t('bindToProperty')}
+                options={
+                  this.props.schema
+                    .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
+                }
+              />
+            </Grid>
 
             {isText && (
               <Grid item xs={12}>
