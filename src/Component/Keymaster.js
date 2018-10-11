@@ -7,6 +7,9 @@ class Keymaster extends Component {
     'backspace': this.handleDelete,
     '⌘+z, ctrl+z': this.handleUndo,
     '⌘+shift+z, ctrl+shift+z': this.handleRedo,
+    '⌘+b, ctrl+b': this.handleFontStyle('bold'),
+    '⌘+u, ctrl+u': this.handleFontStyle('underline'),
+    '⌘+i, ctrl+i': this.handleFontStyle('italic'),
   };
 
   constructor(props) {
@@ -56,6 +59,26 @@ class Keymaster extends Component {
     this.props.onRedo();
   }
 
+  handleFontStyle(prop) {
+    return () => {
+      if (!this.isElementSelected()) {
+        return;
+      }
+
+      const { meta, meta: { fontStyle }} = this.props;
+
+      const style = (fontStyle || []).slice();
+
+      if (style.includes(prop)) {
+        style.splice(style.indexOf(prop), 1);
+      } else {
+        style.push(prop);
+      }
+
+      this.props.onUpdateElement({ ...meta, fontStyle: style });
+    }
+  }
+
   isElementSelected() {
     return !!this.props.selectedUuid;
   }
@@ -66,10 +89,12 @@ class Keymaster extends Component {
 }
 
 Keymaster.propTypes = {
+  meta: PropTypes.object,
   selectedUuid: PropTypes.string,
   onDeleteElement: PropTypes.func.isRequired,
   onUndo: PropTypes.func.isRequired,
   onRedo: PropTypes.func.isRequired,
+  onUpdateElement: PropTypes.func.isRequired,
 };
 
 export default Keymaster;

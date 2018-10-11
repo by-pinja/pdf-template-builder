@@ -1,16 +1,19 @@
 import Keymaster from '../Component/Keymaster';
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 import { connect } from 'react-redux';
-import { removeElement } from '../Store/actions';
+import { getSelectedElementMeta } from '../Store/util';
+import { removeElement, updateElement } from '../Store/actions';
 
 const mapStateToProps = ({present}) => ({
-  selectedUuid: present.selectedUuid
+  meta: getSelectedElementMeta(present),
+  selectedUuid: present.selectedUuid,
 });
 
 const mapDispatchToProps = dispatch => ({
   onDeleteElement: uuid => dispatch(removeElement(uuid)),
-  onUndo: () => dispatch(UndoActionCreators.undo()),
   onRedo: () => dispatch(UndoActionCreators.redo()),
+  onUndo: () => dispatch(UndoActionCreators.undo()),
+  onUpdateElement: element => dispatch(updateElement(element))
 });
 
 const KeymasterContainer = connect(
