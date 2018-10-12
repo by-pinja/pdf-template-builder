@@ -9,6 +9,12 @@ class Schema {
       example: logo
     },
     {
+      type: 'image',
+      tag: 'barcode',
+      text: 'Barcode',
+      example: '[translate:barcode]435105535000620270013230000000000000000000021238181017'
+    },
+    {
       type: 'text',
       tag: 'page',
       text: 'Current page number',

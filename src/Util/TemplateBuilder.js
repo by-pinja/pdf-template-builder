@@ -98,10 +98,10 @@ class TemplateBuilder {
       end   = `{{/${component.meta.tag.value}}}`;
     }
 
-    let imageContent = `<img src="${component.meta.image}" style="width: 100%"/>`;
+    let imageContent = `<img src="${component.meta.image}" style="width: 100%; display: block; page-break-inside: avoid;"/>`;
 
     if (component.meta.tag && component.meta.tag.type === 'image') {
-      imageContent = `<img src="{{${component.meta.tag.value}}}" style="width: 100%"/>`;
+      imageContent = `<img src="{{${component.meta.tag.value}}}" style="width: 100%; display: block; page-break-inside: avoid;"/>`;
     }
 
     return `
@@ -115,6 +115,10 @@ class TemplateBuilder {
           box-sizing: border-box;
           padding: 0;
           margin: 0;
+          display: block;
+          page-break-inside: avoid;
+          page-break-after: auto;
+          page-break-before: auto;
         '>
           ${content}
           ${imageContent}
