@@ -104,18 +104,20 @@ class ElementTools extends Component {
   };
 
   render() {
-    const { classes, element, t } = this.props;
+    const { classes, element, t, schema } = this.props;
 
     if (!element) {
       return '';
     }
 
-    const toLabel = schema => ({
-      label: schema.text,
-      value: schema.tag,
-      type: schema.type,
-      example: schema.example
-    });
+    let selectedOption = null;
+
+    if (element.tag) {
+      // Flatten the grouped schema and find the matching prop
+      selectedOption = [].concat.apply([], schema.map(({ options }) => options))
+        .find(({tag}) => tag === element.tag.value) || null
+      ;
+    }
 
     const isImage = element.type === 'image';
     const isGroup = element.type === 'group';
@@ -195,13 +197,12 @@ class ElementTools extends Component {
                 id="tag"
                 label={t('bindToProperty')}
                 className={classes.select}
-                value={this.props.element.tag || null}
-                onChange={this.handleChange('tag')}
+                value={selectedOption}
+                getOptionLabel={({ text }) => text}
+                getOptionValue={({ tag }) => tag}
+                onChange={({ tag }) => this.handleChange('tag')({ value: tag })}
                 placeholder={t('bindToProperty')}
-                options={
-                  this.props.schema
-                    .map(group => ({ label: group.label, options: group.options.map(toLabel)}))
-                }
+                options={schema}
               />
             </Grid>
 

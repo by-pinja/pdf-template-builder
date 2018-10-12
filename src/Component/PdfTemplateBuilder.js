@@ -61,7 +61,7 @@ class PdfTemplateBuilder extends Component {
   }
 
   getTemplateHtml() {
-    return TemplateBuilder.buildTemplate(this.props.layout, this.props.page);
+    return TemplateBuilder.buildTemplate(this.props.layout, this.props.page, this.props.schema);
   }
 
   exportTemplate() {
@@ -185,6 +185,7 @@ class PdfTemplateBuilder extends Component {
 }
 
 PdfTemplateBuilder.propTypes = {
+  schema: PropTypes.array.isRequired,
   selectedUuid: PropTypes.string,
   layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,

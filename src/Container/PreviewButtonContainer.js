@@ -5,7 +5,7 @@ import { exportTemplate } from '../Store/util';
 
 const getTemplateHtml = state => {
   // Need to pass function since the template build depends on the DOM
-  return () => TemplateBuilder.buildTemplate(state.layout, state.page);
+  return () => TemplateBuilder.buildTemplate(state.layout, state.page, state.schema);
 };
 
 const getTemplateData = state => {

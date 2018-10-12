@@ -1,18 +1,18 @@
 import {defaults} from '../config';
 
 class TemplateBuilder {
-  static buildTemplate(layout, page, root = 'root', onlyElement = false) {
+  static buildTemplate(layout, page, schema, root = 'root', onlyElement = false) {
     const contents = layout[root]
       .sort((a, b) => a.y > b.y ? 1 : -1)
-      .map(component => this.getElementHtml(component, page, layout))
+      .map(component => this.getElementHtml(component, page, layout, schema))
       .join('');
 
     if (onlyElement) {
       return contents;
     }
 
-    const header = this.buildTemplate(layout, page, 'header', true);
-    const footer = this.buildTemplate(layout, page, 'footer', true);
+    const header = this.buildTemplate(layout, page, schema, 'header', true);
+    const footer = this.buildTemplate(layout, page, schema, 'footer', true);
 
     return `
       <html>
@@ -55,10 +55,10 @@ class TemplateBuilder {
     `;
   }
 
-  static getElementHtml(component, page, layout, parent) {
+  static getElementHtml(component, page, layout, schema, parent) {
     const selector = '#component-' + component.i;
     const style    = window.getComputedStyle(document.querySelector(selector));
-    const content = this.getComponentContent(component, page, layout);
+    const content = this.getComponentContent(component, page, layout, schema);
 
     let styles = '';
     let position = 'absolute';
@@ -127,22 +127,24 @@ class TemplateBuilder {
       `;
   }
 
-  static getComponentContent(component, page, layout) {
+  static getComponentContent(component, page, layout, schema) {
     const children = (layout[component.i] || [])
       .sort((a, b) => a.y > b.y ? 1 : -1)
       .map(
-      element => this.getElementHtml(element, page, layout, component)
+      element => this.getElementHtml(element, page, layout, schema, component)
     ).join('') || '';
 
     if (!component.meta.tag) {
       return this.createTextBlock(component, component.meta.content) + children;
     }
 
-    if (component.meta.tag.type === 'text') {
-      return this.createTextBlock(component, `{{${component.meta.tag.value}}}`) + children;
+    const tag = this.findSchemaProp(schema, component.meta.tag.value);
+
+    if (tag.type === 'text') {
+      return this.createTextBlock(component, `{{${tag.tag}}}`) + children;
     }
 
-    if (component.meta.tag.type === 'group') {
+    if (tag.type === 'group') {
      return children;
     }
 
@@ -213,6 +215,21 @@ class TemplateBuilder {
     });
 
     return fonts;
+  }
+
+  static findSchemaProp(schema, tag) {
+    let o = null;
+
+    schema.some(function iterator(a) {
+      if (a.tag === tag) {
+        o = a;
+        return true;
+      }
+
+      return Array.isArray(a.items) && a.items.some(iterator);
+    });
+
+    return o;
   }
 }
 

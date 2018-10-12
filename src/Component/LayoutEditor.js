@@ -36,21 +36,41 @@ class LayoutEditor extends Component {
     this.getComponentContent = this.getComponentContent.bind(this);
   }
 
+  findProp(schema, tag) {
+    let o = null;
+
+    schema.some(function iterator(a) {
+      if (a.tag === tag) {
+        o = a;
+        return true;
+      }
+
+      return Array.isArray(a.items) && a.items.some(iterator);
+    });
+
+    return o;
+  }
+
   getComponentContent(i) {
-    const { t, layout } = this.props;
+    const { t, layout, schema, parent } = this.props;
 
-    const meta = layout[this.props.parent.i].find(e => e.i === i).meta;
+    const meta = layout[parent.i].find(e => e.i === i).meta;
 
-    if (!meta || !meta.tag || meta.tag.type !== 'text') {
-      return meta.content ? { text: meta.content, tooltip: t('freeText') } : {};
+    if (meta && meta.tag) {
+      // Handle tag
+      const tag = this.findProp(schema, meta.tag.value);
+
+      if (tag && tag.type === 'text') {
+        const { example, text } = tag;
+
+        return {
+          text: (!example || typeof example === typeof []) ? '' : example,
+          tooltip: text
+        };
+      }
     }
 
-    const example = meta.tag.example;
-
-    return {
-      text: (!example || typeof example === typeof []) ? '' : example,
-      tooltip: meta.tag.label
-    };
+    return meta.content ? { text: meta.content, tooltip: t('freeText') } : {};
   }
 
   render() {
@@ -188,6 +208,7 @@ class LayoutEditor extends Component {
 }
 
 LayoutEditor.propTypes = {
+  schema: PropTypes.array.isRequired,
   bordersVisible: PropTypes.bool.isRequired,
   layout: PropTypes.object.isRequired,
   layoutMode: PropTypes.string,
