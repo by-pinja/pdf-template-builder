@@ -139,7 +139,7 @@ class ElementStyle extends Component {
             <TextField
               id="borderWidth"
               type="number"
-              value={element.borderWidth}
+              value={element.borderWidth || defaults.border.width}
               onChange={this.handleEventChange('borderWidth')}
               InputProps={{
                 endAdornment: (

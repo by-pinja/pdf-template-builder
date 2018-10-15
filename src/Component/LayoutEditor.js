@@ -8,11 +8,8 @@ import { withNamespaces } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-  transformHelpers: {
-    border: '1px solid rgba(0, 0, 0, 0.1) !important',
-  },
   selected: {
-    border: '1px dashed #3f51b5 !important',
+    border: '1px dashed #3f51b5',
     zIndex: 20,
     transition: 'none'
   },
@@ -27,7 +24,10 @@ const styles = {
     '& > .react-resizable-handle': {
       display: 'none'
     }
-  }
+  },
+  transformHelpers: {
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+  },
 };
 
 class LayoutEditor extends Component {
