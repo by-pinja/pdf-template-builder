@@ -90,18 +90,20 @@ class TemplateBuilder {
     ;
 
     let start = '';
-    let end = '';
+    let end   = '';
+    let image = `<img src="${component.meta.image}" style="width: 100%; display: block; page-break-inside: avoid;"/>`;
 
-    // Add mustache loop tags if element schema is defined as 'group'
-    if (component.meta.tag && component.meta.tag.type === 'group') {
-      start = `{{#${component.meta.tag.value}}}`;
-      end   = `{{/${component.meta.tag.value}}}`;
-    }
+    if (component.meta.tag) {
+      const tag = this.findSchemaProp(schema, component.meta.tag.value);
 
-    let imageContent = `<img src="${component.meta.image}" style="width: 100%; display: block; page-break-inside: avoid;"/>`;
+      if (tag && tag.type === 'group') {
+        start = `{{#${tag.tag}}}`;
+        end   = `{{/${tag.tag}}}`;
+      }
 
-    if (component.meta.tag && component.meta.tag.type === 'image') {
-      imageContent = `<img src="{{${component.meta.tag.value}}}" style="width: 100%; display: block; page-break-inside: avoid;"/>`;
+      if (tag && tag.type === 'image') {
+        image = `<img src="{{${tag.tag}}}" style="width: 100%; display: block; page-break-inside: avoid;"/>`;
+      }
     }
 
     return `
@@ -121,7 +123,7 @@ class TemplateBuilder {
           page-break-before: auto;
         '>
           ${content}
-          ${imageContent}
+          ${image}
         </div>
         ${end}
       `;

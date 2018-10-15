@@ -200,7 +200,7 @@ class ElementTools extends Component {
                 value={selectedOption}
                 getOptionLabel={({ text }) => text}
                 getOptionValue={({ tag }) => tag}
-                onChange={({ tag }) => this.handleChange('tag')({ value: tag })}
+                onChange={({ tag }) => this.handleChange('tag')(tag ? { value: tag } : [])}
                 placeholder={t('bindToProperty')}
                 options={schema}
               />

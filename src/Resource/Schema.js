@@ -1,4 +1,5 @@
 import logo from './logo.png';
+import barcode from './barcode.png';
 
 class Schema {
   forExample = () => ([
@@ -12,7 +13,7 @@ class Schema {
       type: 'image',
       tag: 'barcode',
       text: 'Barcode',
-      example: '[translate:barcode]435105535000620270013230000000000000000000021238181017'
+      example: barcode
     },
     {
       type: 'text',

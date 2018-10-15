@@ -9,14 +9,15 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   transformHelpers: {
-    border: '1px solid rgba(0, 0, 0, 0.1)'
+    border: '1px solid rgba(0, 0, 0, 0.1) !important',
   },
   selected: {
-    border: '1px dashed #3f51b5',
+    border: '1px dashed #3f51b5 !important',
     zIndex: 20,
     transition: 'none'
   },
   element: {
+    border: '1px solid transparent',
     overflow: 'hidden',
     transition: 'background-color 0.1s !important',
     '&:hover': {
@@ -33,7 +34,8 @@ class LayoutEditor extends Component {
   constructor(props) {
     super(props);
 
-    this.getComponentContent = this.getComponentContent.bind(this);
+    this.getContent = this.getContent.bind(this);
+    this.getImage   = this.getImage.bind(this);
   }
 
   findProp(schema, tag) {
@@ -51,7 +53,7 @@ class LayoutEditor extends Component {
     return o;
   }
 
-  getComponentContent(i) {
+  getContent(i) {
     const { t, layout, schema, parent } = this.props;
 
     const meta = layout[parent.i].find(e => e.i === i).meta;
@@ -71,6 +73,27 @@ class LayoutEditor extends Component {
     }
 
     return meta.content ? { text: meta.content, tooltip: t('freeText') } : {};
+  }
+
+  getImage(i) {
+    const { layout, schema, parent } = this.props;
+
+    const meta = layout[parent.i].find(e => e.i === i).meta;
+    let image = '';
+
+    if (meta.image) {
+      image = <img alt="" src={meta.image} style={{ width: '100%' }} draggable={false} />;
+    }
+
+    if (meta.tag) {
+      const tag = this.findProp(schema, meta.tag.value);
+
+      if (tag.type === 'image') {
+        image = <img alt="" src={tag.example} style={{ width: '100%' }} draggable={false} />;
+      }
+    }
+
+    return image;
   }
 
   render() {
@@ -127,7 +150,7 @@ class LayoutEditor extends Component {
 
             bordersVisible && (className += ' ' + classes.transformHelpers);
 
-            const content = this.getComponentContent(e.i);
+            const content = this.getContent(e.i);
             const { meta } = e;
 
             const fontStyle = meta.fontStyle || [];
@@ -170,16 +193,6 @@ class LayoutEditor extends Component {
               delete e.minW;
             }
 
-            let imageContent = e.meta.image &&
-              <img alt='' src={e.meta.image} style={{ width: '100%' }} draggable={false} />
-            ;
-
-            if (e.meta.tag && e.meta.tag.type === 'image') {
-              imageContent = (
-                <img alt='' src={e.meta.tag.example} style={{ width: '100%' }} draggable={false} />
-              );
-            }
-
             return (
               <div
                 id={'component-' + e.i}
@@ -193,7 +206,7 @@ class LayoutEditor extends Component {
                 <Tooltip title={content.tooltip || ''}>
                   <span style={textStyle}>
                     {content.text}
-                    {imageContent}
+                    {this.getImage(e.i)}
                   </span>
                 </Tooltip>
 
