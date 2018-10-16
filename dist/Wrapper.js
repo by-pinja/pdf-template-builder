@@ -36,19 +36,19 @@ var Wrapper = function (_Component) {
     key: 'handleProps',
     value: function handleProps() {
       var newProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var _props = this.props,
-          onSave = _props.onSave,
-          onPreview = _props.onPreview,
-          language = _props.language,
-          schema = _props.schema,
-          onDoConfigure = _props.onDoConfigure,
-          onImportTemplate = _props.onImportTemplate,
-          template = _props.template;
 
+      var _props$newProps = Object.assign({}, this.props, newProps),
+          onSave = _props$newProps.onSave,
+          onPreview = _props$newProps.onPreview,
+          language = _props$newProps.language,
+          schema = _props$newProps.schema,
+          onDoConfigure = _props$newProps.onDoConfigure,
+          onImportTemplate = _props$newProps.onImportTemplate,
+          template = _props$newProps.template;
 
       onDoConfigure({ onSaveTemplate: onSave, onPreview: onPreview, schema: schema });
 
-      if (template && template !== newProps.template) {
+      if (template && this.props.template !== newProps.template) {
         onImportTemplate(template);
       }
 
