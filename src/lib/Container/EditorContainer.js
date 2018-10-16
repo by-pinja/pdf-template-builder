@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import PdfTemplateBuilder from '../Component/PdfTemplateBuilder';
+import Editor from '../Component/Editor';
 import { configure, importTemplate, selectElement, setLayout } from '../Store/actions';
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import { getSelectedElementGroupId } from '../Store/util';
@@ -39,9 +39,9 @@ const mapDispatchToProps = dispatch => ({
   onClearHistory: () => dispatch(UndoActionCreators.clearHistory())
 });
 
-const PdfTemplateBuilderContainer = connect(
+const EditorContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(PdfTemplateBuilder);
+)(Editor);
 
-export default PdfTemplateBuilderContainer;
+export default EditorContainer;

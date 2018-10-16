@@ -46,7 +46,7 @@ const styles = theme => ({
   footer: { minHeight: 10, borderTop: '15px solid #eee' }
 });
 
-class PdfTemplateBuilder extends Component {
+class Editor extends Component {
   constructor(props) {
     super(props);
 
@@ -161,7 +161,7 @@ class PdfTemplateBuilder extends Component {
   }
 }
 
-PdfTemplateBuilder.propTypes = {
+Editor.propTypes = {
   schema: PropTypes.array.isRequired,
   selectedUuid: PropTypes.string,
   layout: PropTypes.object.isRequired,
@@ -173,4 +173,4 @@ PdfTemplateBuilder.propTypes = {
   onChangeLayout: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(PdfTemplateBuilder);
+export default withStyles(styles)(Editor);

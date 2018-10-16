@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PdfTemplateBuilderContainer from './Container/PdfTemplateBuilderContainer';
+import EditorContainer from './Container/EditorContainer';
 import { configure, importTemplate, selectElement, setEditorLoading } from './Store/actions';
 import i18n from 'i18next';
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
@@ -35,7 +35,7 @@ class Wrapper extends Component {
   }
 
   render() {
-    return <PdfTemplateBuilderContainer />;
+    return <EditorContainer />;
   }
 }
 
