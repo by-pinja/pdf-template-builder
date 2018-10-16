@@ -31,7 +31,6 @@ class PdfTemplateBuilder extends Component {
 }
 
 PdfTemplateBuilder.propTypes = {
-  config: PropTypes.object.isRequired,
   disableReduxDevTools: PropTypes.object,
   language: PropTypes.oneOf(['en', 'fi']),
   onPreview: PropTypes.func,

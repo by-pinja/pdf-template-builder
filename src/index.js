@@ -42,7 +42,6 @@ const loadTemplate = () => {
 
 ReactDOM.render(
   <PdfTemplateBuilder
-    config={{}}
     template={loadTemplate()}
     language={navigator.language.split('-')[0]}
     onPreview={handlePreview}
