@@ -64,10 +64,6 @@ class PdfTemplateBuilder extends Component {
     return TemplateBuilder.buildTemplate(this.props.layout, this.props.page, this.props.schema);
   }
 
-  exportTemplate() {
-    return this.props.exportTemplate();
-  }
-
   importTemplate(config) {
     this.props.onSelectElement(null);
     this.props.onImportTemplate(config);
@@ -190,7 +186,6 @@ PdfTemplateBuilder.propTypes = {
   layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,
   options: PropTypes.object.isRequired,
-  exportTemplate: PropTypes.func.isRequired,
   gridVisible: PropTypes.bool.isRequired,
   paperSize: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,

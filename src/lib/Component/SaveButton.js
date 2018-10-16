@@ -6,6 +6,22 @@ import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
 
 class SaveButton extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSave = this.handleSave.bind(this);
+  }
+
+  handleSave() {
+    const {
+      onSaveTemplate,
+      exportTemplate,
+      getTemplateHtml
+    } = this.props;
+
+    onSaveTemplate(exportTemplate(), getTemplateHtml());
+  }
+
   render() {
     if (!this.props.onSaveTemplate) {
       return '';
@@ -19,7 +35,7 @@ class SaveButton extends Component {
           <IconButton
             color="inherit"
             aria-label={t('doSave')}
-            onClick={this.props.onSaveTemplate}
+            onClick={this.handleSave}
           >
             <Save />
           </IconButton>
@@ -30,7 +46,9 @@ class SaveButton extends Component {
 }
 
 SaveButton.propTypes = {
-  onSaveTemplate: PropTypes.func
+  onSaveTemplate: PropTypes.func,
+  exportTemplate: PropTypes.func,
+  getTemplateHtml: PropTypes.func
 };
 
 export default withNamespaces()(SaveButton);

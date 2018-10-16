@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PdfTemplateBuilder from '../Component/PdfTemplateBuilder';
 import { configure, importTemplate, selectElement, setLayout } from '../Store/actions';
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import { exportTemplate, getSelectedElementGroupId } from '../Store/util';
+import { getSelectedElementGroupId } from '../Store/util';
 import PageSize from '../Resource/PageSize';
 
 const getPaperSize = state => {
@@ -23,7 +23,6 @@ const mapStateToProps = ({present}) => ({
   page: present.page,
   options: present.options,
   editorLoading: present.editorLoading,
-  exportTemplate: exportTemplate(present),
   selectedGroupId: getSelectedElementGroupId(present),
   schema: present.schema,
   selectedUuid: present.selectedUuid,

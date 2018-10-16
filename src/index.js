@@ -1,54 +1,47 @@
-import PdfTemplateBuilder from './Resource/PdfTemplateBuilder';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { PdfTemplateBuilder } from './lib';
+import Schema from './lib/Resource/Schema';
 
-import './i18n';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
-import Schema from './Resource/Schema';
+const handlePreview = (html, baseData, options) => {
+  fetch(process.env.REACT_APP_PDF_STORAGE_URI, {
+    method: 'POST',
+    headers: {
+      Authorization: 'ApiKey apikeyfortesting',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      html,
+      baseData,
+      options,
+      rowData: [{}],
+    })
+  })
+    .then(res => res.json())
+    .then(res => {
+      window.open(res[0].pdfUri, '_blank');
+    })
+  ;
+};
 
-if (process.env.REACT_APP_MODE === 'standalone') {
-  const builder = new PdfTemplateBuilder();
+const handleSave = template => localStorage.setItem('template', JSON.stringify(template));
 
-  builder.render();
+let template = null;
 
-  const config = {
-    onSaveTemplate: () => localStorage.setItem('layout', JSON.stringify(builder.exportTemplate())),
-    schema: new Schema().forExample(),
-  };
-
-  // TODO: do this in the standalone app
-  if (process.env.REACT_APP_PDF_STORAGE_URI) {
-    config.onPreview = (html, baseData, options) => {
-      fetch(process.env.REACT_APP_PDF_STORAGE_URI, {
-        method: 'POST',
-        headers: {
-          Authorization: 'ApiKey apikeyfortesting',
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify({
-          html,
-          baseData,
-          options,
-          rowData: [{}],
-        })
-      })
-        .then(res => res.json())
-        .then(res => {
-          window.open(res[0].pdfUri, '_blank');
-        })
-      ;
-    }
-  }
-
-  builder.configure(config);
-
-  try {
-    const layout = JSON.parse(localStorage.getItem('layout'));
-    builder.importTemplate(layout);
-  } catch(e) {
-    // Silence
-  }
-
-  window.builder = builder;
-} else {
-  window.PdfTemplateBuilder = PdfTemplateBuilder;
+try {
+  template = JSON.parse(localStorage.getItem('template'));
+} catch(e) {
+  // Silence
 }
+
+ReactDOM.render(
+  <PdfTemplateBuilder
+    config={{}}
+    template={template}
+    language={navigator.language.split('-')[0]}
+    onPreview={handlePreview}
+    onSave={handleSave}
+    schema={new Schema().forExample()}
+  />,
+  document.getElementById('root')
+);
