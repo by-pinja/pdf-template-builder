@@ -24,20 +24,26 @@ const handlePreview = (html, baseData, options) => {
   ;
 };
 
-const handleSave = template => localStorage.setItem('template', JSON.stringify(template));
+const handleSave = template =>
+  localStorage.setItem('template', JSON.stringify(template))
+;
 
-let template = null;
+const loadTemplate = () => {
+  let template = null;
 
-try {
-  template = JSON.parse(localStorage.getItem('template'));
-} catch(e) {
-  // Silence
-}
+  try {
+    template = JSON.parse(localStorage.getItem('template'));
+  } catch(e) {
+    // Silence
+  }
+
+  return template;
+};
 
 ReactDOM.render(
   <PdfTemplateBuilder
     config={{}}
-    template={template}
+    template={loadTemplate()}
     language={navigator.language.split('-')[0]}
     onPreview={handlePreview}
     onSave={handleSave}
