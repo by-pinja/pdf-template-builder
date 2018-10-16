@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PdfTemplateBuilderContainer from './Container/PdfTemplateBuilderContainer';
-import {configure, importTemplate} from './Store/actions';
+import { configure, importTemplate, selectElement, setEditorLoading } from './Store/actions';
 import i18n from 'i18next';
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
 
-class Provider extends Component {
-  constructor(props) {
-    super(props);
-
+class Wrapper extends Component {
+  componentDidMount() {
     this.handleProps();
   }
 
@@ -15,7 +14,7 @@ class Provider extends Component {
     this.handleProps(props);
   }
 
-  handleProps(newProps = this.props) {
+  handleProps(newProps = {}) {
     const {
       onSave,
       onPreview,
@@ -26,9 +25,7 @@ class Provider extends Component {
       template
     } = this.props;
 
-    const config = { onSaveTemplate: onSave, onPreview, schema };
-
-    onDoConfigure(config);
+    onDoConfigure({ onSaveTemplate: onSave, onPreview, schema });
 
     if (template && template !== newProps.template) {
       onImportTemplate(template);
@@ -42,17 +39,20 @@ class Provider extends Component {
   }
 }
 
-const mapStateToProps = () => ({
-});
-
 const mapDispatchToProps = dispatch => ({
   onDoConfigure: config => dispatch(configure(config)),
-  onImportTemplate: template => dispatch(importTemplate(template))
+  onImportTemplate: template => {
+    // Set editor loading while 'importing' the template
+    dispatch(setEditorLoading(true));
+    setTimeout(() => dispatch(setEditorLoading(false)), 1000);
+
+    dispatch(selectElement(null));
+    dispatch(importTemplate(template));
+    dispatch(UndoActionCreators.clearHistory());
+  }
 });
 
-const Container = connect(
-  mapStateToProps,
+export default connect(
+  null,
   mapDispatchToProps
-)(Provider);
-
-export default Container;
+)(Wrapper);

@@ -27,15 +27,23 @@ describe('<SaveButton />', () => {
   describe('onClick()', () => {
     test('triggers onSave callback', () => {
       const mockOnSave = jest.fn();
+      const mockExportTemplate = jest.fn();
+      const mockGetTemplateHtml = jest.fn();
 
       const wrapper = shallow(
-        <SaveButton onSaveTemplate={mockOnSave} />
+        <SaveButton
+          onSaveTemplate={mockOnSave}
+          exportTemplate={mockExportTemplate}
+          getTemplateHtml={mockGetTemplateHtml}
+        />
       );
 
       const component = wrapper.dive();
       component.find(IconButton).simulate('click');
 
       expect(mockOnSave.mock.calls.length).toEqual(1);
+      expect(mockExportTemplate.mock.calls.length).toEqual(1);
+      expect(mockGetTemplateHtml.mock.calls.length).toEqual(1);
     });
   });
 });

@@ -38,6 +38,11 @@ class LayoutEditor extends Component {
     this.getImage   = this.getImage.bind(this);
   }
 
+  componentDidMount() {
+    // Required for nested elements to render properly
+    this.forceUpdate();
+  }
+
   findProp(schema, tag) {
     let o = null;
 

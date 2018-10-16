@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import TemplateBuilder from './../Util/TemplateBuilder';
 import PropTypes from 'prop-types'
 import ElementToolsContainer from '../Container/ElementToolsContainer';
 import Toolbox from './Toolbox';
@@ -51,26 +50,8 @@ class PdfTemplateBuilder extends Component {
   constructor(props) {
     super(props);
 
-    this.getTemplateHtml     = this.getTemplateHtml.bind(this);
     this.getComponentContent = this.getComponentContent.bind(this);
     this.getGridBackground   = this.getGridBackground.bind(this);
-  }
-
-  configure(props) {
-    this.props.onDoConfigure(props);
-  }
-
-  getTemplateHtml() {
-    return TemplateBuilder.buildTemplate(this.props.layout, this.props.page, this.props.schema);
-  }
-
-  importTemplate(config) {
-    this.props.onSelectElement(null);
-    this.props.onImportTemplate(config);
-    this.props.onClearHistory();
-
-    // Required for nested elements to render properly
-    this.forceUpdate();
   }
 
   getComponentContent(i) {
@@ -190,9 +171,6 @@ PdfTemplateBuilder.propTypes = {
   paperSize: PropTypes.object.isRequired,
   onSelectElement: PropTypes.func.isRequired,
   onChangeLayout: PropTypes.func.isRequired,
-  onDoConfigure: PropTypes.func.isRequired,
-  onImportTemplate: PropTypes.func.isRequired,
-  onClearHistory: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(PdfTemplateBuilder);
