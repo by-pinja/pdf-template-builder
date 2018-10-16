@@ -23,11 +23,11 @@ class Wrapper extends Component {
       onDoConfigure,
       onImportTemplate,
       template
-    } = this.props;
+    } = { ...this.props, ...newProps };
 
     onDoConfigure({ onSaveTemplate: onSave, onPreview, schema });
 
-    if (template && template !== newProps.template) {
+    if (template && this.props.template !== newProps.template) {
       onImportTemplate(template);
     }
 
