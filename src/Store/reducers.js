@@ -14,17 +14,15 @@ const store = (state = initialState, action) => {
 
       // Get closest element with type 'group'
       if (parentId !== 'root') {
-        (() => {
-          while (true) {
-            const parentEl = getElement(parentId, state);
+        while (true) {
+          const parentEl = getElement(parentId, state);
 
-            if (parentId === 'root' || parentEl.meta.type === 'group') {
-              break;
-            }
-
-            parentId = getSelectedElementGroupId(state, parentEl.i);
+          if (parentId === 'root' || parentEl.meta.type === 'group') {
+            break;
           }
-        })();
+
+          parentId = getSelectedElementGroupId(state, parentEl.i);
+        }
       }
 
       if (!state.layout[parentId]) {
@@ -45,38 +43,46 @@ const store = (state = initialState, action) => {
         }
       );
 
-    case 'RESIZE_ELEMENT':
+    case 'RESIZE_ELEMENT': {
+      const groupId = getSelectedElementGroupId(state);
+
       return update(state, {
         layout: {
-          [getSelectedElementGroupId(state)]: {
-            [state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload.i)]: {
+          [groupId]: {
+            [state.layout[groupId].findIndex(l => l.i === action.payload.i)]: {
               w: { $set: action.payload.width },
               h: { $set: action.payload.height }
             }
           }
         }
       });
+    }
 
-    case 'REMOVE_ELEMENT':
+    case 'REMOVE_ELEMENT': {
       // Prevent removal if element is required
       if (getSelectedElementMeta(state).required) {
         return state;
       }
 
+      const groupId = getSelectedElementGroupId(state);
+
       return update(state, {
         layout: {
-          [getSelectedElementGroupId(state)]: {
-            $splice: [[state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload), 1]]
+          [groupId]: {
+            $splice: [[state.layout[groupId].findIndex(l => l.i === action.payload), 1]]
           }
         },
         $unset: ['selectedUuid']
       });
+    }
 
-    case 'UPDATE_ELEMENT':
+    case 'UPDATE_ELEMENT': {
+      const groupId = getSelectedElementGroupId(state);
+
       return update(state, {
         layout: {
-          [getSelectedElementGroupId(state)]: {
-            [state.layout[getSelectedElementGroupId(state)].findIndex(l => l.i === action.payload.i)]: {
+          [groupId]: {
+            [state.layout[groupId].findIndex(l => l.i === action.payload.i)]: {
               meta: {
                 $set: action.payload
               }
@@ -84,6 +90,7 @@ const store = (state = initialState, action) => {
           }
         }
       });
+    }
 
     case 'SELECT_ELEMENT':
       if (state.selectedUuid === action.payload) {

@@ -136,6 +136,7 @@ class PdfTemplateBuilder extends Component {
             minHeight: this.props.paperSize.height,
             width: this.props.paperSize.width
           }}
+          onClick={() => this.props.onSelectElement(null)}
         >
           <div id="pdf-template-header" className={classes.header}>
             <LayoutEditor {...other} parent={{ i: 'header' }} layoutMode="relative" />
@@ -160,19 +161,7 @@ class PdfTemplateBuilder extends Component {
 
         <div className={classes.container}>
           <div className={classes.editorContainer}>
-            <Paper
-              id="editor"
-              className={classes.editor}
-              elevation={1}
-              style={{
-                backgroundImage: this.getGridBackground(),
-                minHeight: this.props.paperSize.height,
-                width: this.props.paperSize.width
-              }}
-              onClick={() => this.props.onSelectElement(null)}
-            >
-              {editor}
-            </Paper>
+            {editor}
           </div>
 
           <div className={classes.toolbox}>

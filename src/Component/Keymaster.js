@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class Keymaster extends Component {
   handlers = {
-    'backspace': this.handleDelete,
+    'backspace, delete': this.handleDelete,
     '⌘+z, ctrl+z': this.handleUndo,
     '⌘+shift+z, ctrl+shift+z': this.handleRedo,
     '⌘+b, ctrl+b': this.handleFontStyle('bold'),
