@@ -158,6 +158,7 @@ class PdfTemplateBuilder extends Component {
               style={{
                 backgroundImage: this.getGridBackground(),
                 minHeight: this.props.paperSize.height,
+                height: this.props.paperSize.height,
                 width: this.props.paperSize.width
               }}
               onClick={() => this.props.onSelectElement(null)}

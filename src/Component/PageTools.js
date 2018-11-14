@@ -18,7 +18,7 @@ import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
   popper: {
-    zIndex: 1,
+    zIndex: 2,
     minWidth: 350
   },
 });
