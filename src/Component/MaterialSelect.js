@@ -41,8 +41,7 @@ const styles = theme => ({
     fontSize: 16,
   },
   placeholder: {
-    position: 'absolute',
-    left: 2,
+    marginLeft: 2,
     fontSize: 16,
   },
   paper: {
