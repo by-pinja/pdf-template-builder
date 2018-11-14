@@ -3,12 +3,19 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayList
 import Fade from '@material-ui/core/Fade/Fade';
 import Paper from '@material-ui/core/Paper/Paper';
 import Popper from '@material-ui/core/Popper/Popper';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ToggleButton from '@material-ui/lab/ToggleButton/ToggleButton';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { SketchPicker } from 'react-color';
 import { withNamespaces } from 'react-i18next';
+
+const styles = theme => ({
+  colorPicker: {
+    fontFamily: 'Roboto'
+  },
+});
 
 class SettingColor extends Component {
   constructor(props) {
@@ -36,7 +43,7 @@ class SettingColor extends Component {
   }
 
   render() {
-    const { title, value, defaultValue, onChange, icon } = this.props;
+    const { classes, title, value, defaultValue, onChange, icon } = this.props;
     const { ref, open } = this.state;
 
     const id = open ? 'popper' : null;
@@ -63,6 +70,7 @@ class SettingColor extends Component {
               <Fade {...TransitionProps} timeout={150}>
                 <Paper>
                   <SketchPicker
+                    className={classes.colorPicker}
                     color={value || defaultValue}
                     onChange={(color, event) => onChange(event, color.hex)}
                   />
@@ -83,4 +91,4 @@ SettingColor.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default withNamespaces()(SettingColor);
+export default withNamespaces()(withStyles(styles)(SettingColor));

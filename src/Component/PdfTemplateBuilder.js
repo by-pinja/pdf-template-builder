@@ -31,7 +31,8 @@ const styles = theme => ({
     flexDirection: 'column',
     transition: 'width 0.5s ease, height 0.5s ease',
     transitionDelay: '0.2s',
-    margin: 'auto'
+    margin: 'auto',
+    backgroundRepeat: 'repeat',
   },
   container: {
     display: 'flex',
@@ -104,20 +105,10 @@ class PdfTemplateBuilder extends Component {
     }
 
     const cellSize = 15;
-    const cols = this.props.paperSize.width / cellSize;
 
-    const content = Array.apply(null, { length: cols + 1 }).map(Number.call, Number)
-      .map(
-        (a, i) =>
-          `<rect stroke='rgb(0, 0, 0, 0.03)' stroke-width='1' fill='none' x='${Math.round(
-            0 / 2 + i * cellSize,
-          )}' y='${0 / 2}' width='${Math.round(
-            cellSize,
-          )}' height='${cellSize}'/>`,
-      )
-      .join('');
-
-    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${cellSize * cols}' height='${cellSize}'>${content}</svg>")`;
+    return `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${cellSize}' height='${cellSize}'>${
+      `<rect stroke='rgb(0,0,0,0.03)' stroke-width='1' fill='none' x='0' y='0' width='${cellSize}' height='${cellSize}'/>`
+    }</svg>")`;
   }
 
   render() {
