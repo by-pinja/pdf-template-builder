@@ -34,7 +34,10 @@ class Keymaster extends Component {
         let handler = this.handlers[keyCode];
         handler = handler.bind(this);
 
-        key(keyCode, handler);
+        key(keyCode, (e) => {
+          e.preventDefault();
+          handler();
+        });
       }
     );
   }
