@@ -12,8 +12,14 @@ import { SketchPicker } from 'react-color';
 import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
+  wrapper: {
+    display: 'inline-block'
+  },
   colorPicker: {
     fontFamily: 'Roboto'
+  },
+  popper: {
+    zIndex: 100
   },
 });
 
@@ -50,17 +56,17 @@ class SettingColor extends Component {
 
     return (
       <ClickAwayListener onClickAway={this.handleClickAway}>
-        <div style={{ display: 'inline-block' }}>
-          <ToggleButton value="" onClick={this.handlePopper}>
-            <Tooltip title={title}>
+        <div className={classes.wrapper}>
+          <Tooltip title={title}>
+            <ToggleButton value="" onClick={this.handlePopper}>
               {icon}
-            </Tooltip>
-            <ArrowDropDownIcon />
-          </ToggleButton>
+              <ArrowDropDownIcon />
+            </ToggleButton>
+          </Tooltip>
 
           <Popper
             id={id}
-            style={{ zIndex: 100 }}
+            className={classes.popper}
             open={open}
             disablePortal={true}
             anchorEl={ref}

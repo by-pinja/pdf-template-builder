@@ -10,7 +10,6 @@
     "i18next": "11.9.0",
     "immutability-helper": "2.8.1",
     "keymaster": "^1.6.2",
-    "material-ui-color-picker": "2.1.1",
     "prop-types": "15.6.2",
     "react": "16.5.2",
     "react-color": "2.14.1",
