@@ -1,4 +1,6 @@
-const defaults = {
+import WebFont from 'webfontloader';
+
+export const defaults = {
   font: {
     family: 'Open Sans',
     color: '#000'
@@ -13,7 +15,7 @@ const defaults = {
   }
 };
 
-const available = {
+export const available = {
   fonts: [
     'Open Sans',
     'Roboto',
@@ -23,4 +25,18 @@ const available = {
   ]
 };
 
-export { defaults, available };
+export function getFonts() {
+  return available.fonts;
+}
+
+export function loadFonts(fonts) {
+  if (fonts) {
+    available.fonts = fonts;
+  }
+
+  WebFont.load({
+    google: {
+      families: available.fonts
+    }
+  });
+}

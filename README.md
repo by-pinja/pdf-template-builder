@@ -36,6 +36,10 @@ communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) se
 ```javascript
 const builder = new PdfTemplateBuilder();
 
+// Override default fonts if desired (has to be called before render)
+// See available fonts @ https://fonts.google.com
+builder.setFonts(['Indie Flower', 'Roboto', 'Comic Sans MS']);
+
 // Render to #root
 builder.render();
 

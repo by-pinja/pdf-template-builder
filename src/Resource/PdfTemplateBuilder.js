@@ -5,9 +5,11 @@ import Provider from 'react-redux/es/components/Provider';
 import pdfTemplateBuilder from '../Store/reducers';
 import { createStore } from 'redux';
 import i18n from 'i18next';
+import { loadFonts } from '../config';
 
 class PdfTemplateBuilder {
   ref = null;
+  fonts = null;
 
   constructor() {
     this.store = createStore(
@@ -17,6 +19,8 @@ class PdfTemplateBuilder {
   }
 
   render(target = document.getElementById('root')) {
+    loadFonts(this.fonts);
+
     ReactDOM.render(
       <Provider store={this.store}>
         <PdfTemplateBuilderContainer
@@ -46,6 +50,10 @@ class PdfTemplateBuilder {
 
   changeLanguage(lang) {
     i18n.changeLanguage(lang);
+  }
+
+  setFonts(fonts) {
+    this.fonts = fonts;
   }
 
   checkState() {
