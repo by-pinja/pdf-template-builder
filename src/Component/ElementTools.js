@@ -139,7 +139,7 @@ class ElementTools extends Component {
                       aria-label="Remove"
                       mini={true}
                       className={classes.actionButton}
-                      onClick={this.props.onRemoveElement}
+                      onClick={() => this.props.onRemoveElement(element.i)}
                     >
                       <Delete/>
                     </Button>

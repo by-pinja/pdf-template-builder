@@ -24,9 +24,7 @@ class ToggleBordersButton extends Component {
   }
 
   render() {
-    const { bordersVisible, t } = this.props;
-
-    let { classes } = bordersVisible ? {classes: {}} : this.props;
+    const { bordersVisible, classes, t } = this.props;
 
     const title = bordersVisible ? t('hideBorders') : t('showBorders');
 
@@ -34,7 +32,7 @@ class ToggleBordersButton extends Component {
       <Tooltip title={title}>
         <div>
           <IconButton
-            className={classes.disabled}
+            className={!bordersVisible ? classes.disabled : null}
             color="inherit"
             aria-label={title}
             onClick={this.handleToggle}

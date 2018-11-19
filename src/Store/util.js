@@ -3,7 +3,7 @@ export function getSelectedElementMeta(state) {
     return null;
   }
 
-  const element = state.layout[getSelectedElementGroupId(state)].find(e => e.i === state.selectedUuid);
+  const element = getElement(state.selectedUuid, state);
 
   if (!element) {
     return null;
