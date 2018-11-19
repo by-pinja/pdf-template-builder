@@ -16,7 +16,7 @@ const styles = theme => ({
     display: 'inline-block'
   },
   colorPicker: {
-    fontFamily: 'Roboto'
+    fontFamily: theme.typography.fontFamily
   },
   popper: {
     zIndex: 100
