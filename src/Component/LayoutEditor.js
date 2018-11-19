@@ -108,13 +108,7 @@ class LayoutEditor extends Component {
     const cellSize = 15;
 
     if (!['root', 'header', 'footer'].includes(parentId)) {
-      const parentElement = document.querySelector('#component-' + parentId);
-
-      if (!parentElement) {
-        return '';
-      }
-
-      width = parentElement.offsetWidth;
+      width = this.props.parent.w * cellSize;
     }
 
     const layout = this.props.layout[parentId];
