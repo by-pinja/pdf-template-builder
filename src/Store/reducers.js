@@ -222,6 +222,7 @@ function getInitialState() {
     selectedUuid: null,
     gridVisible: false,
     bordersVisible: true,
+    editorLoading: false
   };
 
   if (process.env.NODE_ENV === 'development') {

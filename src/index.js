@@ -1,3 +1,7 @@
+import 'core-js/fn/array/includes';
+import 'core-js/fn/array/find';
+import 'core-js/fn/array/find-index';
+
 import PdfTemplateBuilder from './Resource/PdfTemplateBuilder';
 
 import './i18n';

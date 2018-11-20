@@ -32,6 +32,9 @@ const styles = theme => ({
   },
   iconLeft: {
     marginRight: theme.spacing.unit
+  },
+  settingGroup: {
+    flexBasis: 'auto'
   }
 });
 
@@ -127,7 +130,7 @@ class ElementTools extends Component {
       <Card className={classes.card}>
         <CardContent>
           <Grid container spacing={16} direction="column">
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.settingGroup}>
               <Typography color="textSecondary" variant="headline">
                 {t('elementSettings', { type: capitalize(t(element.type)) })}
 
@@ -150,13 +153,13 @@ class ElementTools extends Component {
             </Grid>
 
             {(isText || isGroup) && (
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.settingGroup}>
                 <ElementStyleContainer />
               </Grid>
             )}
 
             {isGroup && (
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.settingGroup}>
                 <FormGroup row>
                   <FormControlLabel
                     control={
@@ -173,7 +176,7 @@ class ElementTools extends Component {
             )}
 
             {isImage && (
-              <Grid item xs={6}>
+              <Grid item xs={6} className={classes.settingGroup}>
                 <input
                   id="file-input"
                   accept="image/*"
@@ -192,7 +195,7 @@ class ElementTools extends Component {
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.settingGroup}>
               <MaterialSelect
                 id="tag"
                 label={t('bindToProperty')}
@@ -207,7 +210,7 @@ class ElementTools extends Component {
             </Grid>
 
             {isText && (
-              <Grid item xs={12}>
+              <Grid item xs={12} className={classes.settingGroup}>
                 <TextField
                   id="content"
                   label={t('content')}

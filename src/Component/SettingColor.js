@@ -3,12 +3,25 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayList
 import Fade from '@material-ui/core/Fade/Fade';
 import Paper from '@material-ui/core/Paper/Paper';
 import Popper from '@material-ui/core/Popper/Popper';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ToggleButton from '@material-ui/lab/ToggleButton/ToggleButton';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import { SketchPicker } from 'react-color';
 import { withNamespaces } from 'react-i18next';
+
+const styles = theme => ({
+  wrapper: {
+    display: 'inline-block'
+  },
+  colorPicker: {
+    fontFamily: theme.typography.fontFamily
+  },
+  popper: {
+    zIndex: 100
+  },
+});
 
 class SettingColor extends Component {
   constructor(props) {
@@ -36,24 +49,24 @@ class SettingColor extends Component {
   }
 
   render() {
-    const { title, value, defaultValue, onChange, icon } = this.props;
+    const { classes, title, value, defaultValue, onChange, icon } = this.props;
     const { ref, open } = this.state;
 
     const id = open ? 'popper' : null;
 
     return (
       <ClickAwayListener onClickAway={this.handleClickAway}>
-        <div style={{ display: 'inline-block' }}>
-          <ToggleButton value="" onClick={this.handlePopper}>
-            <Tooltip title={title}>
+        <div className={classes.wrapper}>
+          <Tooltip title={title}>
+            <ToggleButton value="" onClick={this.handlePopper}>
               {icon}
-            </Tooltip>
-            <ArrowDropDownIcon />
-          </ToggleButton>
+              <ArrowDropDownIcon />
+            </ToggleButton>
+          </Tooltip>
 
           <Popper
             id={id}
-            style={{ zIndex: 100 }}
+            className={classes.popper}
             open={open}
             disablePortal={true}
             anchorEl={ref}
@@ -63,6 +76,7 @@ class SettingColor extends Component {
               <Fade {...TransitionProps} timeout={150}>
                 <Paper>
                   <SketchPicker
+                    className={classes.colorPicker}
                     color={value || defaultValue}
                     onChange={(color, event) => onChange(event, color.hex)}
                   />
@@ -83,4 +97,4 @@ SettingColor.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default withNamespaces()(SettingColor);
+export default withNamespaces()(withStyles(styles)(SettingColor));

@@ -18,6 +18,9 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   root: {
     marginBottom: theme.spacing.unit * 2
+  },
+  borderWidthInput: {
+    width: '100%'
   }
 });
 
@@ -47,7 +50,7 @@ class ElementStyle extends Component {
   };
 
   render() {
-    const { element, t } = this.props;
+    const { classes, element, t } = this.props;
 
     if (!element) {
       return '';
@@ -139,6 +142,7 @@ class ElementStyle extends Component {
             <TextField
               id="borderWidth"
               type="number"
+              className={classes.borderWidthInput}
               value={element.borderWidth || defaults.border.width}
               onChange={this.handleEventChange('borderWidth')}
               InputProps={{
