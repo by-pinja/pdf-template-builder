@@ -29,7 +29,7 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    transition: 'width 0.5s ease, height 0.5s ease',
+    transition: 'width 0.5s ease, min-height 0.5s ease',
     transitionDelay: '0.2s',
     margin: 'auto',
     backgroundRepeat: 'repeat',
@@ -115,7 +115,9 @@ class PdfTemplateBuilder extends Component {
   render() {
     const { classes, editorLoading, ...other } = this.props;
 
-    let editor = <div className={classes.loader}><CircularProgress size={100} /></div>;
+    let editor = <div className={classes.loader} style={{minHeight: this.props.paperSize.height}}>
+      <CircularProgress size={100} />
+    </div>;
 
     if (!editorLoading) {
       editor = (
@@ -155,7 +157,6 @@ class PdfTemplateBuilder extends Component {
               className={classes.editor}
               style={{
                 minHeight: this.props.paperSize.height,
-                height: this.props.paperSize.height,
                 width: this.props.paperSize.width
               }}
               elevation={1}
