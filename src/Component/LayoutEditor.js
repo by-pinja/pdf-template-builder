@@ -25,9 +25,14 @@ const styles = {
   },
   selected: {
     border: '1px dashed #3f51b5',
+    background: 'rgba(63, 81, 181, 0.1)',
     zIndex: 20,
     transition: 'none'
   },
+  text: {
+    cursor: 'default',
+    userSelect: 'none'
+  }
 };
 
 class LayoutEditor extends Component {
@@ -198,7 +203,7 @@ class LayoutEditor extends Component {
                 style={containerStyle}
               >
                 <Tooltip title={content.tooltip || ''}>
-                  <span style={textStyle}>
+                  <span className={classes.text} style={textStyle}>
                     {content.text}
                     {this.getImage(e.i)}
                   </span>

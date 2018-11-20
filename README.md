@@ -65,13 +65,15 @@ builder.configure({
     // Defining this callback function will enable
     // the save button in the builder toolbox.
     // This callback will be called when user clicks that button
-    // so you can do perform required actions to store the template
+    // so you can perform required actions to store the template
+    
+    // Returning a promise that rejects will show an error snackbar
   },
   onPreview: function(html, baseData, options) {
     // Defining this callback function will enable
     // the preview button in the builder toolbox.
     // This callback will be called when user clicks that button
-    // so you can do perform required actions to display preview
+    // so you can perform required actions to display preview
   },
   language: 'en' // en|fi
 });
