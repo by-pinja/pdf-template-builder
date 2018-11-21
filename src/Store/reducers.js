@@ -1,4 +1,5 @@
 import update from 'immutability-helper';
+import uuid from 'uuid/v4';
 import Schema from '../Resource/Schema';
 import undoable, { excludeAction } from 'redux-undo';
 import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from './util';
@@ -42,6 +43,23 @@ const store = (state = initialState, action) => {
           }
         }
       );
+
+    case 'DUPLICATE_ELEMENT': {
+      const groupId = getSelectedElementGroupId(state);
+      const original = getElement(state.selectedUuid, state);
+      const element = Object.assign({}, original);
+      element.i = uuid();
+      // try to append it right below the original
+      element.y += 1;
+
+      return update(state, {
+        layout: {
+          [groupId]: {
+            $push: [element]
+          }
+        }
+      });
+    }
 
     case 'RESIZE_ELEMENT': {
       const groupId = getSelectedElementGroupId(state);

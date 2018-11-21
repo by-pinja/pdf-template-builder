@@ -31,7 +31,8 @@ const styles = {
   },
   text: {
     cursor: 'default',
-    userSelect: 'none'
+    userSelect: 'none',
+    whiteSpace: 'pre-line'
   }
 };
 
@@ -160,6 +161,7 @@ class LayoutEditor extends Component {
               width: '100%',
               fontFamily: meta.fontFamily,
               fontSize: Number(meta.fontSize || 16),
+              lineHeight: Number(meta.lineHeight || 1.4),
               color: meta.color,
               fontStyle: fontStyle.includes('italic') ? 'italic' : null,
               fontWeight: fontStyle.includes('bold') ? 'bold' : 'normal',

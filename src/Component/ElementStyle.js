@@ -101,9 +101,24 @@ class ElementStyle extends Component {
               icon={<FormatColorTextIcon />}
             />
           </Grid>
+          
+          <Grid item xs={6}>
+            <TextField
+              id="lineHeight"
+              label={t('lineHeight')}
+              type="number"
+              value={element.lineHeight || 1.4}
+              onChange={this.handleEventChange('lineHeight')}
+              className={classes.fullWidth}
+              inputProps={{
+                min: 1,
+                step: 0.1
+              }}
+            />
+          </Grid>
         </Grid>
 
-        <Grid item container direction="row" xs={5} spacing={8}>
+        <Grid item container direction="column" xs={5} spacing={8}>
           <Grid item>
             <SettingHorizontalAlign
               value={element.horizontalAlignment}
