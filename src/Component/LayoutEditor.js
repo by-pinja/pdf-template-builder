@@ -110,7 +110,8 @@ class LayoutEditor extends Component {
       return '';
     }
 
-    let width = this.props.paperSize.width;
+    let width = this.props.width;
+
     const cellSize = 15;
 
     if (!['root', 'header', 'footer'].includes(parentId)) {
@@ -233,6 +234,7 @@ LayoutEditor.propTypes = {
   page: PropTypes.object.isRequired,
   parent: PropTypes.object.isRequired,
   selectedUuid: PropTypes.string,
+  width: PropTypes.number
 };
 
 export default withNamespaces()(withStyles(styles)(LayoutEditor));

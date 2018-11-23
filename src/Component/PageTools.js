@@ -15,13 +15,14 @@ import Popper from '@material-ui/core/Popper/Popper';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener/ClickAwayListener';
 import { withNamespaces } from 'react-i18next';
+import { TextField, InputAdornment } from '@material-ui/core';
 
-const styles = theme => ({
+const styles = {
   popper: {
     zIndex: 2,
     minWidth: 350
   },
-});
+};
 
 class PageTools extends Component {
   constructor(props) {
@@ -57,6 +58,15 @@ class PageTools extends Component {
     });
   }
 
+  handleBorderChange = event => {
+    const page = {
+      ...this.props.page,
+      border: parseInt(event.target.value, 10)
+    };
+
+    this.props.onUpdatePage(page);
+  }
+
   render() {
     const { classes, t } = this.props;
     const { open, anchorEl } = this.state;
@@ -84,11 +94,31 @@ class PageTools extends Component {
           >
             <Card>
               <CardContent>
-                <Grid container spacing={24}>
+                <Grid container spacing={24} direction="column">
                   <Grid item xs={12}>
                     <Typography color="textSecondary" variant="headline">
                       {t('pageSettings')}
                     </Typography>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <TextField
+                      type="number"
+                      label={t('pageBorder')}
+                      value={this.props.page.border}
+                      onChange={this.handleBorderChange}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment variant="filled" position="end">
+                            px
+                          </InputAdornment>
+                        ),
+                        inputProps: {
+                          min: 0,
+                          step: 2
+                        },
+                      }}
+                    />
                   </Grid>
 
                   <Grid item xs={12}>

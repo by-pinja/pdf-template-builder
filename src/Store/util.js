@@ -66,6 +66,8 @@ export function exportTemplate(state) {
       .style.getPropertyValue('height')
     ;
 
+    options.border = page.border + 'px';
+
     return { page, layout, options };
   }
 }
