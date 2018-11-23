@@ -115,7 +115,7 @@ class PdfTemplateBuilder extends Component {
 
     const cellSize = 15;
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${cellSize}' height='${cellSize}'>${
-      `<rect stroke='rgba(0,0,0,0.1)' stroke-width='1' fill='none' x='0' y='0' width='${cellSize}' height='${cellSize}'/>`
+      `<rect stroke='rgba(0,0,0,0.06)' stroke-width='1' fill='none' x='0' y='0' width='${cellSize}' height='${cellSize}'/>`
     }</svg>`;
 
     return `url("data:image/svg+xml;charset=utf8;base64,${btoa(svg)}")`;
