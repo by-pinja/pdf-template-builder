@@ -1,10 +1,10 @@
 export function getSelectedElementMeta(state) {
-  if (!state.selectedUuid) {
-    return null;
-  }
-
   if (state.multiSelect) {
     return getMultiSelectMeta(state);
+  }
+
+  if (!state.selectedUuid) {
+    return null;
   }
 
   const element = getElement(state.selectedUuid, state);
@@ -25,7 +25,7 @@ export function getSelectedElementGroupId(state, uuid = state.selectedUuid) {
 
   Object.keys(state.layout).every(groupId => {
     return state.layout[groupId].every(e => {
-      if (e.i === state.selectedUuid) {
+      if (e.i === uuid) {
         id = groupId;
         return false;
       }

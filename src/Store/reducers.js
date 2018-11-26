@@ -45,6 +45,40 @@ const store = (state = initialState, action) => {
       );
 
     case 'DUPLICATE_ELEMENT': {
+      if (state.multiSelect) {
+        const obj = {};
+        const multiSelect = [];
+
+        for (let elUuid of state.multiSelect) {
+          const original = getElement(elUuid, state);
+
+          if (original.meta.required) {
+            continue;
+          }
+
+          const groupId = getSelectedElementGroupId(state, elUuid);
+          const element = Object.assign({}, original);
+          element.i = uuid();
+          // try to append it right below the original
+          element.y += 1;
+
+          obj[groupId] = obj[groupId] || {
+            $push: []
+          };
+
+          obj[groupId].$push.push(element);
+          multiSelect.push(element.i);
+        }
+
+        return update(state, {
+          layout: obj,
+          multiSelect: {
+            $set: multiSelect
+          },
+          $unset: ['selectedUuid']
+        });
+      }
+
       const groupId = getSelectedElementGroupId(state);
       const original = getElement(state.selectedUuid, state);
       const element = Object.assign({}, original);
@@ -80,6 +114,37 @@ const store = (state = initialState, action) => {
     }
 
     case 'REMOVE_ELEMENT': {
+      if (state.multiSelect) {
+        const obj = {};
+
+        for (let uuid of state.multiSelect) {
+          if (getElement(uuid, state).meta.required) {
+            continue;
+          }
+
+          const groupId = getSelectedElementGroupId(state, uuid);
+
+          obj[groupId] = obj[groupId] || {
+            $splice: []
+          };
+          
+          const groupIndex = state.layout[groupId].findIndex(l => l.i === uuid);
+          obj[groupId].$splice.push([groupIndex, 1]);
+        }
+
+        // $splice needs to be sorted by index desc so array indexes won't change when splicing
+        for (let key of Object.keys(obj)) {
+          obj[key].$splice.sort(
+            (a, b) => b[0] - a[0]
+          );
+        }
+
+        return update(state, {
+          layout: obj,
+          $unset: ['selectedUuid', 'multiSelect']
+        });
+      }
+
       // Prevent removal if element is required
       if (getSelectedElementMeta(state).required) {
         return state;
@@ -154,11 +219,11 @@ const store = (state = initialState, action) => {
         if (state.multiSelect && state.multiSelect.includes(selectedUuid)) {
           multiSelect = state.multiSelect.slice();
           multiSelect.splice(multiSelect.indexOf(selectedUuid), 1);
-        } else {
+        } else if (state.multiSelect || state.selectedUuid) {
           multiSelect = (state.multiSelect || [state.selectedUuid]).concat(selectedUuid);
         }
 
-        if (multiSelect.length < 2) {
+        if (multiSelect && multiSelect.length < 2) {
           multiSelect = null;
         }
       }
