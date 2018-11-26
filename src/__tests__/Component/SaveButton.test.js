@@ -5,11 +5,11 @@ import SaveButton from '../../Component/SaveButton';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 
 describe('<SaveButton />', () => {
-  let shallow
+  let shallow;
 
   beforeAll(() => {
     shallow = createShallow({dive: true});
-  })
+  });
 
   describe('render()', () => {
     test('will render a button if onSaveTemplate() callback is given', () => {
