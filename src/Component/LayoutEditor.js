@@ -140,7 +140,12 @@ class LayoutEditor extends Component {
       >
         {layout.map(
           e => {
-            let className = this.props.selectedUuid === e.i ? classes.selected : classes.element;
+            let className;
+            if (this.props.multiSelect) {
+              className = this.props.multiSelect.includes(e.i) ? classes.selected : classes.element;
+            } else {
+              className = this.props.selectedUuid === e.i ? classes.selected : classes.element;
+            }
 
             bordersVisible && (className += ' ' + classes.transformHelpers);
 
@@ -193,7 +198,7 @@ class LayoutEditor extends Component {
                 className={className}
                 key={e.i}
                 data-grid={e}
-                onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i)}
+                onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i, event.ctrlKey)}
                 onDragEnd={e => e.stopPropagation()}
                 style={containerStyle}
               >
@@ -226,6 +231,7 @@ LayoutEditor.propTypes = {
   page: PropTypes.object.isRequired,
   parent: PropTypes.object.isRequired,
   selectedUuid: PropTypes.string,
+  multiSelect: PropTypes.array,
 };
 
 export default withNamespaces()(withStyles(styles)(LayoutEditor));

@@ -72,7 +72,7 @@ class ElementStyle extends Component {
               <TextField
                 id="fontSize"
                 type="number"
-                value={element.fontSize || 12}
+                value={element.fontSize}
                 onChange={this.handleEventChange('fontSize')}
                 style={{ width: '100%' }}
                 InputProps={{
@@ -106,7 +106,6 @@ class ElementStyle extends Component {
           <Grid item>
             <SettingHorizontalAlign
               value={element.horizontalAlignment}
-              defaultValue={defaults.alignment.horizontal}
               onChange={this.handleChange('horizontalAlignment')}
             />
           </Grid>
@@ -114,7 +113,6 @@ class ElementStyle extends Component {
           <Grid item>
             <SettingVerticalAlign
               value={element.verticalAlignment}
-              defaultValue={defaults.alignment.vertical}
               onChange={this.handleChange('verticalAlignment')}
             />
           </Grid>
@@ -143,7 +141,7 @@ class ElementStyle extends Component {
               id="borderWidth"
               type="number"
               className={classes.borderWidthInput}
-              value={element.borderWidth || defaults.border.width}
+              value={element.borderWidth}
               onChange={this.handleEventChange('borderWidth')}
               InputProps={{
                 endAdornment: (

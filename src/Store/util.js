@@ -3,6 +3,10 @@ export function getSelectedElementMeta(state) {
     return null;
   }
 
+  if (state.multiSelect) {
+    return getMultiSelectMeta(state);
+  }
+
   const element = getElement(state.selectedUuid, state);
 
   if (!element) {
@@ -68,4 +72,44 @@ export function exportTemplate(state) {
 
     return { page, layout, options };
   }
+}
+
+function getMultiSelectMeta(state) {
+  // get properties that are common to all elements
+  const meta = state.multiSelect.reduce((prev, cur) => {
+    const next = getElement(cur, state).meta;
+    if (!prev) return next;
+
+    const prevKeys = Object.keys(prev);
+    const newObj = {};
+
+    for (let key of prevKeys) {
+      const prevVal = prev[key];
+      const nextVal = next[key];
+
+      if (prevVal === nextVal) {
+        newObj[key] = prevVal;
+      } else if (Array.isArray(prevVal) && Array.isArray(nextVal) && prevVal.length === nextVal.length) {
+        let isEqual = true;
+        for (let arrayKey in prevVal) {
+          if (prevVal[arrayKey] !== nextVal[arrayKey]) {
+            isEqual = false;
+            break;
+          }
+        }
+        if (isEqual) {
+          newObj[key] = prevVal;
+        }
+      }
+    }
+
+    return newObj;
+  }, null);
+
+  meta.type = 'selection';
+  meta.fontSize = meta.fontSize || '';
+  meta.fontFamily = meta.fontFamily || '';
+  meta.borderWidth = meta.borderWidth || '';
+
+  return meta;
 }

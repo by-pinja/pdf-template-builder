@@ -125,6 +125,7 @@ class ElementTools extends Component {
     const isImage = element.type === 'image';
     const isGroup = element.type === 'group';
     const isText  = element.type === 'text';
+    const isSelection = element.type === 'selection';
 
     return (
       <Card className={classes.card}>
@@ -152,7 +153,7 @@ class ElementTools extends Component {
               </Typography>
             </Grid>
 
-            {(isText || isGroup) && (
+            {(isText || isGroup || isSelection) && (
               <Grid item xs={12} className={classes.settingGroup}>
                 <ElementStyleContainer />
               </Grid>
@@ -195,19 +196,21 @@ class ElementTools extends Component {
               </Grid>
             )}
 
-            <Grid item xs={12} className={classes.settingGroup}>
-              <MaterialSelect
-                id="tag"
-                label={t('bindToProperty')}
-                className={classes.select}
-                value={selectedOption}
-                getOptionLabel={({ text }) => text}
-                getOptionValue={({ tag }) => tag}
-                onChange={({ tag }) => this.handleChange('tag')(tag ? { value: tag } : [])}
-                placeholder={t('bindToProperty')}
-                options={schema}
-              />
-            </Grid>
+            {!isSelection &&
+              <Grid item xs={12} className={classes.settingGroup}>
+                <MaterialSelect
+                  id="tag"
+                  label={t('bindToProperty')}
+                  className={classes.select}
+                  value={selectedOption}
+                  getOptionLabel={({ text }) => text}
+                  getOptionValue={({ tag }) => tag}
+                  onChange={({ tag }) => this.handleChange('tag')(tag ? { value: tag } : [])}
+                  placeholder={t('bindToProperty')}
+                  options={schema}
+                />
+              </Grid>
+            }
 
             {isText && (
               <Grid item xs={12} className={classes.settingGroup}>

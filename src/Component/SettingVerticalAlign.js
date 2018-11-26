@@ -10,12 +10,12 @@ import { withNamespaces } from 'react-i18next';
 
 class SettingVerticalAlign extends Component {
   render() {
-    const { t, value, defaultValue, onChange } = this.props;
+    const { t, value, onChange } = this.props;
 
     return (
       <ToggleButtonGroup
         exclusive
-        value={value || defaultValue}
+        value={value}
         onChange={onChange}
       >
         <ToggleButton value="top">
@@ -42,7 +42,6 @@ const allowedValues = ['top', 'middle', 'bottom'];
 
 SettingVerticalAlign.propTypes = {
   value: PropTypes.oneOf(allowedValues),
-  defaultValue: PropTypes.oneOf(allowedValues),
   onChange: PropTypes.func.isRequired,
 };
 

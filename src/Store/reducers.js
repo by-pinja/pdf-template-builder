@@ -77,6 +77,34 @@ const store = (state = initialState, action) => {
     }
 
     case 'UPDATE_ELEMENT': {
+      if (state.multiSelect) {
+        const obj = {};
+        Object.entries(state.layout)
+        .forEach(([key, item]) => {
+          item.forEach((element, idx) => {
+            if (!state.multiSelect.includes(element.i)) return;
+
+            obj[key] = obj[key] || {};
+            obj[key][idx] = {
+              meta: {}
+            }
+
+            Object.entries(action.payload)
+            .forEach(([prop, value]) => {
+              if (value !== '' && prop !== 'type')
+                obj[key][idx].meta[prop] = {
+                  $set: value
+                };
+            })
+
+          })
+        });
+
+        return update(state, {
+          layout: obj
+        });
+      }
+
       const groupId = getSelectedElementGroupId(state);
 
       return update(state, {
@@ -92,12 +120,30 @@ const store = (state = initialState, action) => {
       });
     }
 
-    case 'SELECT_ELEMENT':
-      if (state.selectedUuid === action.payload) {
-        return state;
+    case 'SELECT_ELEMENT': {
+      let selectedUuid = action.payload.uuid;
+      let multiSelect = null;
+
+      if (state.selectedUuid === selectedUuid) {
+        return {...state, multiSelect};
       }
 
-      return {...state, selectedUuid: action.payload};
+      if (action.payload.ctrlKey) {
+        // if includes, splice
+        if (state.multiSelect && state.multiSelect.includes(selectedUuid)) {
+          multiSelect = state.multiSelect.slice();
+          multiSelect.splice(multiSelect.indexOf(selectedUuid), 1);
+        } else {
+          multiSelect = (state.multiSelect || [state.selectedUuid]).concat(selectedUuid);
+        }
+
+        if (multiSelect.length < 2) {
+          multiSelect = null;
+        }
+      }
+
+      return {...state, selectedUuid, multiSelect};
+    }
 
     case 'SET_LAYOUT':
       const newState = {
@@ -220,6 +266,7 @@ function getInitialState() {
     },
     schema: [],
     selectedUuid: null,
+    multiSelect: null,
     gridVisible: false,
     bordersVisible: true,
     editorLoading: false

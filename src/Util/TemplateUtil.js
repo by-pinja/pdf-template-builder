@@ -1,4 +1,5 @@
 import uuid from 'uuid/v4';
+import { defaults } from '../config';
 
 class TemplateUtil {
   static createComponent() {
@@ -13,7 +14,8 @@ class TemplateUtil {
         horizontalAlignment: 'left',
         fontFamily: 'Open Sans',
         fontSize: 16,
-        layoutRelative: false
+        layoutRelative: false,
+        borderWidth: defaults.border.width,
       }
     };
   }
