@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 class Keymaster extends Component {
   handlers = {
     'backspace, delete': this.handleDelete,
+    '⌘+d, ctrl+d': this.handleDuplicate,
     '⌘+z, ctrl+z': this.handleUndo,
     '⌘+shift+z, ctrl+shift+z': this.handleRedo,
     '⌘+b, ctrl+b': this.handleFontStyle('bold'),
@@ -52,6 +53,14 @@ class Keymaster extends Component {
     }
 
     this.props.onDeleteElement(this.props.selectedUuid);
+  }
+
+  handleDuplicate() {
+    if (!this.isElementSelected()) {
+      return;
+    }
+
+    this.props.onDuplicateElement(this.props.selectedUuid);
   }
 
   handleUndo() {

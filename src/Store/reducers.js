@@ -57,6 +57,9 @@ const store = (state = initialState, action) => {
           [groupId]: {
             $push: [element]
           }
+        },
+        selectedUuid: {
+          $set: element.i
         }
       });
     }
