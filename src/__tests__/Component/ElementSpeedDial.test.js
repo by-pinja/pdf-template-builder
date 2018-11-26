@@ -8,7 +8,7 @@ describe('<ElementSpeedDial />', () => {
   describe('render()', () => {
     test('will render the element', () => {
       const wrapper = shallow(
-        <ElementSpeedDial />
+        <ElementSpeedDial onAddElement={() => {}} />
       );
 
       expect(wrapper.html()).not.toBe(null);

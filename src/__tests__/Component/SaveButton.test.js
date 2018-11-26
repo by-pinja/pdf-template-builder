@@ -1,9 +1,16 @@
 import React from 'react';
+import { createShallow } from '@material-ui/core/test-utils';
 import SaveButton from '../../Component/SaveButton';
-import { shallow } from 'enzyme';
+
 import IconButton from '@material-ui/core/IconButton/IconButton';
 
 describe('<SaveButton />', () => {
+  let shallow
+
+  beforeAll(() => {
+    shallow = createShallow({dive: true});
+  })
+
   describe('render()', () => {
     test('will render a button if onSaveTemplate() callback is given', () => {
       const mockOnSave = jest.fn();
@@ -15,7 +22,7 @@ describe('<SaveButton />', () => {
       expect(wrapper.html()).not.toBe(null);
     });
 
-    test('will render nothing is callback is not given', () => {
+    test('will render nothing if callback is not given', () => {
       const wrapper = shallow(
         <SaveButton />
       );

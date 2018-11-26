@@ -6,15 +6,24 @@ describe('<PreviewButton />', () => {
   describe('render()', () => {
     test('will render a button if onPreview callback is given', () => {
       const wrapper = shallow(
-        <PreviewButton onPreview={() => {}} />
+        <PreviewButton
+          onPreview={() => {}}
+          templateData={{}}
+          templateHtml={() => {}}
+          exportTemplate={() => {}}
+        />
       );
 
       expect(wrapper.html()).not.toBe(null);
     });
 
-    test('will render nothing is callback is not given', () => {
+    test('will render nothing if callback is not given', () => {
       const wrapper = shallow(
-        <PreviewButton />
+        <PreviewButton
+          templateData={{}}
+          templateHtml={() => {}}
+          exportTemplate={() => {}}
+        />
       );
 
       expect(wrapper.html()).toBe(null);
