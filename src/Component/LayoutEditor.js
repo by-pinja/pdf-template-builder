@@ -25,9 +25,15 @@ const styles = {
   },
   selected: {
     border: '1px dashed #3f51b5',
+    background: 'rgba(63, 81, 181, 0.1)',
     zIndex: 20,
     transition: 'none'
   },
+  text: {
+    cursor: 'default',
+    userSelect: 'none',
+    whiteSpace: 'pre-line'
+  }
 };
 
 class LayoutEditor extends Component {
@@ -104,7 +110,8 @@ class LayoutEditor extends Component {
       return '';
     }
 
-    let width = this.props.paperSize.width;
+    let width = this.props.width;
+
     const cellSize = 15;
 
     if (!['root', 'header', 'footer'].includes(parentId)) {
@@ -155,6 +162,7 @@ class LayoutEditor extends Component {
               width: '100%',
               fontFamily: meta.fontFamily,
               fontSize: Number(meta.fontSize || 16),
+              lineHeight: Number(meta.lineHeight || 1.4),
               color: meta.color,
               fontStyle: fontStyle.includes('italic') ? 'italic' : null,
               fontWeight: fontStyle.includes('bold') ? 'bold' : 'normal',
@@ -198,7 +206,7 @@ class LayoutEditor extends Component {
                 style={containerStyle}
               >
                 <Tooltip title={content.tooltip || ''}>
-                  <span style={textStyle}>
+                  <span className={classes.text} style={textStyle}>
                     {content.text}
                     {this.getImage(e.i)}
                   </span>
@@ -226,6 +234,7 @@ LayoutEditor.propTypes = {
   page: PropTypes.object.isRequired,
   parent: PropTypes.object.isRequired,
   selectedUuid: PropTypes.string,
+  width: PropTypes.number
 };
 
 export default withNamespaces()(withStyles(styles)(LayoutEditor));

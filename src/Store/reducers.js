@@ -1,6 +1,7 @@
 import update from 'immutability-helper';
+import uuid from 'uuid/v4';
 import Schema from '../Resource/Schema';
-import undoable, { excludeAction } from 'redux-undo';
+import undoable, { excludeAction, groupByActionTypes } from 'redux-undo';
 import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from './util';
 import TemplateUtil from '../Util/TemplateUtil';
 import PageSize from '../Resource/PageSize';
@@ -42,6 +43,26 @@ const store = (state = initialState, action) => {
           }
         }
       );
+
+    case 'DUPLICATE_ELEMENT': {
+      const groupId = getSelectedElementGroupId(state);
+      const original = getElement(state.selectedUuid, state);
+      const element = Object.assign({}, original);
+      element.i = uuid();
+      // try to append it right below the original
+      element.y += 1;
+
+      return update(state, {
+        layout: {
+          [groupId]: {
+            $push: [element]
+          }
+        },
+        selectedUuid: {
+          $set: element.i
+        }
+      });
+    }
 
     case 'RESIZE_ELEMENT': {
       const groupId = getSelectedElementGroupId(state);
@@ -159,12 +180,36 @@ const store = (state = initialState, action) => {
         onSaveTemplate: action.payload.onSaveTemplate
       };
 
-    case 'UPDATE_PAGE':
+    case 'UPDATE_PAGE': {
+      const paperSize = getPaperSize(state);
+      const contentWidth = (paperSize.width - action.payload.border * 2) / 15;
+
+      const obj = {};
+
+      // update layout elements' widths if they're bigger than paper's width
+      // only updating header's and footer's first children could be enough?
+      Object.entries(state.layout)
+      .forEach(([key, item]) => {
+        item.forEach((element, idx) => {
+          if (key === 'header' || key === 'footer' || element.w > contentWidth) {
+            obj[key] = obj[key] || {};
+
+            obj[key][idx] = {
+              w: {
+                $set: contentWidth
+              }
+            }
+          }
+        })
+      });
+
       return update(state, {
+        layout: obj,
         page: {
           $merge: action.payload
         }
       });
+    }
 
     case 'UPDATE_OPTIONS':
       return update(state, {
@@ -185,6 +230,18 @@ const store = (state = initialState, action) => {
     default:
       return state;
   }
+};
+
+const getPaperSize = state => {
+  const { format, orientation } = state.options;
+
+  const pageSize = Object.assign({}, PageSize.size[format.toLowerCase()]);
+
+  if (orientation === PageSize.orientation.landscape) {
+    pageSize.width = [pageSize.height, pageSize.height = pageSize.width][0];
+  }
+
+  return pageSize;
 };
 
 function getInitialState() {
@@ -211,7 +268,10 @@ function getInitialState() {
       header: [header()],
       footer: [header()]
     },
-    page: { layoutRelative: true },
+    page: {
+      layoutRelative: true,
+      border: 20
+    },
     options: {
       footer: {},
       header: {},
@@ -232,6 +292,9 @@ function getInitialState() {
   return state;
 }
 
-const pdfTemplateBuilder = undoable(store, { filter: excludeAction(['CONFIGURE']) });
+const pdfTemplateBuilder = undoable(store, {
+  filter: excludeAction(['CONFIGURE']),
+  groupBy: groupByActionTypes('UPDATE_PAGE')
+});
 
 export default pdfTemplateBuilder;
