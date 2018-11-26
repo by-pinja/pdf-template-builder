@@ -19,7 +19,7 @@ const styles = theme => ({
   root: {
     marginBottom: theme.spacing.unit * 2
   },
-  borderWidthInput: {
+  fullWidth: {
     width: '100%'
   }
 });
@@ -64,7 +64,7 @@ class ElementStyle extends Component {
               <FontSelector
                 value={element.fontFamily}
                 onChange={this.handleEventChange('fontFamily')}
-                style={{ width: '100%' }}
+                className={classes.fullWidth}
               />
             </Grid>
 
@@ -74,13 +74,14 @@ class ElementStyle extends Component {
                 type="number"
                 value={element.fontSize}
                 onChange={this.handleEventChange('fontSize')}
-                style={{ width: '100%' }}
+                className={classes.fullWidth}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment variant="filled" position="end">
                       px
                     </InputAdornment>
                   ),
+                  inputProps: {min: 1},
                 }}
               />
             </Grid>
@@ -100,9 +101,24 @@ class ElementStyle extends Component {
               icon={<FormatColorTextIcon />}
             />
           </Grid>
+          
+          <Grid item xs={6}>
+            <TextField
+              id="lineHeight"
+              label={t('lineHeight')}
+              type="number"
+              value={element.lineHeight || 1.4}
+              onChange={this.handleEventChange('lineHeight')}
+              className={classes.fullWidth}
+              inputProps={{
+                min: 1,
+                step: 0.1
+              }}
+            />
+          </Grid>
         </Grid>
 
-        <Grid item container direction="row" xs={5} spacing={8}>
+        <Grid item container direction="column" xs={5} spacing={8}>
           <Grid item>
             <SettingHorizontalAlign
               value={element.horizontalAlignment}
@@ -128,7 +144,7 @@ class ElementStyle extends Component {
 
           <Grid item>
             <SettingColor
-              title={t('color')}
+              title={t('borderColor')}
               value={element.borderColor}
               defaultValue={defaults.border.color}
               onChange={this.handleChange('borderColor')}
@@ -140,7 +156,7 @@ class ElementStyle extends Component {
             <TextField
               id="borderWidth"
               type="number"
-              className={classes.borderWidthInput}
+              className={classes.fullWidth}
               value={element.borderWidth}
               onChange={this.handleEventChange('borderWidth')}
               InputProps={{
@@ -149,6 +165,7 @@ class ElementStyle extends Component {
                     px
                   </InputAdornment>
                 ),
+                inputProps: {min: 1},
               }}
             />
           </Grid>

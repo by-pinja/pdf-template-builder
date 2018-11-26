@@ -1,4 +1,4 @@
-import { addElement, removeElement, resizeElement, updateElement } from '../Store/actions';
+import { duplicateElement, removeElement, resizeElement, updateElement } from '../Store/actions';
 import { connect } from 'react-redux';
 import ElementTools from '../Component/ElementTools';
 import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from '../Store/util';
@@ -43,7 +43,7 @@ const mapStateToProps = ({present}) => ({
 const mapDispatchToProps = dispatch => ({
   onRemoveElement: uuid => dispatch(removeElement(uuid)),
   onUpdateElement: element => dispatch(updateElement(element)),
-  onAddElement: (element, parentId) => dispatch(addElement(element, parentId)),
+  onDuplicateElement: (element) => dispatch(duplicateElement(element)),
   onResizeElement: (i, width, height) => dispatch(resizeElement(i, width, height))
 });
 

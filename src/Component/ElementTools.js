@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Tooltip from '@material-ui/core/Tooltip/Tooltip';
 import Delete from '@material-ui/icons/Delete';
+import FileCopy from '@material-ui/icons/FileCopy';
 import PropTypes from 'prop-types'
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
@@ -21,8 +22,10 @@ import { withNamespaces } from 'react-i18next';
 
 const styles = theme => ({
   actionButton: {
-    float: 'right',
     marginLeft: theme.spacing.unit
+  },
+  actionButtonGroup: {
+    display: 'flex',
   },
   card: {
     overflow: 'visible'
@@ -131,26 +134,40 @@ class ElementTools extends Component {
       <Card className={classes.card}>
         <CardContent>
           <Grid container spacing={16} direction="column">
-            <Grid item xs={12} className={classes.settingGroup}>
+            <Grid container item xs={12} direction="row" justify="space-between" wrap="nowrap" className={classes.settingGroup}>
               <Typography color="textSecondary" variant="headline">
                 {t('elementSettings', { type: capitalize(t(element.type)) })}
+                </Typography>
 
                 {!element.required && (
-                  <Tooltip title={t('deleteThisElement', { type: t(element.type).toLowerCase() })}>
-                    <Button
-                      variant="fab"
-                      color="secondary"
-                      aria-label="Remove"
-                      mini={true}
-                      className={classes.actionButton}
-                      onClick={() => this.props.onRemoveElement(element.i)}
-                    >
-                      <Delete/>
-                    </Button>
-                  </Tooltip>
-                )}
+                  <div className={classes.actionButtonGroup}>
+                    <Tooltip title={t('duplicateThisElement', { type: t(element.type).toLowerCase() })}>
+                      <Button
+                        variant="fab"
+                        color="secondary"
+                        aria-label="Duplicate"
+                        mini={true}
+                        className={classes.actionButton}
+                        onClick={() => this.props.onDuplicateElement(element)}
+                      >
+                        <FileCopy/>
+                      </Button>
+                    </Tooltip>
 
-              </Typography>
+                    <Tooltip title={t('deleteThisElement', { type: t(element.type).toLowerCase() })}>
+                      <Button
+                        variant="fab"
+                        color="secondary"
+                        aria-label="Remove"
+                        mini={true}
+                        className={classes.actionButton}
+                        onClick={() => this.props.onRemoveElement(element.i)}
+                      >
+                        <Delete/>
+                      </Button>
+                    </Tooltip>
+                  </div>
+                )}
             </Grid>
 
             {(isText || isGroup || isSelection) && (
@@ -221,6 +238,7 @@ class ElementTools extends Component {
                   value={this.props.element.content || ''}
                   onChange={this.handleChange('content')}
                   margin="normal"
+                  multiline
                 />
               </Grid>
             )}
@@ -237,6 +255,7 @@ ElementTools.propTypes = {
   onRemoveElement: PropTypes.func.isRequired,
   onUpdateElement: PropTypes.func.isRequired,
   onResizeElement: PropTypes.func.isRequired,
+  onDuplicateElement: PropTypes.func.isRequired,
 };
 
 export default withNamespaces()(withStyles(styles)(ElementTools));

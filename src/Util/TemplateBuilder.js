@@ -195,14 +195,14 @@ class TemplateBuilder {
         font-family: ${textStyle.getPropertyValue('font-family')};
         font-size: ${textStyle.getPropertyValue('font-size')};
         color: ${textStyle.getPropertyValue('color')};
+        line-height: ${textStyle.getPropertyValue('line-height')};
+        white-space: pre-line;
         width: 100%;
         font-style: ${fontStyle};
         text-decoration: ${textDecoration};
         font-weight: ${fontWeight};
         ${verticalAlign}
-      '>
-        ${content}
-      </span>
+      '>${content}</span>
     `;
   }
 

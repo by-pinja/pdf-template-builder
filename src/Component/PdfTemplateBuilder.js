@@ -29,10 +29,11 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    transition: 'width 0.5s ease, height 0.5s ease',
+    transition: 'width 0.5s ease, min-height 0.5s ease',
     transitionDelay: '0.2s',
     margin: 'auto',
     backgroundRepeat: 'repeat',
+    boxSizing: 'border-box',
   },
   container: {
     display: 'flex',
@@ -44,8 +45,16 @@ const styles = theme => ({
     justifyContent: 'center',
     flex: 1
   },
-  header: { minHeight: 10, borderBottom: '15px solid #eee' },
-  footer: { minHeight: 10, borderTop: '15px solid #eee' }
+  header: {
+    minHeight: 10,
+    borderBottom: '15px solid #eee',
+    marginBottom: '0 !important',
+  },
+  footer: {
+    minHeight: 10,
+    borderTop: '15px solid #eee',
+    marginTop: '0 !important',
+}
 });
 
 class PdfTemplateBuilder extends Component {
@@ -106,7 +115,7 @@ class PdfTemplateBuilder extends Component {
 
     const cellSize = 15;
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${cellSize}' height='${cellSize}'>${
-      `<rect stroke='rgba(0,0,0,0.03)' stroke-width='1' fill='none' x='0' y='0' width='${cellSize}' height='${cellSize}'/>`
+      `<rect stroke='rgba(0,0,0,0.06)' stroke-width='1' fill='none' x='0' y='0' width='${cellSize}' height='${cellSize}'/>`
     }</svg>`;
 
     return `url("data:image/svg+xml;charset=utf8;base64,${btoa(svg)}")`;
@@ -115,29 +124,34 @@ class PdfTemplateBuilder extends Component {
   render() {
     const { classes, editorLoading, ...other } = this.props;
 
-    let editor = <div className={classes.loader}><CircularProgress size={100} /></div>;
+    let editor = <div className={classes.loader} style={{minHeight: this.props.paperSize.height}}>
+      <CircularProgress size={100} />
+    </div>;
 
     if (!editorLoading) {
+      const margin = this.props.page.border || 0;
+      const contentWidth = this.props.paperSize.width - margin * 2;
+      const backgroundImage = this.getGridBackground();
+
       editor = (
         <div
           id="editor"
           className={classes.editor}
           style={{
-            backgroundImage: this.getGridBackground(),
             minHeight: this.props.paperSize.height,
             width: this.props.paperSize.width
           }}
         >
-          <div id="pdf-template-header" className={classes.header}>
-            <LayoutEditor {...other} parent={{ i: 'header' }} layoutMode="relative" />
+          <div id="pdf-template-header" className={classes.header} style={{ margin, backgroundImage }}>
+            <LayoutEditor {...other} parent={{ i: 'header' }} layoutMode="relative" width={contentWidth} />
           </div>
 
-          <div style={{ flex: 1 }}>
-            <LayoutEditor {...other} parent={{ i: 'root' }} />
+          <div style={{ flex: 1, marginLeft: margin, marginRight: margin, backgroundImage }}>
+            <LayoutEditor {...other} parent={{ i: 'root' }} width={contentWidth} />
           </div>
 
-          <div id="pdf-template-footer" className={classes.footer}>
-            <LayoutEditor {...other} parent={{ i: 'footer' }} layoutMode="relative" />
+          <div id="pdf-template-footer" className={classes.footer} style={{ margin, backgroundImage }}>
+            <LayoutEditor {...other} parent={{ i: 'footer' }} layoutMode="relative" width={contentWidth} />
           </div>
         </div>
       );
@@ -155,7 +169,6 @@ class PdfTemplateBuilder extends Component {
               className={classes.editor}
               style={{
                 minHeight: this.props.paperSize.height,
-                height: this.props.paperSize.height,
                 width: this.props.paperSize.width
               }}
               elevation={1}

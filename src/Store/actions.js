@@ -13,6 +13,11 @@ export const resizeElement = (i, width, height) => ({
   payload: { i, width, height }
 });
 
+export const duplicateElement = element => ({
+  type: 'DUPLICATE_ELEMENT',
+  payload: element
+});
+
 export const updateElement = element => ({
   type: 'UPDATE_ELEMENT',
   payload: element
