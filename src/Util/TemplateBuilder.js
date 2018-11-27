@@ -34,7 +34,7 @@ class TemplateBuilder {
       <head>
         <link href="https://fonts.googleapis.com/css?family=${fonts}" rel="stylesheet">
         <style>
-          * { font-family: "Open Sans", sans-serif }
+          * { font-family: "Arial", sans-serif }
           html, body {
             box-sizing: border-box;
             margin: 0;

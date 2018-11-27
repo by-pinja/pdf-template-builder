@@ -2,7 +2,7 @@ import WebFont from 'webfontloader';
 
 export const defaults = {
   font: {
-    family: 'Open Sans',
+    family: 'Arial',
     color: '#000'
   },
   alignment: {
@@ -17,11 +17,12 @@ export const defaults = {
 
 export const available = {
   fonts: [
-    'Open Sans',
-    'Roboto',
-    'Mali',
-    'Roboto Mono',
-    'Charmonman'
+    'Arial',
+    'Calibri',
+    'Courier New',
+    'Helvetica',
+    'Times New Roman',
+    'Verdana',
   ]
 };
 

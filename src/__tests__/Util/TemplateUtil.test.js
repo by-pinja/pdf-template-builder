@@ -13,7 +13,7 @@ describe('template util', () => {
         meta: {
           verticalAlignment: 'top',
           horizontalAlignment: 'left',
-          fontFamily: 'Open Sans',
+          fontFamily: 'Arial',
           fontSize: 16,
           layoutRelative: false
         }
