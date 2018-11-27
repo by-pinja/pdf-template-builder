@@ -18,6 +18,7 @@ describe('template util', () => {
           fontSize: 16,
           layoutRelative: false,
           borderWidth: defaults.border.width,
+          lineHeight: defaults.font.lineHeight,
         }
       };
 

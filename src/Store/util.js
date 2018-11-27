@@ -1,22 +1,22 @@
 export function getSelectedElementMeta(state) {
-  if (state.multiSelect) {
+  if (state.selectedUuids.length > 1) {
     return getMultiSelectMeta(state);
   }
 
-  if (!state.selectedUuid) {
+  if (!state.selectedUuids.length) {
     return null;
   }
 
-  const element = getElement(state.selectedUuid, state);
+  const element = getElement(state.selectedUuids[0], state);
 
   if (!element) {
     return null;
   }
 
-  return {...element.meta, i: state.selectedUuid};
+  return {...element.meta, i: state.selectedUuids[0]};
 }
 
-export function getSelectedElementGroupId(state, uuid = state.selectedUuid) {
+export function getSelectedElementGroupId(state, uuid = state.selectedUuids[0]) {
   if (!uuid) {
     return null;
   }
@@ -78,7 +78,7 @@ export function exportTemplate(state) {
 
 function getMultiSelectMeta(state) {
   // get properties that are common to all elements
-  const meta = state.multiSelect.reduce((prev, cur) => {
+  const meta = state.selectedUuids.reduce((prev, cur) => {
     const next = getElement(cur, state).meta;
     if (!prev) return next;
 
@@ -112,6 +112,7 @@ function getMultiSelectMeta(state) {
   meta.fontSize = meta.fontSize || '';
   meta.fontFamily = meta.fontFamily || '';
   meta.borderWidth = meta.borderWidth || '';
+  meta.lineHeight = meta.lineHeight || '';
 
   return meta;
 }

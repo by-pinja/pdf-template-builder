@@ -107,7 +107,7 @@ class ElementStyle extends Component {
               id="lineHeight"
               label={t('lineHeight')}
               type="number"
-              value={element.lineHeight || 1.4}
+              value={element.lineHeight}
               onChange={this.handleEventChange('lineHeight')}
               className={classes.fullWidth}
               inputProps={{

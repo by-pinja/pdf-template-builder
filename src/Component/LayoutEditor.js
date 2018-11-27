@@ -147,12 +147,7 @@ class LayoutEditor extends Component {
       >
         {layout.map(
           e => {
-            let className;
-            if (this.props.multiSelect) {
-              className = this.props.multiSelect.includes(e.i) ? classes.selected : classes.element;
-            } else {
-              className = this.props.selectedUuid === e.i ? classes.selected : classes.element;
-            }
+            let className = this.props.selectedUuids.includes(e.i) ? classes.selected : classes.element;
 
             bordersVisible && (className += ' ' + classes.transformHelpers);
 
@@ -238,8 +233,7 @@ LayoutEditor.propTypes = {
   onSelectElement: PropTypes.func.isRequired,
   page: PropTypes.object.isRequired,
   parent: PropTypes.object.isRequired,
-  selectedUuid: PropTypes.string,
-  multiSelect: PropTypes.array,
+  selectedUuids: PropTypes.array,
   width: PropTypes.number
 };
 

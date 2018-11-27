@@ -189,8 +189,7 @@ class PdfTemplateBuilder extends Component {
 
 PdfTemplateBuilder.propTypes = {
   schema: PropTypes.array.isRequired,
-  selectedUuid: PropTypes.string,
-  multiSelect: PropTypes.array,
+  selectedUuids: PropTypes.array,
   layout: PropTypes.object.isRequired,
   page: PropTypes.object.isRequired,
   options: PropTypes.object.isRequired,

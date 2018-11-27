@@ -26,8 +26,7 @@ const mapStateToProps = ({present}) => ({
   exportTemplate: exportTemplate(present),
   selectedGroupId: getSelectedElementGroupId(present),
   schema: present.schema,
-  selectedUuid: present.selectedUuid,
-  multiSelect: present.multiSelect,
+  selectedUuids: present.selectedUuids,
   pdfStorageUri: present.pdfStorageUri,
   gridVisible: present.gridVisible,
   paperSize: getPaperSize(present)
