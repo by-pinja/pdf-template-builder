@@ -118,15 +118,15 @@ class ElementStyle extends Component {
           </Grid>
         </Grid>
 
-        <Grid item container direction="column" xs={5} spacing={8}>
-          <Grid item>
+        <Grid item container direction="column" alignItems="stretch" xs={5} spacing={8}>
+          <Grid item container>
             <SettingHorizontalAlign
               value={element.horizontalAlignment}
               onChange={this.handleChange('horizontalAlignment')}
             />
           </Grid>
 
-          <Grid item>
+          <Grid item container>
             <SettingVerticalAlign
               value={element.verticalAlignment}
               onChange={this.handleChange('verticalAlignment')}

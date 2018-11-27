@@ -2,7 +2,7 @@ import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import Schema from '../Resource/Schema';
 import undoable, { excludeAction, groupByActionTypes } from 'redux-undo';
-import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from './util';
+import { getElement, getSelectedElementGroupId } from './util';
 import TemplateUtil from '../Util/TemplateUtil';
 import PageSize from '../Resource/PageSize';
 
@@ -45,57 +45,50 @@ const store = (state = initialState, action) => {
       );
 
     case 'DUPLICATE_ELEMENT': {
-      if (state.multiSelect) {
-        const obj = {};
-        const multiSelect = [];
+      const uuids = state.multiSelect || [state.selectedUuid];
+      const layout = {};
+      const newElements = [];
 
-        for (let elUuid of state.multiSelect) {
-          const original = getElement(elUuid, state);
+      for (let elUuid of uuids) {
+        const original = getElement(elUuid, state);
 
-          if (original.meta.required) {
-            continue;
-          }
-
-          const groupId = getSelectedElementGroupId(state, elUuid);
-          const element = Object.assign({}, original);
-          element.i = uuid();
-          // try to append it right below the original
-          element.y += 1;
-
-          obj[groupId] = obj[groupId] || {
-            $push: []
-          };
-
-          obj[groupId].$push.push(element);
-          multiSelect.push(element.i);
+        if (original.meta.required) {
+          continue;
         }
 
-        return update(state, {
-          layout: obj,
-          multiSelect: {
-            $set: multiSelect
-          },
-          $unset: ['selectedUuid']
-        });
+        const groupId = getSelectedElementGroupId(state, elUuid);
+        const element = Object.assign({}, original);
+        element.i = uuid();
+        // try to append it right below the original
+        element.y += 1;
+
+        layout[groupId] = layout[groupId] || {
+          $push: []
+        };
+
+        layout[groupId].$push.push(element);
+        newElements.push(element.i);
       }
 
-      const groupId = getSelectedElementGroupId(state);
-      const original = getElement(state.selectedUuid, state);
-      const element = Object.assign({}, original);
-      element.i = uuid();
-      // try to append it right below the original
-      element.y += 1;
-
-      return update(state, {
-        layout: {
-          [groupId]: {
-            $push: [element]
+      let updater;
+      if (state.multiSelect) {
+        updater = {
+          layout,
+          multiSelect: {
+            $set: newElements
+          },
+          $unset: ['selectedUuid']
+        };
+      } else {
+        updater = {
+          layout,
+          selectedUuid: {
+            $set: newElements[0]
           }
-        },
-        selectedUuid: {
-          $set: element.i
-        }
-      });
+        };
+      }
+
+      return update(state, updater);
     }
 
     case 'RESIZE_ELEMENT': {
@@ -114,95 +107,68 @@ const store = (state = initialState, action) => {
     }
 
     case 'REMOVE_ELEMENT': {
-      if (state.multiSelect) {
-        const obj = {};
+      const uuids = state.multiSelect || [state.selectedUuid];
+      const layout = {};
 
-        for (let uuid of state.multiSelect) {
-          if (getElement(uuid, state).meta.required) {
-            continue;
-          }
-
-          const groupId = getSelectedElementGroupId(state, uuid);
-
-          obj[groupId] = obj[groupId] || {
-            $splice: []
-          };
-          
-          const groupIndex = state.layout[groupId].findIndex(l => l.i === uuid);
-          obj[groupId].$splice.push([groupIndex, 1]);
+      for (let uuid of uuids) {
+        if (getElement(uuid, state).meta.required) {
+          continue;
         }
 
-        // $splice needs to be sorted by index desc so array indexes won't change when splicing
-        for (let key of Object.keys(obj)) {
-          obj[key].$splice.sort(
-            (a, b) => b[0] - a[0]
-          );
-        }
+        const groupId = getSelectedElementGroupId(state, uuid);
 
-        return update(state, {
-          layout: obj,
-          $unset: ['selectedUuid', 'multiSelect']
-        });
+        layout[groupId] = layout[groupId] || {
+          $splice: []
+        };
+        
+        const groupIndex = state.layout[groupId].findIndex(l => l.i === uuid);
+        layout[groupId].$splice.push([groupIndex, 1]);
       }
 
-      // Prevent removal if element is required
-      if (getSelectedElementMeta(state).required) {
-        return state;
+      // $splice needs to be sorted by index desc so array indexes won't change when splicing
+      for (let key of Object.keys(layout)) {
+        layout[key].$splice.sort(
+          (a, b) => b[0] - a[0]
+        );
       }
-
-      const groupId = getSelectedElementGroupId(state);
 
       return update(state, {
-        layout: {
-          [groupId]: {
-            $splice: [[state.layout[groupId].findIndex(l => l.i === action.payload), 1]]
-          }
-        },
-        $unset: ['selectedUuid']
+        layout,
+        $unset: ['selectedUuid', 'multiSelect']
       });
     }
 
     case 'UPDATE_ELEMENT': {
-      if (state.multiSelect) {
-        const obj = {};
-        Object.entries(state.layout)
-        .forEach(([key, item]) => {
-          item.forEach((element, idx) => {
-            if (!state.multiSelect.includes(element.i)) return;
+      const uuids = state.multiSelect || [state.selectedUuid];
+      const layout = {};
 
-            obj[key] = obj[key] || {};
-            obj[key][idx] = {
-              meta: {}
+      Object.entries(state.layout)
+      .forEach(([key, item]) => {
+        item.forEach((element, idx) => {
+          if (!uuids.includes(element.i)) return;
+
+          layout[key] = layout[key] || {};
+          layout[key][idx] = {
+            meta: {}
+          };
+
+          Object.entries(action.payload)
+          .forEach(([prop, value]) => {
+            // filter some props when multiselecting
+            // empty string is used as a value when selection's elements' props differ from each other
+            if (state.multiSelect && (value === '' || prop === 'type')) {
+              return;
             }
 
-            Object.entries(action.payload)
-            .forEach(([prop, value]) => {
-              if (value !== '' && prop !== 'type')
-                obj[key][idx].meta[prop] = {
-                  $set: value
-                };
-            })
-
-          })
+            layout[key][idx].meta[prop] = {
+              $set: value
+            };
+          });
         });
-
-        return update(state, {
-          layout: obj
-        });
-      }
-
-      const groupId = getSelectedElementGroupId(state);
+      });
 
       return update(state, {
-        layout: {
-          [groupId]: {
-            [state.layout[groupId].findIndex(l => l.i === action.payload.i)]: {
-              meta: {
-                $set: action.payload
-              }
-            }
-          }
-        }
+        layout
       });
     }
 
@@ -210,21 +176,28 @@ const store = (state = initialState, action) => {
       let selectedUuid = action.payload.uuid;
       let multiSelect = null;
 
-      if (state.selectedUuid === selectedUuid) {
-        return {...state, multiSelect};
-      }
-
       if (action.payload.ctrlKey) {
-        // if includes, splice
-        if (state.multiSelect && state.multiSelect.includes(selectedUuid)) {
-          multiSelect = state.multiSelect.slice();
-          multiSelect.splice(multiSelect.indexOf(selectedUuid), 1);
-        } else if (state.multiSelect || state.selectedUuid) {
-          multiSelect = (state.multiSelect || [state.selectedUuid]).concat(selectedUuid);
-        }
+        if (state.multiSelect) {
+          // already in selectgroup
+          if (state.multiSelect.includes(selectedUuid)) {
+            multiSelect = state.multiSelect.slice();
+            multiSelect.splice(multiSelect.indexOf(selectedUuid), 1);
 
-        if (multiSelect && multiSelect.length < 2) {
-          multiSelect = null;
+            if (multiSelect.length < 2) {
+              selectedUuid = multiSelect[0];
+              multiSelect = null;
+            }
+          } else {
+            multiSelect = state.multiSelect.concat(selectedUuid);
+          }
+        }
+        // make a group
+        else if (state.selectedUuid && state.selectedUuid !== selectedUuid) {
+          multiSelect = [state.selectedUuid, selectedUuid];
+        }
+        // unselect as it's the only one selected
+        else if (state.selectedUuid === selectedUuid) {
+          selectedUuid = null;
         }
       }
 
@@ -309,9 +282,9 @@ const store = (state = initialState, action) => {
               w: {
                 $set: contentWidth
               }
-            }
+            };
           }
-        })
+        });
       });
 
       return update(state, {
