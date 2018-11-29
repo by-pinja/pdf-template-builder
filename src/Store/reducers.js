@@ -2,7 +2,7 @@ import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import Schema from '../Resource/Schema';
 import undoable, { excludeAction, groupByActionTypes } from 'redux-undo';
-import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from './util';
+import { getElement, getSelectedElementGroupId } from './util';
 import TemplateUtil from '../Util/TemplateUtil';
 import PageSize from '../Resource/PageSize';
 
@@ -33,7 +33,7 @@ const store = (state = initialState, action) => {
       return update(
         {
           ...state,
-          selectedUuid: action.payload.element.i
+          selectedUuids: [action.payload.element.i]
         },
         {
           layout: {
@@ -45,21 +45,34 @@ const store = (state = initialState, action) => {
       );
 
     case 'DUPLICATE_ELEMENT': {
-      const groupId = getSelectedElementGroupId(state);
-      const original = getElement(state.selectedUuid, state);
-      const element = Object.assign({}, original);
-      element.i = uuid();
-      // try to append it right below the original
-      element.y += 1;
+      const layout = {};
+      const newElements = [];
+
+      for (let elUuid of state.selectedUuids) {
+        const original = getElement(elUuid, state);
+
+        if (original.meta.required) {
+          continue;
+        }
+
+        const groupId = getSelectedElementGroupId(state, elUuid);
+        const element = Object.assign({}, original);
+        element.i = uuid();
+        // try to append it right below the original
+        element.y += 1;
+
+        layout[groupId] = layout[groupId] || {
+          $push: []
+        };
+
+        layout[groupId].$push.push(element);
+        newElements.push(element.i);
+      }
 
       return update(state, {
-        layout: {
-          [groupId]: {
-            $push: [element]
-          }
-        },
-        selectedUuid: {
-          $set: element.i
+        layout,
+        selectedUuids: {
+          $set: newElements
         }
       });
     }
@@ -80,45 +93,90 @@ const store = (state = initialState, action) => {
     }
 
     case 'REMOVE_ELEMENT': {
-      // Prevent removal if element is required
-      if (getSelectedElementMeta(state).required) {
-        return state;
+      const layout = {};
+
+      for (let uuid of state.selectedUuids) {
+        if (getElement(uuid, state).meta.required) {
+          continue;
+        }
+
+        const groupId = getSelectedElementGroupId(state, uuid);
+
+        layout[groupId] = layout[groupId] || {
+          $splice: []
+        };
+        
+        const groupIndex = state.layout[groupId].findIndex(l => l.i === uuid);
+        layout[groupId].$splice.push([groupIndex, 1]);
       }
 
-      const groupId = getSelectedElementGroupId(state);
+      // $splice needs to be sorted by index desc so array indexes won't change when splicing
+      for (let key of Object.keys(layout)) {
+        layout[key].$splice.sort(
+          (a, b) => b[0] - a[0]
+        );
+      }
 
       return update(state, {
-        layout: {
-          [groupId]: {
-            $splice: [[state.layout[groupId].findIndex(l => l.i === action.payload), 1]]
-          }
-        },
-        $unset: ['selectedUuid']
-      });
-    }
-
-    case 'UPDATE_ELEMENT': {
-      const groupId = getSelectedElementGroupId(state);
-
-      return update(state, {
-        layout: {
-          [groupId]: {
-            [state.layout[groupId].findIndex(l => l.i === action.payload.i)]: {
-              meta: {
-                $set: action.payload
-              }
-            }
-          }
+        layout,
+        selectedUuids: {
+          $set: []
         }
       });
     }
 
-    case 'SELECT_ELEMENT':
-      if (state.selectedUuid === action.payload) {
-        return state;
+    case 'UPDATE_ELEMENT': {
+      const layout = {};
+
+      Object.entries(state.layout)
+      .forEach(([key, item]) => {
+        item.forEach((element, idx) => {
+          if (!state.selectedUuids.includes(element.i)) return;
+
+          layout[key] = layout[key] || {};
+          layout[key][idx] = {
+            meta: {}
+          };
+
+          Object.entries(action.payload)
+          .forEach(([prop, value]) => {
+            // filter some props
+            // empty string is used as a value when selection's elements' props differ from each other
+            if ((prop !== 'content' && value === '') || prop === 'type') {
+              return;
+            }
+
+            layout[key][idx].meta[prop] = {
+              $set: value
+            };
+          });
+        });
+      });
+
+      return update(state, {
+        layout
+      });
+    }
+
+    case 'SELECT_ELEMENT': {
+      let uuid = action.payload.uuid;
+      let selectedUuids;
+
+      if (action.payload.ctrlKey) {
+        if (state.selectedUuids.includes(uuid)) {
+          selectedUuids = state.selectedUuids.slice();
+          selectedUuids.splice(selectedUuids.indexOf(uuid), 1);
+        } else {
+          selectedUuids = state.selectedUuids.concat(uuid);
+        }
+      } else if (!uuid) {
+        selectedUuids = [];
+      } else {
+        selectedUuids = [uuid];
       }
 
-      return {...state, selectedUuid: action.payload};
+      return {...state, selectedUuids};
+    }
 
     case 'SET_LAYOUT':
       const newState = {
@@ -198,9 +256,9 @@ const store = (state = initialState, action) => {
               w: {
                 $set: contentWidth
               }
-            }
+            };
           }
-        })
+        });
       });
 
       return update(state, {
@@ -279,7 +337,7 @@ function getInitialState() {
       format: PageSize.format.a4
     },
     schema: [],
-    selectedUuid: null,
+    selectedUuids: [],
     gridVisible: false,
     bordersVisible: true,
     editorLoading: false

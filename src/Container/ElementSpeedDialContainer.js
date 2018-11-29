@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ElementSpeedDial from '../Component/ElementSpeedDial';
 
 const mapStateToProps = ({present}) => ({
-  selectedUuid: present.selectedUuid
+  selectedUuid: present.selectedUuids[0]
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,8 +5,12 @@ import { getElement, getSelectedElementGroupId, getSelectedElementMeta } from '.
 import { t } from 'i18next';
 
 const getAllowedSchemaObjects = (elementUuid, state) => {
+  if (state.selectedUuids.length > 1) {
+    return [];
+  }
+
   const parent = getElement(elementUuid, state);
-  const current = getElement(state.selectedUuid, state);
+  const current = getElement(state.selectedUuids[0], state);
 
   if (!current) {
     return [];

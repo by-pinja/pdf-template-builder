@@ -72,7 +72,7 @@ class ElementStyle extends Component {
               <TextField
                 id="fontSize"
                 type="number"
-                value={element.fontSize || 12}
+                value={element.fontSize}
                 onChange={this.handleEventChange('fontSize')}
                 className={classes.fullWidth}
                 InputProps={{
@@ -107,7 +107,7 @@ class ElementStyle extends Component {
               id="lineHeight"
               label={t('lineHeight')}
               type="number"
-              value={element.lineHeight || 1.4}
+              value={element.lineHeight}
               onChange={this.handleEventChange('lineHeight')}
               className={classes.fullWidth}
               inputProps={{
@@ -118,19 +118,17 @@ class ElementStyle extends Component {
           </Grid>
         </Grid>
 
-        <Grid item container direction="column" xs={5} spacing={8}>
-          <Grid item>
+        <Grid item container direction="column" alignItems="stretch" xs={5} spacing={8}>
+          <Grid item container>
             <SettingHorizontalAlign
               value={element.horizontalAlignment}
-              defaultValue={defaults.alignment.horizontal}
               onChange={this.handleChange('horizontalAlignment')}
             />
           </Grid>
 
-          <Grid item>
+          <Grid item container>
             <SettingVerticalAlign
               value={element.verticalAlignment}
-              defaultValue={defaults.alignment.vertical}
               onChange={this.handleChange('verticalAlignment')}
             />
           </Grid>
@@ -159,7 +157,7 @@ class ElementStyle extends Component {
               id="borderWidth"
               type="number"
               className={classes.fullWidth}
-              value={element.borderWidth || defaults.border.width}
+              value={element.borderWidth}
               onChange={this.handleEventChange('borderWidth')}
               InputProps={{
                 endAdornment: (

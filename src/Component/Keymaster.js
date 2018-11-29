@@ -52,7 +52,7 @@ class Keymaster extends Component {
       return;
     }
 
-    this.props.onDeleteElement(this.props.selectedUuid);
+    this.props.onDeleteElement(this.props.selectedUuids);
   }
 
   handleDuplicate() {
@@ -60,7 +60,7 @@ class Keymaster extends Component {
       return;
     }
 
-    this.props.onDuplicateElement(this.props.selectedUuid);
+    this.props.onDuplicateElement(this.props.selectedUuids);
   }
 
   handleUndo() {
@@ -92,7 +92,7 @@ class Keymaster extends Component {
   }
 
   isElementSelected() {
-    return !!this.props.selectedUuid;
+    return this.props.selectedUuids.length;
   }
 
   render() {
@@ -102,7 +102,7 @@ class Keymaster extends Component {
 
 Keymaster.propTypes = {
   meta: PropTypes.object,
-  selectedUuid: PropTypes.string,
+  selectedUuids: PropTypes.array,
   onDeleteElement: PropTypes.func.isRequired,
   onUndo: PropTypes.func.isRequired,
   onRedo: PropTypes.func.isRequired,

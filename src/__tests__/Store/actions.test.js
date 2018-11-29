@@ -11,17 +11,22 @@ describe('redux actions', () => {
     test('dispatches the correct action and payload', () => {
       const expectedActions = [
         {
-          payload: null,
+          payload: { uuid: null, ctrlKey: undefined },
           type: 'SELECT_ELEMENT'
         },
         {
-          payload: '3301-ad2412-asd',
+          payload: { uuid: '3301-ad2412-asd', ctrlKey: undefined },
           type: 'SELECT_ELEMENT'
-        }
+        },
+        {
+          payload: { uuid: '3301-ad2412-asd', ctrlKey: true },
+          type: 'SELECT_ELEMENT'
+        },
       ];
 
       store.dispatch(actions.selectElement(null));
       store.dispatch(actions.selectElement('3301-ad2412-asd'));
+      store.dispatch(actions.selectElement('3301-ad2412-asd', true));
 
       expect(store.getActions()).toEqual(expectedActions);
     });
