@@ -120,7 +120,7 @@ describe('reducer', () => {
       delete firstDupe.i;
       delete secondDupe.i;
 
-      // duplicated element goes below the original
+      // duplicated elements go below the original
       // subtract from y to make them identical
       firstDupe.y -= 1;
       secondDupe.y -= 1;
@@ -130,6 +130,18 @@ describe('reducer', () => {
 
       expect(secondElement)
       .toEqual(secondDupe);
+    });
+
+    it('doesn\'t duplicate required elements', () => {
+      const headerGroup = state.present.layout.header[0];
+
+      state = runActions(state, [
+        actions.selectElement(headerGroup.i),
+        actions.duplicateElement(),
+      ]);
+
+      expect(state.present.layout.header)
+      .toEqual([headerGroup]);
     });
   });
     
@@ -142,9 +154,9 @@ describe('reducer', () => {
         actions.resizeElement(element.i, 4, 3),
       ]);
 
-      const {w, h} = state.present.layout.root[0];
+      const { w, h } = state.present.layout.root[0];
 
-      expect({w, h})
+      expect({ w, h })
       .toEqual({w: 4, h: 3});
     });
   });
@@ -237,7 +249,6 @@ describe('reducer', () => {
       expect(state.present.layout.root[0])
       .toEqual(element);
     });
-
   });
 
   describe('SELECT_ELEMENT', () => {
