@@ -201,7 +201,7 @@ class LayoutEditor extends Component {
                 className={className}
                 key={e.i}
                 data-grid={e}
-                onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i, event.ctrlKey)}
+                onClick={(event) => event.stopPropagation() || this.props.onSelectElement(e.i, event.ctrlKey || event.metaKey)}
                 onDragEnd={e => e.stopPropagation()}
                 style={containerStyle}
               >
