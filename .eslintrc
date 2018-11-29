@@ -1,0 +1,7 @@
+{
+    "extends": ["react-app", "eslint:recommended"],
+    "rules": {
+      "semi": 1,
+      "quotes": [1, "single"]
+    }
+  }

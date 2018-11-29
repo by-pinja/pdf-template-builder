@@ -10,7 +10,7 @@ const initialState = getInitialState();
 
 const store = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_ELEMENT':
+    case 'ADD_ELEMENT': {
       let parentId = action.payload.parentId || 'root';
 
       // Get closest element with type 'group'
@@ -43,6 +43,7 @@ const store = (state = initialState, action) => {
           }
         }
       );
+    }
 
     case 'DUPLICATE_ELEMENT': {
       const layout = {};
@@ -178,7 +179,7 @@ const store = (state = initialState, action) => {
       return {...state, selectedUuids};
     }
 
-    case 'SET_LAYOUT':
+    case 'SET_LAYOUT': {
       const newState = {
         ...state,
         layout: {
@@ -201,8 +202,9 @@ const store = (state = initialState, action) => {
       }
 
       return newState;
+    }
 
-    case 'IMPORT_TEMPLATE':
+    case 'IMPORT_TEMPLATE': {
       const initialState = getInitialState();
 
       return update(
@@ -229,6 +231,7 @@ const store = (state = initialState, action) => {
           }
         }
       );
+    }
 
     case 'CONFIGURE':
       return {
