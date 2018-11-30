@@ -12,7 +12,7 @@ class TemplateUtil {
       meta: {
         verticalAlignment: 'top',
         horizontalAlignment: 'left',
-        fontFamily: 'Arial',
+        fontFamily: 'Roboto',
         fontSize: 16,
         layoutRelative: false,
         borderWidth: defaults.border.width,

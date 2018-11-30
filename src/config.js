@@ -2,7 +2,7 @@ import WebFont from 'webfontloader';
 
 export const defaults = {
   font: {
-    family: 'Arial',
+    family: 'Roboto',
     color: '#000',
     lineHeight: 1.4,
   },
@@ -18,7 +18,7 @@ export const defaults = {
 
 export const available = {
   fonts: [
-    'Arial',
+    'Roboto',
     'Calibri',
     'Courier New',
     'Helvetica',
