@@ -2,7 +2,7 @@ import WebFont from 'webfontloader';
 
 export const defaults = {
   font: {
-    family: 'Open Sans',
+    family: 'Roboto',
     color: '#000',
     lineHeight: 1.4,
   },
@@ -18,11 +18,12 @@ export const defaults = {
 
 export const available = {
   fonts: [
-    'Open Sans',
     'Roboto',
-    'Mali',
-    'Roboto Mono',
-    'Charmonman'
+    'Calibri',
+    'Courier New',
+    'Helvetica',
+    'Times New Roman',
+    'Verdana',
   ]
 };
 

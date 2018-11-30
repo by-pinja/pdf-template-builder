@@ -25,7 +25,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   editor: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Roboto',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',

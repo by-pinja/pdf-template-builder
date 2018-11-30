@@ -14,7 +14,7 @@ describe('template util', () => {
         meta: {
           verticalAlignment: 'top',
           horizontalAlignment: 'left',
-          fontFamily: 'Open Sans',
+          fontFamily: 'Roboto',
           fontSize: 16,
           layoutRelative: false,
           borderWidth: defaults.border.width,
