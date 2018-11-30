@@ -26,14 +26,14 @@ const mapStateToProps = ({present}) => ({
   exportTemplate: exportTemplate(present),
   selectedGroupId: getSelectedElementGroupId(present),
   schema: present.schema,
-  selectedUuid: present.selectedUuid,
+  selectedUuids: present.selectedUuids,
   pdfStorageUri: present.pdfStorageUri,
   gridVisible: present.gridVisible,
   paperSize: getPaperSize(present)
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSelectElement: uuid => dispatch(selectElement(uuid)),
+  onSelectElement: (uuid, ctrlKey) => dispatch(selectElement(uuid, ctrlKey)),
   onChangeLayout: (layout, parentId) => dispatch(setLayout(layout, parentId)),
   onImportTemplate: layout => dispatch(importTemplate(layout)),
   onDoConfigure: configurations => dispatch(configure(configurations)),

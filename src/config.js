@@ -3,7 +3,8 @@ import WebFont from 'webfontloader';
 export const defaults = {
   font: {
     family: 'Arial',
-    color: '#000'
+    color: '#000',
+    lineHeight: 1.4,
   },
   alignment: {
     vertical: 'top',

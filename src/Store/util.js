@@ -1,18 +1,22 @@
 export function getSelectedElementMeta(state) {
-  if (!state.selectedUuid) {
+  if (state.selectedUuids.length > 1) {
+    return getMultiSelectMeta(state);
+  }
+
+  if (!state.selectedUuids.length) {
     return null;
   }
 
-  const element = getElement(state.selectedUuid, state);
+  const element = getElement(state.selectedUuids[0], state);
 
   if (!element) {
     return null;
   }
 
-  return {...element.meta, i: state.selectedUuid};
+  return {...element.meta, i: state.selectedUuids[0]};
 }
 
-export function getSelectedElementGroupId(state, uuid = state.selectedUuid) {
+export function getSelectedElementGroupId(state, uuid = state.selectedUuids[0]) {
   if (!uuid) {
     return null;
   }
@@ -21,7 +25,7 @@ export function getSelectedElementGroupId(state, uuid = state.selectedUuid) {
 
   Object.keys(state.layout).every(groupId => {
     return state.layout[groupId].every(e => {
-      if (e.i === state.selectedUuid) {
+      if (e.i === uuid) {
         id = groupId;
         return false;
       }
@@ -70,4 +74,45 @@ export function exportTemplate(state) {
 
     return { page, layout, options };
   }
+}
+
+function getMultiSelectMeta(state) {
+  // get properties that are common to all elements
+  const meta = state.selectedUuids.reduce((prev, cur) => {
+    const next = getElement(cur, state).meta;
+    if (!prev) return next;
+
+    const prevKeys = Object.keys(prev);
+    const newObj = {};
+
+    for (let key of prevKeys) {
+      const prevVal = prev[key];
+      const nextVal = next[key];
+
+      if (prevVal === nextVal) {
+        newObj[key] = prevVal;
+      } else if (Array.isArray(prevVal) && Array.isArray(nextVal) && prevVal.length === nextVal.length) {
+        let isEqual = true;
+        for (let arrayKey in prevVal) {
+          if (prevVal[arrayKey] !== nextVal[arrayKey]) {
+            isEqual = false;
+            break;
+          }
+        }
+        if (isEqual) {
+          newObj[key] = prevVal;
+        }
+      }
+    }
+
+    return newObj;
+  }, null);
+
+  meta.type = 'selection';
+  meta.fontSize = meta.fontSize || '';
+  meta.fontFamily = meta.fontFamily || '';
+  meta.borderWidth = meta.borderWidth || '';
+  meta.lineHeight = meta.lineHeight || '';
+
+  return meta;
 }

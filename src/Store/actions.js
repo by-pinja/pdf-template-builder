@@ -1,6 +1,6 @@
-export const selectElement = uuid => ({
+export const selectElement = (uuid, ctrlKey) => ({
   type: 'SELECT_ELEMENT',
-  payload: uuid
+  payload: { uuid, ctrlKey }
 });
 
 export const addElement = (element, parentId) => ({

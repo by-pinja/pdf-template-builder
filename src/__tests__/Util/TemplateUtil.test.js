@@ -1,4 +1,5 @@
 import TemplateUtil from '../../Util/TemplateUtil';
+import { defaults } from '../../config';
 
 describe('template util', () => {
   describe('create component', () => {
@@ -15,7 +16,9 @@ describe('template util', () => {
           horizontalAlignment: 'left',
           fontFamily: 'Arial',
           fontSize: 16,
-          layoutRelative: false
+          layoutRelative: false,
+          borderWidth: defaults.border.width,
+          lineHeight: defaults.font.lineHeight,
         }
       };
 
