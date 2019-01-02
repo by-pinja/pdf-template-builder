@@ -16,6 +16,7 @@ describe('template util', () => {
           horizontalAlignment: 'left',
           fontFamily: 'Roboto',
           fontSize: 16,
+          color: defaults.font.color,
           layoutRelative: false,
           borderWidth: defaults.border.width,
           lineHeight: defaults.font.lineHeight,

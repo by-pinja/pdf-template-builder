@@ -1,16 +1,9 @@
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
+import { shallow } from 'enzyme';
 import SaveButton from '../../Component/SaveButton';
-
 import IconButton from '@material-ui/core/IconButton/IconButton';
 
 describe('<SaveButton />', () => {
-  let shallow;
-
-  beforeAll(() => {
-    shallow = createShallow({dive: true});
-  });
-
   describe('render()', () => {
     test('will render a button if onSaveTemplate() callback is given', () => {
       const mockOnSave = jest.fn();
