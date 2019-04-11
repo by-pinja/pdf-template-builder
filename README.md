@@ -1,5 +1,6 @@
 # What is this
 
+[![npm version](https://badge.fury.io/js/%40protacon%2Fpdf-template-builder.svg)](https://badge.fury.io/js/%40protacon%2Fpdf-template-builder)
 [![Build Status](https://jenkins.protacon.cloud/buildStatus/icon?job=www.github.com/pdf-template-builder/master)](https://jenkins.protacon.cloud/job/www.github.com/job/pdf-template-builder/job/master/)
 
 Template builder for [pdf-storage](https://github.com/protacon/pdf-storage)
