@@ -1,4 +1,4 @@
-library 'jenkins-ptcs-library@0.2.5'
+library 'jenkins-ptcs-library@fix/npm-publish'
 
 podTemplate(label: pod.label,
   containers: pod.templates + [
@@ -33,6 +33,9 @@ podTemplate(label: pod.label,
             npm run test:ci
           """
         }
+      }
+      stage('Publish on release') {
+        publishTagToNpm()
       }
       stage('Report') {
         step([
