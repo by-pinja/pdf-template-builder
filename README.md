@@ -19,7 +19,9 @@ Template builder for [pdf-storage](https://github.com/protacon/pdf-storage)
 
 The `pdf-template-builder` is designed to be used as a embedded tool inside other applications
 communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) service. This repo contains the builder as a 
-pure React component which can be used in React app in React way.
+pure React component which can be used in React app in React way. 
+
+**See working example with full configuration at https://github.com/protacon/how-to-react-pdf-template-builder**
 
 1. Install module
 ```bash
