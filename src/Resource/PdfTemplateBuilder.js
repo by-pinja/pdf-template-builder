@@ -1,35 +1,47 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import PdfTemplateBuilderContainer from '../Container/PdfTemplateBuilderContainer';
 import Provider from 'react-redux/es/components/Provider';
 import pdfTemplateBuilder from '../Store/reducers';
 import { createStore } from 'redux';
 import i18n from 'i18next';
 import { loadFonts } from '../config';
+import PropTypes from 'prop-types';
 
-class PdfTemplateBuilder {
+class PdfTemplateBuilder extends Component {
   ref = null;
-  fonts = null;
 
-  constructor() {
+  constructor(props) {
+    super();
+    
     this.store = createStore(
       pdfTemplateBuilder,
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
+
+    this.state = {
+      language: props.language || 'en'
+    };
+
+    loadFonts();
+    this.changeLanguage();
   }
 
-  render(target = document.getElementById('root')) {
-    loadFonts(this.fonts);
+  componentWillReceiveProps(props) {
+    if (props.language !== this.state.language) {
+      this.setState({ language: props.language }, () => this.changeLanguage());
+    }
+  }
 
-    ReactDOM.render(
+  render() {
+    return (
       <Provider store={this.store}>
         <PdfTemplateBuilderContainer
           innerRef={ref => this.ref = ref} />
-      </Provider>,
-      target
-    );
+      </Provider>
+    )
   }
 
+  /*
   configure(config) {
     this.checkState() || this.ref.configure(config);
 
@@ -47,23 +59,19 @@ class PdfTemplateBuilder {
   importTemplate(config) {
     this.checkState() || this.ref.importTemplate(config);
   }
+  */
 
-  changeLanguage(lang) {
-    i18n.changeLanguage(lang);
+  changeLanguage() {
+    i18n.changeLanguage(this.state.language);
   }
 
   setFonts(fonts) {
-    this.fonts = fonts;
-  }
-
-  checkState() {
-    if (!this.ref) {
-      throw new Error(
-        'Can\'t configure Pdf Template Generator before it has been rendered. ' +
-        'Call PdfTemplateGenerator::render first'
-      );
-    }
+    loadFonts(fonts);
   }
 }
+
+PdfTemplateBuilder.propTypes = {
+  language: PropTypes.oneOf(['en', 'fi'])
+};
 
 export default PdfTemplateBuilder;
