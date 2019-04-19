@@ -19,16 +19,21 @@ class PdfTemplateBuilder extends Component {
     );
 
     this.state = {
-      language: props.language || 'en'
+      language: props.language || 'en',
+      fonts: props.fonts || null
     };
 
-    loadFonts();
+    loadFonts(this.state.fonts);
     this.changeLanguage();
   }
 
   componentWillReceiveProps(props) {
     if (props.language !== this.state.language) {
       this.setState({ language: props.language }, () => this.changeLanguage());
+    }
+
+    if (props.fonts !== this.state.fonts) {
+      this.setState({ fonts: props.fonts }, () => loadFonts(this.state.fonts));
     }
   }
 
@@ -63,10 +68,6 @@ class PdfTemplateBuilder extends Component {
 
   changeLanguage() {
     i18n.changeLanguage(this.state.language);
-  }
-
-  setFonts(fonts) {
-    loadFonts(fonts);
   }
 }
 
