@@ -21,15 +21,18 @@ class PdfTemplateBuilder extends Component {
     this.state = {
       language: props.language || 'en',
       fonts: props.fonts,
-      onPreview: props.onPreview
+      template: props.template,
+      onPreview: props.onPreview,
+      onSaveTemplate: props.onSaveTemplate,
     };
-
-    loadFonts(this.state.fonts);
-    this.changeLanguage();
   }
 
   componentDidMount() {
     this.configure();
+    this.changeLanguage();
+    this.importTemplate();
+
+    loadFonts(this.state.fonts);
   }
 
   componentWillReceiveProps(props) {
@@ -41,8 +44,8 @@ class PdfTemplateBuilder extends Component {
       this.setState({ fonts: props.fonts }, () => loadFonts(this.state.fonts));
     }
 
-    if (props.onPreview !== this.state.onPreview) {
-      this.setState({ onPreview: this.state.onPreview }, () => this.configure());
+    if (props.template !== this.state.template) {
+      this.setState({ template: props.template }, () => this.importTemplate());
     }
   }
 
@@ -57,33 +60,28 @@ class PdfTemplateBuilder extends Component {
 
   configure() {
     this.ref.configure({
-      onPreview: this.state.onPreview
+      onPreview: this.state.onPreview,
+      onSaveTemplate: this.state.onSaveTemplate,
     });
   }
 
-  /*
-  getTemplateHtml() {
-    return this.checkState() || this.ref.getTemplateHtml();
-  }
-
-  exportTemplate() {
-    return this.checkState() || this.ref.exportTemplate();
-  }
-
-  importTemplate(config) {
-    this.checkState() || this.ref.importTemplate(config);
-  }
-  */
-
   changeLanguage() {
     i18n.changeLanguage(this.state.language);
+  }
+
+  importTemplate() {
+    if (this.state.template) {
+      this.ref.importTemplate(this.state.template);
+    }
   }
 }
 
 PdfTemplateBuilder.propTypes = {
   language: PropTypes.oneOf(['en', 'fi']),
   fonts: PropTypes.array,
-  onPreview: PropTypes.func
+  template: PropTypes.object,
+  onPreview: PropTypes.func,
+  onSaveTemplate: PropTypes.func
 };
 
 export default PdfTemplateBuilder;

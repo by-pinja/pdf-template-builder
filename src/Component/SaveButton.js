@@ -12,9 +12,9 @@ class SaveButton extends Component {
   };
 
   handleSave = () => {
-    const { t, onSaveTemplate} = this.props;
+    const { t, onSaveTemplate, exportTemplate, templateHtml } = this.props;
 
-    Promise.resolve(onSaveTemplate())
+    Promise.resolve(onSaveTemplate(exportTemplate(), templateHtml()))
     .then((success) => {
       this.setState({
         snackbarOpen: true,
