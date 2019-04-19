@@ -20,11 +20,16 @@ class PdfTemplateBuilder extends Component {
 
     this.state = {
       language: props.language || 'en',
-      fonts: props.fonts || null
+      fonts: props.fonts,
+      onPreview: props.onPreview
     };
 
     loadFonts(this.state.fonts);
     this.changeLanguage();
+  }
+
+  componentDidMount() {
+    this.configure();
   }
 
   componentWillReceiveProps(props) {
@@ -35,6 +40,10 @@ class PdfTemplateBuilder extends Component {
     if (props.fonts !== this.state.fonts) {
       this.setState({ fonts: props.fonts }, () => loadFonts(this.state.fonts));
     }
+
+    if (props.onPreview !== this.state.onPreview) {
+      this.setState({ onPreview: this.state.onPreview }, () => this.configure());
+    }
   }
 
   render() {
@@ -43,16 +52,16 @@ class PdfTemplateBuilder extends Component {
         <PdfTemplateBuilderContainer
           innerRef={ref => this.ref = ref} />
       </Provider>
-    )
+    );
+  }
+
+  configure() {
+    this.ref.configure({
+      onPreview: this.state.onPreview
+    });
   }
 
   /*
-  configure(config) {
-    this.checkState() || this.ref.configure(config);
-
-    config.language && this.changeLanguage(config.language);
-  }
-
   getTemplateHtml() {
     return this.checkState() || this.ref.getTemplateHtml();
   }
@@ -72,7 +81,9 @@ class PdfTemplateBuilder extends Component {
 }
 
 PdfTemplateBuilder.propTypes = {
-  language: PropTypes.oneOf(['en', 'fi'])
+  language: PropTypes.oneOf(['en', 'fi']),
+  fonts: PropTypes.array,
+  onPreview: PropTypes.func
 };
 
 export default PdfTemplateBuilder;
