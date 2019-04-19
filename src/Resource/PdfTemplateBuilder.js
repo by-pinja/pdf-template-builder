@@ -86,7 +86,7 @@ PdfTemplateBuilder.propTypes = {
   language: PropTypes.oneOf(['en', 'fi']),
   fonts: PropTypes.array,
   template: PropTypes.object,
-  schema: PropTypes.object,
+  schema: PropTypes.array,
   onPreview: PropTypes.func,
   onSaveTemplate: PropTypes.func
 };
