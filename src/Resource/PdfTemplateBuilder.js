@@ -22,6 +22,7 @@ class PdfTemplateBuilder extends Component {
       language: props.language || 'en',
       fonts: props.fonts,
       template: props.template,
+      schema: props.schema,
       onPreview: props.onPreview,
       onSaveTemplate: props.onSaveTemplate,
     };
@@ -47,6 +48,10 @@ class PdfTemplateBuilder extends Component {
     if (props.template !== this.state.template) {
       this.setState({ template: props.template }, () => this.importTemplate());
     }
+
+    if (props.schema !== this.state.schema) {
+      this.setState({ schema: props.schema }, () => this.configure());
+    }
   }
 
   render() {
@@ -62,6 +67,7 @@ class PdfTemplateBuilder extends Component {
     this.ref.configure({
       onPreview: this.state.onPreview,
       onSaveTemplate: this.state.onSaveTemplate,
+      schema: this.state.schema
     });
   }
 
@@ -80,6 +86,7 @@ PdfTemplateBuilder.propTypes = {
   language: PropTypes.oneOf(['en', 'fi']),
   fonts: PropTypes.array,
   template: PropTypes.object,
+  schema: PropTypes.object,
   onPreview: PropTypes.func,
   onSaveTemplate: PropTypes.func
 };
