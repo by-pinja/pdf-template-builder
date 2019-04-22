@@ -1,4 +1,4 @@
-library 'jenkins-ptcs-library@fix/npm-publish'
+library 'jenkins-ptcs-library@master'
 
 podTemplate(label: pod.label,
   containers: pod.templates + [
