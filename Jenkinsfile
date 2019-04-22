@@ -24,6 +24,7 @@ podTemplate(label: pod.label,
         container('node') {
           sh """
             npm install
+            npm run lib
           """
         }
       }
