@@ -29,7 +29,11 @@ describe('<SaveButton />', () => {
       const mockOnSave = jest.fn();
 
       const wrapper = shallow(
-        <SaveButton onSaveTemplate={mockOnSave} />
+        <SaveButton 
+          onSaveTemplate={mockOnSave} 
+          exportTemplate={jest.fn()} 
+          templateHtml={jest.fn()}
+        />
       );
 
       const component = wrapper.dive();

@@ -15,82 +15,74 @@ Template builder for [pdf-storage](https://github.com/protacon/pdf-storage)
   * [Requirements](#requirements)
   * [Getting started](#getting-started)
 
-  
 # Usage
 
 The `pdf-template-builder` is designed to be used as a embedded tool inside other applications
-communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) service.
+communicating with the [pdf-storage](https://github.com/protacon/pdf-storage) service. This repo contains the builder as a 
+pure React component which can be used in React app in React way. 
 
-1. Include necessary js file to your own application `(build/static/*.js)`
-```html
-<script type="text/javascript" src="path/to/package/script.js"></script>
+**See working example with full configuration at https://github.com/protacon/how-to-react-pdf-template-builder**
+
+1. Install module
+```bash
+npm i @protacon/pdf-template-builder
 ```
 
-2. Add the root element to your destination page
-
-```html
-<div id="root"></div>
+2. Require it in your app
+```jsx
+import PdfTemplateBuilder from '@protacon/pdf-template-builder';
 ```
 
-3. Initialize and the application when you are ready
+3. Use the component
 
-```javascript
-const builder = new PdfTemplateBuilder();
-
-// Override default fonts if desired (has to be called before render)
-// See available fonts @ https://fonts.google.com
-builder.setFonts(['Indie Flower', 'Roboto', 'Comic Sans MS']);
-
-// Render to #root
-builder.render();
-
-// Render to where ever you want
-builder.render(document.getElementById('your-div'));
+```jsx
+<PdfTemplateBuilder
+  language={this.state.language}
+  template={this.state.template}
+  schema={new Schema().forExample()}
+  onPreview={this.handlePreview}
+  onSaveTemplate={this.handleSave}
+/>
 ```
 
-4. Configure
-```javascript
-builder.configure({
-  ...
-});
+# Configuration
+
+## Language (string, optional)
+
+Embedded builder language. Supported options are `en` and `fi`. Defaults to `en`.
+
+## Template (object, optional)
+
+Template you want to modify. This template object should be in proper template object format. Absolutely best way to create one is to save template from the builder and take object from that output. Defaults to `undefined` which means we are creating a new template.
+
+## Schema (array, optional)
+
+The object configuration which allows you to configure certain keys to be binded to the template. For example you may want to bind invoice's number to the invoice, so you configure a schema object with key `invoiceNumber` which you can bind to certain element in your template. Later template will be populated using the proper invoice data and the `invoiceNumber` placeholder will be filled up with the invoice's number. Defaults to empty array.
+
+```js
+[
+  {
+    type: 'text|group|image',
+    tag: 'invoiceNumber',
+    text: 'Invoice Number',
+    example: '12345'
+  }
+]
 ```
 
-## Public API
+## onPreview (function, optional)
 
-The `PdfTemplateBuilder` class instance exposes few methods for configuration and the response handling.
+Enables the preview button to the builder. When preview button is clicked, the callback defined will be called with the `templateHtml`, `templateData` and `pageOptions` parameters which you can utilize in any way you want, usually just create a preview of the PDF using these parameters. Parameters are straightly compatible with the pdf-storage API. Defaults to `undefined`, no preview button is shown.
 
-```javascript
-// Configure the template builder
-builder.configure({
-  onSaveTemplate: function() {
-    // Defining this callback function will enable
-    // the save button in the builder toolbox.
-    // This callback will be called when user clicks that button
-    // so you can perform required actions to store the template
-    
-    // Returning a promise that rejects will show an error snackbar
-  },
-  onPreview: function(html, baseData, options) {
-    // Defining this callback function will enable
-    // the preview button in the builder toolbox.
-    // This callback will be called when user clicks that button
-    // so you can perform required actions to display preview
-  },
-  language: 'en' // en|fi
-});
-
-// Get the result template
-builder.getTemplateHtml();
-
-// Export template layout as object
-builder.exportTemplate();
-
-// Import template layout from object
-builder.importTemplate(config);
+```
+...
+onPreview={(templateHtml, templateData, pageOptions) => console.log(templateHtml, templateData, pageOptions))}
+...
 ```
 
-## Enabling preview
-Preview may be enabled by configuring the publicly available pdf storage service URI (see [public api](#public-api))
+## onSaveTemplate (function, optional)
+
+Enables the save button to the builder. When save button is clicked, the callback defined will be called with the `template` and `templateHtml` parameters. Using the `template` object the builder can be repopulated and the template can be opened under edit again later. Maybe store the `template` as JSON string to database? Defaults to `undefined`, no save button is shown.
 
 # Development
 
@@ -108,13 +100,3 @@ npm start
 ```
 
 and navigate to the `http://localhost:3000` with your favourite browser.
-
-## Environment variables
-
-When running locally within no other service some configuration
-may be done using the environment variables. Just create a copy of the `.env` file to `.env.local` and make your changes. **Whenever you modify the .env you need to restart the build process (`npm start` again)**.
-
-```
-REACT_APP_PDF_STORAGE_URI=https://pdf-storage.protacon.com/v1/pdf/groupId   The uri of some available pdf storage service
-REACT_APP_MODE=standalone  The application mode (standalone, embedded)
-```

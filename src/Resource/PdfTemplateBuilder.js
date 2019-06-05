@@ -1,69 +1,94 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import PdfTemplateBuilderContainer from '../Container/PdfTemplateBuilderContainer';
 import Provider from 'react-redux/es/components/Provider';
 import pdfTemplateBuilder from '../Store/reducers';
 import { createStore } from 'redux';
 import i18n from 'i18next';
 import { loadFonts } from '../config';
+import PropTypes from 'prop-types';
 
-class PdfTemplateBuilder {
+class PdfTemplateBuilder extends Component {
   ref = null;
-  fonts = null;
 
-  constructor() {
+  constructor(props) {
+    super();
+    
     this.store = createStore(
       pdfTemplateBuilder,
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
+
+    this.state = {
+      language: props.language || 'en',
+      fonts: props.fonts,
+      template: props.template,
+      schema: props.schema,
+      onPreview: props.onPreview,
+      onSaveTemplate: props.onSaveTemplate,
+    };
   }
 
-  render(target = document.getElementById('root')) {
-    loadFonts(this.fonts);
+  componentDidMount() {
+    this.configure();
+    this.changeLanguage();
+    this.importTemplate();
 
-    ReactDOM.render(
+    loadFonts(this.state.fonts);
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.language !== this.state.language) {
+      this.setState({ language: props.language }, () => this.changeLanguage());
+    }
+
+    if (props.fonts !== this.state.fonts) {
+      this.setState({ fonts: props.fonts }, () => loadFonts(this.state.fonts));
+    }
+
+    if (props.template !== this.state.template) {
+      this.setState({ template: props.template }, () => this.importTemplate());
+    }
+
+    if (props.schema !== this.state.schema) {
+      this.setState({ schema: props.schema }, () => this.configure());
+    }
+  }
+
+  render() {
+    return (
       <Provider store={this.store}>
         <PdfTemplateBuilderContainer
           innerRef={ref => this.ref = ref} />
-      </Provider>,
-      target
+      </Provider>
     );
   }
 
-  configure(config) {
-    this.checkState() || this.ref.configure(config);
-
-    config.language && this.changeLanguage(config.language);
+  configure() {
+    this.ref.configure({
+      onPreview: this.state.onPreview,
+      onSaveTemplate: this.state.onSaveTemplate,
+      schema: this.state.schema
+    });
   }
 
-  getTemplateHtml() {
-    return this.checkState() || this.ref.getTemplateHtml();
+  changeLanguage() {
+    i18n.changeLanguage(this.state.language);
   }
 
-  exportTemplate() {
-    return this.checkState() || this.ref.exportTemplate();
-  }
-
-  importTemplate(config) {
-    this.checkState() || this.ref.importTemplate(config);
-  }
-
-  changeLanguage(lang) {
-    i18n.changeLanguage(lang);
-  }
-
-  setFonts(fonts) {
-    this.fonts = fonts;
-  }
-
-  checkState() {
-    if (!this.ref) {
-      throw new Error(
-        'Can\'t configure Pdf Template Generator before it has been rendered. ' +
-        'Call PdfTemplateGenerator::render first'
-      );
+  importTemplate() {
+    if (this.state.template) {
+      this.ref.importTemplate(this.state.template);
     }
   }
 }
+
+PdfTemplateBuilder.propTypes = {
+  language: PropTypes.oneOf(['en', 'fi']),
+  fonts: PropTypes.array,
+  template: PropTypes.object,
+  schema: PropTypes.array,
+  onPreview: PropTypes.func,
+  onSaveTemplate: PropTypes.func
+};
 
 export default PdfTemplateBuilder;

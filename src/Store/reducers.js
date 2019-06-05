@@ -238,7 +238,8 @@ const store = (state = initialState, action) => {
         ...state,
         schema: action.payload.schema || [],
         onPreview: action.payload.onPreview,
-        onSaveTemplate: action.payload.onSaveTemplate
+        onSaveTemplate: action.payload.onSaveTemplate,
+        onChange: action.payload.onChange
       };
 
     case 'UPDATE_PAGE': {
