@@ -1,6 +1,6 @@
 {
   "name": "@protacon/pdf-template-builder",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": false,
   "main": "lib/index.js",
   "dependencies": {
